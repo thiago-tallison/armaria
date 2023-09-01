@@ -10,6 +10,8 @@ import lombok.Data;
 public class Acautelamento {
   private Long id;
   private final LocalDateTime dataAcautelamento;
+  private final GuardaMunicipal gm;
+  private final Armeiro armeiro;
   private Map<ItemAcautelado, Integer> equipamentos = new HashMap<>();
 
   public void adicionarEquipamento(ItemAcautelado item) {

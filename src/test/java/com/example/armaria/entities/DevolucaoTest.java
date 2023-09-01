@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class DevolucaoTest {
+  private GuardaMunicipal gm;
+  private Armeiro armeiro;
   private Equipamento equipamento;
   private ItemAcautelado itemAcautelado;
   private ItemDevolvido itemDevolvido;
@@ -17,9 +19,10 @@ public class DevolucaoTest {
 
   @BeforeEach
   public void setUp() {
+    gm = new GuardaMunicipal("matricula", "nome", "email", "telefone");
     equipamento = new Equipamento("nome", "num-serie", true);
 
-    acautelamento = new Acautelamento(LocalDateTime.now());
+    acautelamento = new Acautelamento(LocalDateTime.now(), gm, armeiro);
 
     itemAcautelado = new ItemAcautelado(equipamento, 1);
 
