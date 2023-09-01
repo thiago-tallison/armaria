@@ -6,5 +6,18 @@ import lombok.Data;
 public class ItemAcautelado {
   private long id;
   private final Equipamento equipamento;
-  private final int quantidadeAcautelada;
+  private int quantidadeAcautelada;
+
+  public ItemAcautelado(Equipamento equipamento, int quantidadeAcautelada) {
+    this.equipamento = equipamento;
+    setQuantidadeAcautelada(quantidadeAcautelada);
+  }
+
+  public void setQuantidadeAcautelada(int quantidadeAcautelada) {
+    if (quantidadeAcautelada <= 0) {
+      throw new IllegalArgumentException("Não é possível acautelar um item em quantidade menor ou igual a zero");
+    }
+
+    this.quantidadeAcautelada = quantidadeAcautelada;
+  }
 }
