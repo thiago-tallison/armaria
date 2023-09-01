@@ -12,7 +12,7 @@ public class ItemDevolvidoTest {
   }
 
   @Test
-  void nao_deve_ser_possivel_devolver_um_item() {
+  void deve_ser_possivel_devolver_um_item() {
     assertDoesNotThrow(() -> new ItemDevolvido(null, 1));
   }
 }
