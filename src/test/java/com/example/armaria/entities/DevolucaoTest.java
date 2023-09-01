@@ -26,7 +26,7 @@ public class DevolucaoTest {
 
     itemAcautelado = new ItemAcautelado(equipamento, 1);
 
-    devolucao = new Devolucao(acautelamento, LocalDateTime.now());
+    devolucao = new Devolucao(acautelamento, LocalDateTime.now(), gm, armeiro);
 
     itemDevolvido = new ItemDevolvido(equipamento, 1);
   }

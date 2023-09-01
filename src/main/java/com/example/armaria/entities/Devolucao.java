@@ -11,6 +11,8 @@ public class Devolucao {
   private Long id;
   private final Acautelamento acautelamento;
   private final LocalDateTime dataDevolucao;
+  private final GuardaMunicipal gm;
+  private final Armeiro armeiro;
   private final List<ItemDevolvido> itensDevolvidos = new ArrayList<>();
 
   public void adicionarEquipamento(ItemDevolvido itemDevolvido) {
