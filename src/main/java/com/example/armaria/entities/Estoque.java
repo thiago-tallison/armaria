@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.example.armaria.errors.ItemEstoqueNaoDisponivelException;
+
 import lombok.Data;
 
 @Data
@@ -39,7 +41,7 @@ public class Estoque {
       ItemEstoque itemEstoque = itensEmEstoque.get(equipamento);
 
       if (itemEstoque == null || itemEstoque.getQuantidadeDisponivel() < quantidadeAcautelada) {
-        throw new Error("Item não disponível em estoque: " + equipamento.toString());
+        throw new ItemEstoqueNaoDisponivelException("Item não disponível em estoque: " + equipamento.toString());
       }
 
       itemEstoque.diminuirQuantidade(quantidadeAcautelada);
@@ -53,7 +55,7 @@ public class Estoque {
       ItemEstoque itemEstoque = itensEmEstoque.get(equipamento);
 
       if (itemEstoque == null) {
-        throw new Error("Item não disponível em estoque: " + equipamento.toString());
+        throw new ItemEstoqueNaoDisponivelException("Item não disponível em estoque: " + equipamento.toString());
       }
 
       itemEstoque.aumentarQuantidade(quantidadeDevolvida);
