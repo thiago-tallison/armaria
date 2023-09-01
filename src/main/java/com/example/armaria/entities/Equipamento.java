@@ -5,11 +5,14 @@ import lombok.NonNull;
 
 @Data
 public class Equipamento {
-  Long id;
+  private Long id;
+
   @NonNull
-  String nome;
+  private String nome;
+
   @NonNull
-  String numSerie;
+  private String numSerie;
+
   @NonNull
   Boolean requerDevolucao;
 
