@@ -2,6 +2,9 @@ package com.example.armaria.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,5 +57,32 @@ public class EstoqueTest {
     estoque.removerItemDoEstoque(equipamentoB, 5);
 
     assertEquals(10, estoque.getQuantidadeEmEstoque(equipamentoA));
+  }
+
+  @Test
+  void testAcautelarEquipamentos() {
+    estoque.adicionarItemEmEstoque(equipamentoA, 10);
+    estoque.adicionarItemEmEstoque(equipamentoB, 5);
+
+    Map<Equipamento, Integer> equipamentosAcautelados = new HashMap<>();
+    equipamentosAcautelados.put(equipamentoA, 8);
+    equipamentosAcautelados.put(equipamentoB, 4);
+
+    estoque.acautelarEquipamentos(equipamentosAcautelados);
+
+    assertEquals(2, estoque.getQuantidadeEmEstoque(equipamentoA));
+    assertEquals(1, estoque.getQuantidadeEmEstoque(equipamentoB));
+  }
+
+  @Test
+  void testDevolverEquipamentos() {
+    estoque.adicionarItemEmEstoque(equipamentoA, 10);
+
+    Map<Equipamento, Integer> equipamentosDevolvidos = new HashMap<>();
+    equipamentosDevolvidos.put(equipamentoA, 5);
+
+    estoque.devolverEquipamentos(equipamentosDevolvidos);
+
+    assertEquals(15, estoque.getQuantidadeEmEstoque(equipamentoA));
   }
 }

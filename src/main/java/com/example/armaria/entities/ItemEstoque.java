@@ -26,6 +26,11 @@ public class ItemEstoque {
       throw new IllegalArgumentException("Qauntidade a ser diminuida precisa ser maior ou igual a zero.");
     }
 
+    if (quantidade > quantidadeEmEstoque) {
+      throw new IllegalArgumentException(
+          "Qauntidade a ser diminuida precisa ser menor ou igual à quantidade em estoque.");
+    }
+
     quantidadeEmEstoque -= quantidade;
   }
 
