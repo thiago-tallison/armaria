@@ -1,10 +1,16 @@
 package com.example.armaria.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NonNull;
 
 @Data
+@Entity
+@Table(name = "armeiros")
 public class Armeiro {
+  @Id
   @NonNull
   private String matricula;
 
@@ -21,6 +27,6 @@ public class Armeiro {
   private String login;
 
   @NonNull
-  private String snha;
+  private String senha;
 
 }

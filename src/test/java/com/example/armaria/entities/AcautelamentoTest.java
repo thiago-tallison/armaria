@@ -1,8 +1,6 @@
 package com.example.armaria.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 
@@ -33,25 +31,22 @@ public class AcautelamentoTest {
 
   @Test
   void testAdicionarEquipamento() {
-    assertTrue(acautelamento.getEquipamentos().isEmpty());
+    assertEquals(0, acautelamento.getTotalEquipamentosAcautelados());
 
     acautelamento.adicionarEquipamento(itemAcautelado);
 
-    assertTrue(acautelamento.getEquipamentos().size() == 1);
-    assertTrue(acautelamento.getEquipamentos().containsKey(itemAcautelado));
-    assertEquals(acautelamento.getEquipamentos().get(itemAcautelado), quantidadeAcautelada);
+    assertEquals(1, acautelamento.getTotalEquipamentosAcautelados());
+
+    assertEquals(quantidadeAcautelada, acautelamento.getTotalUnidadesAcautelados());
   }
 
   @Test
   void testRemoverEquipamento() {
     acautelamento.adicionarEquipamento(itemAcautelado);
-    acautelamento.removerEquipamento(itemAcautelado, itemAcautelado.getQuantidadeAcautelada());
 
-    assertTrue(acautelamento.getEquipamentos().size() == 0);
-    assertTrue(acautelamento.getEquipamentos().containsKey(itemAcautelado) == false);
-    assertNotEquals(acautelamento.getEquipamentos().get(itemAcautelado), quantidadeAcautelada);
+    acautelamento.removerEquipamento(itemAcautelado);
 
-    assertTrue(acautelamento.getEquipamentos().isEmpty());
+    assertEquals(0, acautelamento.getTotalEquipamentosAcautelados());
   }
 
   @Test
@@ -60,9 +55,11 @@ public class AcautelamentoTest {
     int quantidadeASerRemovida = 1;
 
     acautelamento.adicionarEquipamento(itemAcautelado);
-    acautelamento.removerEquipamento(itemAcautelado, quantidadeASerRemovida);
+    acautelamento.diminuirQuantidade(itemAcautelado, quantidadeASerRemovida);
 
-    assertEquals(acautelamento.getEquipamentos().get(itemAcautelado), quantidadeAcautelada - quantidadeASerRemovida);
-    assertTrue(acautelamento.getEquipamentos().isEmpty() == false);
+    assertEquals(quantidadeAcautelada - quantidadeASerRemovida,
+        acautelamento.getItem(itemAcautelado).get().getQuantidadeAcautelada());
+
+    assertEquals(1, acautelamento.getTotalEquipamentosAcautelados());
   }
 }

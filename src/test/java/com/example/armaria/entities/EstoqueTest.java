@@ -34,8 +34,8 @@ public class EstoqueTest {
     estoque.adicionarItemEmEstoque(equipamentoA, 10);
     estoque.adicionarItemEmEstoque(equipamentoB, 5);
 
-    estoque.removerItemDoEstoque(equipamentoA, 5);
-    estoque.removerItemDoEstoque(equipamentoB, 3);
+    estoque.removerQuantidade(equipamentoA, 5);
+    estoque.removerQuantidade(equipamentoB, 3);
 
     assertEquals(5, estoque.getQuantidadeEmEstoque(equipamentoA));
     assertEquals(2, estoque.getQuantidadeEmEstoque(equipamentoB));
@@ -45,7 +45,7 @@ public class EstoqueTest {
   void testRemoverItemDoEstoqueQuantidadeZero() {
     estoque.adicionarItemEmEstoque(equipamentoA, 10);
 
-    estoque.removerItemDoEstoque(equipamentoA, 10);
+    estoque.removerQuantidade(equipamentoA, 10);
 
     assertEquals(0, estoque.getQuantidadeEmEstoque(equipamentoA));
   }
@@ -54,7 +54,7 @@ public class EstoqueTest {
   void testRemoverItemDoEstoqueInexistente() {
     estoque.adicionarItemEmEstoque(equipamentoA, 10);
 
-    estoque.removerItemDoEstoque(equipamentoB, 5);
+    estoque.removerQuantidade(equipamentoB, 5);
 
     assertEquals(10, estoque.getQuantidadeEmEstoque(equipamentoA));
   }

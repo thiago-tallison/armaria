@@ -4,15 +4,46 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
+@Entity
+@Table(name = "devolucoes")
 public class Devolucao {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @OneToOne
+  @JoinColumn(name = "id_acautelamento")
   private final Acautelamento acautelamento;
+
+  @Column(name = "data_devolucao")
   private final LocalDateTime dataDevolucao;
+
+  @ManyToOne
+  @JoinColumn(name = "matricula_gm")
   private final GuardaMunicipal gm;
+
+  @ManyToOne
+  @JoinColumn(name = "matricula_armeiro")
   private final Armeiro armeiro;
+
+  @OneToMany(mappedBy = "devolucao", cascade = CascadeType.ALL)
+  @Getter(AccessLevel.NONE)
   private final List<ItemDevolvido> itensDevolvidos = new ArrayList<>();
 
   public void adicionarEquipamento(ItemDevolvido itemDevolvido) {
