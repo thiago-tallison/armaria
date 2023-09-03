@@ -1,5 +1,6 @@
 package com.example.armaria.entities;
 
+import com.example.armaria.use_cases.armeiro.AtualizarArmeiroDTO;
 import com.example.armaria.use_cases.armeiro.CriarArmeiroDTO;
 
 import jakarta.persistence.Entity;
@@ -42,5 +43,11 @@ public class Armeiro {
     this.telefone = dto.telefone();
     this.login = dto.login();
     this.senha = dto.senha();
+  }
+
+  public Armeiro(AtualizarArmeiroDTO dto) {
+    this.nome = dto.nome();
+    this.email = dto.email();
+    this.telefone = dto.telefone();
   }
 }
