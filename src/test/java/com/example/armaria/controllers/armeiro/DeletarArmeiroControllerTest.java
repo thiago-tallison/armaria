@@ -1,6 +1,7 @@
 package com.example.armaria.controllers.armeiro;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,12 @@ public class DeletarArmeiroControllerTest {
 
   @Test
   void testHandle_deve_lancar_erro_para_armeiro_nao_encontrado() {
-    String matricula = "qualquer-matricula-2";
+    String matricula = "matricula-nao-existente";
     String baseUrl = "http://localhost:" + port + "/api/armeiro/" + matricula;
 
-    ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Void.class);
-    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    ResponseEntity<Object> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Object.class);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertNotNull(response.getBody());
   }
 
   private void criarArmeiro() {
