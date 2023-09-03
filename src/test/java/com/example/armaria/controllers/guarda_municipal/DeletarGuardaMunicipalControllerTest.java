@@ -1,6 +1,7 @@
 package com.example.armaria.controllers.guarda_municipal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,16 @@ public class DeletarGuardaMunicipalControllerTest {
     String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/" + matricula;
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Void.class);
     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+  }
+
+  @Test
+  void testHandle_deve_lancar_erro_para_guarda_municipal_nao_encontrado() {
+    String matricula = "matricula-nao-existente";
+    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/" + matricula;
+
+    ResponseEntity<Object> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Object.class);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    assertNotNull(response.getBody());
   }
 
   public void criarGuardaMunicipal() {

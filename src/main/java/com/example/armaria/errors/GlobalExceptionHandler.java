@@ -19,4 +19,11 @@ public class GlobalExceptionHandler {
         .body(new ArmeiroNaoEncontradoExceptionResponse("Armeiro não encontrado."));
   }
 
+  @ExceptionHandler(GuardaMunicipalNaoEncontradoException.class)
+  public ResponseEntity<ArmeiroNaoEncontradoExceptionResponse> handleGuardaMunicipalNaoEncontradoException(
+      GuardaMunicipalNaoEncontradoException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new ArmeiroNaoEncontradoExceptionResponse("Guarda municipal não encontrado."));
+  }
+
 }
