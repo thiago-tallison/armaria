@@ -36,6 +36,11 @@ public class ItemEstoque {
     this.equipamento = equipamento;
   }
 
+  public ItemEstoque(Equipamento equipamento, int quantidadeEmEstoque) {
+    this.equipamento = equipamento;
+    this.quantidadeEmEstoque = quantidadeEmEstoque;
+  }
+
   public void aumentarQuantidade(int quantidade) {
     if (quantidade <= 0) {
       throw new IllegalArgumentException("Qauntidade a ser aumentada precisa ser maior ou igual a zero.");
