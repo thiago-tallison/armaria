@@ -31,6 +31,15 @@ public class DeletarArmeiroControllerTest {
     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
   }
 
+  @Test
+  void testHandle_deve_lancar_erro_para_armeiro_nao_encontrado() {
+    String matricula = "qualquer-matricula-2";
+    String baseUrl = "http://localhost:" + port + "/api/armeiro/" + matricula;
+
+    ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Void.class);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+  }
+
   private void criarArmeiro() {
     String criarArmeiroUrl = "http://localhost:" + port + "/api/armeiro";
 

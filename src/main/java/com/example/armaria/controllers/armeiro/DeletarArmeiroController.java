@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.armaria.errors.ArmeiroNaoEncontradoException;
 import com.example.armaria.use_cases.armeiro.DeletarArmeiroUseCase;
 
 @RestController
@@ -21,12 +22,15 @@ public class DeletarArmeiroController {
   }
 
   @DeleteMapping("{matricula}")
-  public ResponseEntity<?> handle(@PathVariable String matricula) {
+  public ResponseEntity<Void> handle(@PathVariable String matricula) {
     try {
       deletarArmeiroUseCase.execute(matricula);
 
       return ResponseEntity.status(204).build();
     } catch (Exception e) {
+      if (e instanceof ArmeiroNaoEncontradoException) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+      }
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(null);
     }
