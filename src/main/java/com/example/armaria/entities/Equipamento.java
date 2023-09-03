@@ -1,5 +1,7 @@
 package com.example.armaria.entities;
 
+import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,8 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
 @Entity
 @Table(name = "equipamentos")
 public class Equipamento {
@@ -26,6 +30,11 @@ public class Equipamento {
 
   @NonNull
   @Column(name = "requer_devolucao")
-  Boolean requerDevolucao;
+  private Boolean requerDevolucao;
 
+  public Equipamento(CriarEquipamentoComItemDTO dto) {
+    this.nome = dto.nome();
+    this.numSerie = dto.numSerie();
+    this.requerDevolucao = dto.requerDevolucao();
+  }
 }
