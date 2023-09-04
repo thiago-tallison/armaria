@@ -10,17 +10,17 @@ import com.example.armaria.entities.Equipamento;
 import com.example.armaria.errors.PaginaNaoExistenteException;
 import com.example.armaria.errors.TamanhoDaPaginaNegativoException;
 import com.example.armaria.errors.TamanhoDePaginaExcedeuOLimiteException;
-import com.example.armaria.repositories.EqupamentoRepository;
+import com.example.armaria.repositories.EquipamentoRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class ListarEquipamentosUseCase {
-  private final EqupamentoRepository equipamentoRepository;
+  private final EquipamentoRepository equipamentoRepository;
   public static final int TAMANHO_MAXIMO_PAGINA = 30;
 
   @Autowired
-  public ListarEquipamentosUseCase(EqupamentoRepository equipamentoRepository) {
+  public ListarEquipamentosUseCase(EquipamentoRepository equipamentoRepository) {
     this.equipamentoRepository = equipamentoRepository;
   }
 

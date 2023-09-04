@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.armaria.entities.Equipamento;
 
-public interface EqupamentoRepository
+public interface EquipamentoRepository
     extends JpaRepository<Equipamento, Long> {
   Optional<Equipamento> findByNumSerie(String numSerie);
 }
