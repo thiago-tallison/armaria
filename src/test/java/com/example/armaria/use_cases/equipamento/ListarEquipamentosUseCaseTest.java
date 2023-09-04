@@ -18,13 +18,13 @@ import org.springframework.data.domain.Pageable;
 import com.example.armaria.entities.Equipamento;
 import com.example.armaria.errors.TamanhoDaPaginaNegativoException;
 import com.example.armaria.errors.TamanhoDePaginaExcedeuOLimiteException;
-import com.example.armaria.repositories.EqupamentoRepository;
+import com.example.armaria.repositories.EquipamentoRepository;
 
 public class ListarEquipamentosUseCaseTest {
   private ListarEquipamentosUseCase listarEquipamentosUseCase;
 
   @Mock
-  private EqupamentoRepository equpamentoRepository;
+  private EquipamentoRepository equpamentoRepository;
 
   @BeforeEach
   public void setUp() {
