@@ -36,8 +36,8 @@ public class ItemEstoque {
   @Column(name = "quantidade_em_estoque")
   private int quantidadeEmEstoque;
 
-  @Column(name = "disponivel", columnDefinition = "boolean default 'true'")
-  private boolean disponivel;
+  @Column(name = "disponivel", columnDefinition = "boolean default true")
+  private boolean disponivel = true;
 
   public ItemEstoque(Equipamento equipamento) {
     this.equipamento = equipamento;
