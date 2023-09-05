@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
 import com.example.armaria.use_cases.equipamento.CriarEquipamentoUseCase;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/equipamento")
 public class CriarEquipamentoController {
@@ -22,7 +24,7 @@ public class CriarEquipamentoController {
   }
 
   @PostMapping()
-  public ResponseEntity<Void> handle(@RequestBody CriarEquipamentoComItemDTO data) {
+  public ResponseEntity<Void> handle(@Valid @RequestBody CriarEquipamentoComItemDTO data) {
     criarEquipamentoUseCase.execute(data);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
