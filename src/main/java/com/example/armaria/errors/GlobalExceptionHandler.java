@@ -62,6 +62,27 @@ public class GlobalExceptionHandler {
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
+  @ExceptionHandler(PaginaNaoExistenteException.class)
+  public ResponseEntity<MensagemDeErroGeral> handlePaginaNaoExistenteException(
+      PaginaNaoExistenteException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new MensagemDeErroGeral(e.getMessage()));
+  }
+
+  @ExceptionHandler(TamanhoDaPaginaNegativoException.class)
+  public ResponseEntity<MensagemDeErroGeral> handlePaginaNaoExistenteException(
+      TamanhoDaPaginaNegativoException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new MensagemDeErroGeral(e.getMessage()));
+  }
+
+  @ExceptionHandler(TamanhoDePaginaExcedeuOLimiteException.class)
+  public ResponseEntity<MensagemDeErroGeral> handlePaginaNaoExistenteException(
+      TamanhoDePaginaExcedeuOLimiteException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new MensagemDeErroGeral(e.getMessage()));
+  }
+
   @ExceptionHandler(MissingServletRequestParameterException.class)
   public ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
     String errorMessage = "Required request parameter '" + ex.getParameterName() + "' is not present";
