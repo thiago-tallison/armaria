@@ -24,14 +24,21 @@ public class GlobalExceptionHandler {
   public ResponseEntity<MensagemDeErroGeral> handleArmeiroNaoEncontradoException(
       ArmeiroNaoEncontradoException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(new MensagemDeErroGeral("Armeiro não encontrado."));
+        .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
   @ExceptionHandler(GuardaMunicipalNaoEncontradoException.class)
   public ResponseEntity<MensagemDeErroGeral> handleGuardaMunicipalNaoEncontradoException(
       GuardaMunicipalNaoEncontradoException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(new MensagemDeErroGeral("Guarda municipal não encontrado."));
+        .body(new MensagemDeErroGeral(e.getMessage()));
+  }
+
+  @ExceptionHandler(EquipamentoNaoEncontradoException.class)
+  public ResponseEntity<MensagemDeErroGeral> handleEquipamentoNaoEncontradoException(
+      EquipamentoNaoEncontradoException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
   @ExceptionHandler(MissingServletRequestParameterException.class)
