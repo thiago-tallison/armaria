@@ -41,6 +41,13 @@ public class GlobalExceptionHandler {
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
+  @ExceptionHandler(ItemEstoqueNaoEncontradoException.class)
+  public ResponseEntity<MensagemDeErroGeral> handleItemNaoEncontradoException(
+      ItemEstoqueNaoEncontradoException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new MensagemDeErroGeral(e.getMessage()));
+  }
+
   @ExceptionHandler(MissingServletRequestParameterException.class)
   public ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
     String errorMessage = "Required request parameter '" + ex.getParameterName() + "' is not present";

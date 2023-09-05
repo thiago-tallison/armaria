@@ -69,8 +69,4 @@ public class ItemEstoque {
     quantidadeEmEstoque -= quantidade;
   }
 
-  public int getQuantidadeDisponivel() {
-    return quantidadeEmEstoque;
-  }
-
 }
