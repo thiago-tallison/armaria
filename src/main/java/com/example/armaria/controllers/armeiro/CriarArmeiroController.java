@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.armaria.use_cases.armeiro.CriarArmeiroDTO;
 import com.example.armaria.use_cases.armeiro.CriarArmeiroUseCase;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/armeiro")
 public class CriarArmeiroController {
@@ -20,7 +22,7 @@ public class CriarArmeiroController {
   }
 
   @PostMapping("")
-  public ResponseEntity<Object> handle(@RequestBody CriarArmeiroDTO dto) {
+  public ResponseEntity<Object> handle(@Valid @RequestBody CriarArmeiroDTO dto) {
     criarArmeiroUseCase.execute(dto);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
