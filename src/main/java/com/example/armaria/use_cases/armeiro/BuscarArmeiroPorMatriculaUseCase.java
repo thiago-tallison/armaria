@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.Armeiro;
+import com.example.armaria.errors.ArmeiroNaoEncontradoException;
 import com.example.armaria.repositories.ArmeiroRepository;
 
 @Service
@@ -18,6 +19,12 @@ public class BuscarArmeiroPorMatriculaUseCase {
   }
 
   public Optional<Armeiro> execute(String matricula) {
-    return repo.findByMatricula(matricula);
+    Optional<Armeiro> armeiro = repo.findByMatricula(matricula);
+
+    if (!armeiro.isPresent()) {
+      throw new ArmeiroNaoEncontradoException(matricula);
+    }
+
+    return armeiro;
   }
 }

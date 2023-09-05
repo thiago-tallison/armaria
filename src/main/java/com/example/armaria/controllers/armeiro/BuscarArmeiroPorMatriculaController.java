@@ -2,7 +2,6 @@ package com.example.armaria.controllers.armeiro;
 
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,18 +21,10 @@ public class BuscarArmeiroPorMatriculaController {
   }
 
   @GetMapping("{matricula}")
-  public ResponseEntity<Armeiro> handle(@PathVariable String matricula) {
-    try {
-      Optional<Armeiro> armeiro = buscarArmeiroPorMatriculaUseCase.execute(matricula);
-      if (armeiro.isPresent()) {
-        return ResponseEntity.ok().body(armeiro.get());
-      }
+  public ResponseEntity<Optional<Armeiro>> handle(@PathVariable String matricula) {
+    Optional<Armeiro> armeiro = buscarArmeiroPorMatriculaUseCase.execute(matricula);
 
-      return ResponseEntity.notFound().build();
-    } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(null);
-    }
+    return ResponseEntity.ok().body(armeiro);
   }
 
 }
