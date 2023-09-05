@@ -20,14 +20,8 @@ public class CriarArmeiroController {
   }
 
   @PostMapping("")
-  public ResponseEntity<String> handle(@RequestBody CriarArmeiroDTO dto) {
-    try {
-      criarArmeiroUseCase.execute(dto);
-      return ResponseEntity.status(HttpStatus.CREATED).body("Guarda Municipal cadastrado com sucesso.");
-    } catch (Exception e) {
-      e.printStackTrace();
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body("Erro ao cadastrar Armeiro");
-    }
+  public ResponseEntity<Object> handle(@RequestBody CriarArmeiroDTO dto) {
+    criarArmeiroUseCase.execute(dto);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 }
