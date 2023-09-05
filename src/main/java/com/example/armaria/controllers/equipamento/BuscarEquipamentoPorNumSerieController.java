@@ -15,11 +15,12 @@ import com.example.armaria.use_cases.equipamento.BuscarEquipamentoPorNumSerieUse
 
 @RestController
 @RequestMapping("/api/equipamento")
-public class BuscarEquipamentoPorNumSerie {
+public class BuscarEquipamentoPorNumSerieController {
   private final BuscarEquipamentoPorNumSerieUseCase buscarEquipamentoPorNumSerieUseCase;
 
   @Autowired
-  public BuscarEquipamentoPorNumSerie(BuscarEquipamentoPorNumSerieUseCase buscarEquipamentoPorNumSerieUseCase) {
+  public BuscarEquipamentoPorNumSerieController(
+      BuscarEquipamentoPorNumSerieUseCase buscarEquipamentoPorNumSerieUseCase) {
     this.buscarEquipamentoPorNumSerieUseCase = buscarEquipamentoPorNumSerieUseCase;
   }
 
