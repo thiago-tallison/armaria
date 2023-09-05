@@ -39,7 +39,7 @@ public class DeletarEquipamentoControllerTest {
 
     HttpEntity<String> requestBody = new HttpEntity<>(numSerieEquipamento, headers);
 
-    ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestBody, String.class);
+    ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, requestBody, String.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
