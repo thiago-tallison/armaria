@@ -41,6 +41,13 @@ public class GlobalExceptionHandler {
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
+  @ExceptionHandler(EquipamentoExistenteException.class)
+  public ResponseEntity<MensagemDeErroGeral> handleEquipamentoExistenteException(
+      EquipamentoExistenteException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new MensagemDeErroGeral(e.getMessage()));
+  }
+
   @ExceptionHandler(ItemEstoqueNaoEncontradoException.class)
   public ResponseEntity<MensagemDeErroGeral> handleItemNaoEncontradoException(
       ItemEstoqueNaoEncontradoException e) {
