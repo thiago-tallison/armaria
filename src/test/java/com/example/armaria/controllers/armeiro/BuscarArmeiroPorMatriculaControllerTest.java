@@ -40,8 +40,11 @@ public class BuscarArmeiroPorMatriculaControllerTest {
     String baseUrl = "http://localhost:" + port + "/api/armeiro/" + matricula;
 
     ResponseEntity<Armeiro> response = restTemplate.getForEntity(baseUrl, Armeiro.class);
-    assertNotNull(response.getBody());
-    assertEquals(matricula, response.getBody().getMatricula());
+
+    Armeiro armeiro = response.getBody();
+
+    assertNotNull(armeiro);
+    assertEquals(matricula, armeiro.getMatricula());
   }
 
   private void criarArmeiro() {
