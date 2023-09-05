@@ -1,5 +1,6 @@
 package com.example.armaria.controllers.armeiro;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -36,5 +37,21 @@ public class CriarArmeiroControllerTest {
     ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, armeiroDTO, String.class);
     assertTrue(response.getStatusCode().equals(HttpStatus.CREATED));
 
+  }
+
+  @Test
+  void testHandle_deve_retornar_400_se_corpo_requisicao_invalido() {
+    String baseUrl = "http://localhost:" + port + "/api/armeiro";
+
+    CriarArmeiroDTO criarArmeiroDTOInvalido = new CriarArmeiroDTO(
+        "123456", // Matrícula
+        "João da Silva",
+        "joao@example.com",
+        "1234567890",
+        "login",
+        null);
+
+    ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, criarArmeiroDTOInvalido, String.class);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
   }
 }
