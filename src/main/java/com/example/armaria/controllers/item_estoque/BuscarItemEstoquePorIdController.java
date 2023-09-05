@@ -2,6 +2,7 @@ package com.example.armaria.controllers.item_estoque;
 
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +21,8 @@ public class BuscarItemEstoquePorIdController {
   }
 
   @GetMapping("{id}")
-  public Optional<ItemEstoque> handle(@PathVariable Long id) {
+  public ResponseEntity<Optional<ItemEstoque>> handle(@PathVariable Long id) {
     Optional<ItemEstoque> itemEstoque = buscarItemEstoquePorIdUseCase.execute(id);
-    return itemEstoque;
+    return ResponseEntity.ok().body(itemEstoque);
   }
 }
