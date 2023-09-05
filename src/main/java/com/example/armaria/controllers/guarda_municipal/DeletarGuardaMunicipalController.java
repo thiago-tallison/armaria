@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.guarda_municipal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +13,6 @@ import com.example.armaria.use_cases.guarda_municipal.DeletearGuardaMunicipalUse
 public class DeletarGuardaMunicipalController {
   private final DeletearGuardaMunicipalUseCase deletearGuardaMunicipalUseCase;
 
-  @Autowired
   public DeletarGuardaMunicipalController(DeletearGuardaMunicipalUseCase deletearGuardaMunicipalUseCase) {
     this.deletearGuardaMunicipalUseCase = deletearGuardaMunicipalUseCase;
   }

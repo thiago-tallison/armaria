@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.equipamento;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ import com.example.armaria.use_cases.equipamento.ListarEquipamentosUseCase;
 public class ListarEquipamentosController {
   private final ListarEquipamentosUseCase listarEquipamentosUseCase;
 
-  @Autowired
   public ListarEquipamentosController(ListarEquipamentosUseCase listarEquipamentosUseCase) {
     this.listarEquipamentosUseCase = listarEquipamentosUseCase;
   }

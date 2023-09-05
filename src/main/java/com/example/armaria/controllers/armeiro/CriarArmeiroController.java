@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.armeiro;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,6 @@ import com.example.armaria.use_cases.armeiro.CriarArmeiroUseCase;
 public class CriarArmeiroController {
   private final CriarArmeiroUseCase criarArmeiroUseCase;
 
-  @Autowired
   public CriarArmeiroController(CriarArmeiroUseCase criarArmeiroUseCase) {
     this.criarArmeiroUseCase = criarArmeiroUseCase;
   }

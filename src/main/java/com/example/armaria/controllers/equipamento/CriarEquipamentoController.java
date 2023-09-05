@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.equipamento;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,6 @@ import jakarta.validation.Valid;
 public class CriarEquipamentoController {
   private final CriarEquipamentoUseCase criarEquipamentoUseCase;
 
-  @Autowired
   public CriarEquipamentoController(CriarEquipamentoUseCase criarEquipamentoUseCase) {
     this.criarEquipamentoUseCase = criarEquipamentoUseCase;
   }
