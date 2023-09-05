@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.armeiro;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,7 +15,6 @@ import com.example.armaria.use_cases.armeiro.AtualizarArmeiroUseCase;
 public class AtualizarArmeiroController {
   private final AtualizarArmeiroUseCase atualizarArmeiroUseCase;
 
-  @Autowired
   public AtualizarArmeiroController(AtualizarArmeiroUseCase atualizarArmeiroUseCase) {
     this.atualizarArmeiroUseCase = atualizarArmeiroUseCase;
   }

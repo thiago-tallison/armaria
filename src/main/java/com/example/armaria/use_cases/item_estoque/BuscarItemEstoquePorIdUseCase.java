@@ -2,7 +2,6 @@ package com.example.armaria.use_cases.item_estoque;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.ItemEstoque;
@@ -13,7 +12,6 @@ import com.example.armaria.repositories.ItemEstoqueRepository;
 public class BuscarItemEstoquePorIdUseCase {
   private final ItemEstoqueRepository itemEstoqueRepository;
 
-  @Autowired
   public BuscarItemEstoquePorIdUseCase(ItemEstoqueRepository itemEstoqueRepository) {
     this.itemEstoqueRepository = itemEstoqueRepository;
   }

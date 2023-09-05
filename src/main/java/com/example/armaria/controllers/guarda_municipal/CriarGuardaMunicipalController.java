@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.guarda_municipal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +14,6 @@ import com.example.armaria.use_cases.guarda_municipal.CriarGuardaMunicipalUseCas
 public class CriarGuardaMunicipalController {
   private final CriarGuardaMunicipalUseCase guardaMunicipalUseCase;
 
-  @Autowired
   public CriarGuardaMunicipalController(CriarGuardaMunicipalUseCase guardaMunicipalUseCase) {
     this.guardaMunicipalUseCase = guardaMunicipalUseCase;
   }

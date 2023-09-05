@@ -2,7 +2,6 @@ package com.example.armaria.controllers.armeiro;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ import com.example.armaria.use_cases.armeiro.BuscarArmeiroPorMatriculaUseCase;
 public class BuscarArmeiroPorMatriculaController {
   private final BuscarArmeiroPorMatriculaUseCase buscarArmeiroPorMatriculaUseCase;
 
-  @Autowired
   public BuscarArmeiroPorMatriculaController(BuscarArmeiroPorMatriculaUseCase buscarArmeiroPorMatriculaUseCase) {
     this.buscarArmeiroPorMatriculaUseCase = buscarArmeiroPorMatriculaUseCase;
   }

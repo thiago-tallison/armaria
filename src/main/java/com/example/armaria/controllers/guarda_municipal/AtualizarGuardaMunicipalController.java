@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.guarda_municipal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,7 +14,6 @@ import com.example.armaria.use_cases.guarda_municipal.AtualizarGuardaMunicipalUs
 public class AtualizarGuardaMunicipalController {
   private final AtualizarGuardaMunicipalUseCase atualizarGuardaMunicipalUseCase;
 
-  @Autowired
   public AtualizarGuardaMunicipalController(AtualizarGuardaMunicipalUseCase atualizarGuardaMunicipalUseCase) {
     this.atualizarGuardaMunicipalUseCase = atualizarGuardaMunicipalUseCase;
   }
