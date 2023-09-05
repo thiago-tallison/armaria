@@ -2,6 +2,7 @@ package com.example.armaria.controllers.equipamento;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,7 @@ import com.example.armaria.use_cases.equipamento.ListarEquipamentosUseCase;
 
 @RestController
 @RequestMapping("/api/equipamento")
+@Validated
 public class ListarEquipamentosController {
   private final ListarEquipamentosUseCase listarEquipamentosUseCase;
 
@@ -22,8 +24,10 @@ public class ListarEquipamentosController {
   }
 
   @GetMapping()
-  public ResponseEntity<ListarEquipamentoResponseDTO> handle(@RequestParam Integer pagina,
+  public ResponseEntity<ListarEquipamentoResponseDTO> handle(
+      @RequestParam Integer pagina,
       @RequestParam Integer itensPorPagina) {
+
     ListarEquipamentosRequestDTO dto = new ListarEquipamentosRequestDTO(itensPorPagina, pagina);
 
     ListarEquipamentoResponseDTO response = listarEquipamentosUseCase.execute(dto);
