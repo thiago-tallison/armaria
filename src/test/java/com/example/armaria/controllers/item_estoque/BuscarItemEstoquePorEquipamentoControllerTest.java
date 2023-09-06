@@ -10,12 +10,13 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 
 import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BuscarItemEstoquePorEquipamentoControllerTest {
   @LocalServerPort
   private int port;
