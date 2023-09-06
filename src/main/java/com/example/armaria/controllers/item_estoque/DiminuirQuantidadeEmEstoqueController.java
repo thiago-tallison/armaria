@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.item_estoque;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +22,6 @@ record DiminuirQuantidadeEmEstoqueRequest(
 public class DiminuirQuantidadeEmEstoqueController {
   private final DiminuirQuantidadeEmEstoqueUseCase diminuirQuantidadeUseCase;
 
-  @Autowired
   public DiminuirQuantidadeEmEstoqueController(DiminuirQuantidadeEmEstoqueUseCase diminuirQuantidadeUseCase) {
     this.diminuirQuantidadeUseCase = diminuirQuantidadeUseCase;
   }
