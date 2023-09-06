@@ -70,17 +70,10 @@ public class Estoque {
     return 0; // Retorna 0 se o equipamento não estiver no estoque
   }
 
-  public void acautelarEquipamentos(Map<Equipamento, Integer> equipamentosAcautelados) {
-    for (Map.Entry<Equipamento, Integer> entry : equipamentosAcautelados.entrySet()) {
-      Equipamento equipamento = entry.getKey();
-      int quantidadeAcautelada = entry.getValue();
-      ItemEstoque itemEstoque = encontrarItemNoEstoque(equipamento);
-
-      if (itemEstoque == null || itemEstoque.getQuantidadeEmEstoque() < quantidadeAcautelada) {
-        throw new ItemEstoqueNaoDisponivelException("Item não disponível em estoque: " + equipamento.toString());
-      }
-
-      itemEstoque.diminuirQuantidade(quantidadeAcautelada);
+  public void acautelarEquipamentos(List<ItemAcautelado> itensAcautelados) {
+    for (ItemAcautelado itemAcautelado : itensAcautelados) {
+      ItemEstoque itemEstoque = encontrarItemNoEstoque(itemAcautelado);
+      itemEstoque.diminuirQuantidade(itemAcautelado.getQuantidadeAcautelada());
     }
   }
 
@@ -101,6 +94,15 @@ public class Estoque {
   private ItemEstoque encontrarItemNoEstoque(Equipamento equipamento) {
     for (ItemEstoque item : itensEmEstoque) {
       if (item.getEquipamento().equals(equipamento)) {
+        return item;
+      }
+    }
+    return null;
+  }
+
+  private ItemEstoque encontrarItemNoEstoque(ItemAcautelado itemAcautelado) {
+    for (ItemEstoque item : itensEmEstoque) {
+      if (item.getEquipamento().equals(itemAcautelado.getEquipamento())) {
         return item;
       }
     }
