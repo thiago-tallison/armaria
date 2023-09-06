@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.equipamento.acautelamento;
+package com.example.armaria.controllers.acautelamento;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

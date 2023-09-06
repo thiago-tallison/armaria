@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.equipamento.acautelamento;
+package com.example.armaria.controllers.acautelamento;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
