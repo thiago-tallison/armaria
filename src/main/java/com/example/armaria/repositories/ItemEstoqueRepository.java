@@ -17,10 +17,10 @@ public interface ItemEstoqueRepository extends JpaRepository<ItemEstoque, Long> 
     @Transactional
     @Modifying
     @Query("update ItemEstoque set quantidadeEmEstoque = quantidadeEmEstoque - :quantidade where id = :id and quantidadeEmEstoque >= :quantidade and :quantidade > 0")
-    void diminuirQuantidadeEmEstoque(@Param("id") Long id, @Param("quantidade") Integer quantidade);
+    int diminuirQuantidadeEmEstoque(@Param("id") Long id, @Param("quantidade") Integer quantidade);
 
     @Transactional
     @Modifying
     @Query("update ItemEstoque set quantidadeEmEstoque = quantidadeEmEstoque + :quantidade where id = :id and quantidadeEmEstoque >= :quantidade and :quantidade > 0")
-    void aumentarQuantidadeEmEstoque(@Param("id") Long id, @Param("quantidade") Integer quantidade);
+    int aumentarQuantidadeEmEstoque(@Param("id") Long id, @Param("quantidade") Integer quantidade);
 }
