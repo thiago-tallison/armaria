@@ -2,7 +2,9 @@ package com.example.armaria.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -64,11 +66,12 @@ public class EstoqueTest {
     estoque.adicionarItemEmEstoque(equipamentoA, 10);
     estoque.adicionarItemEmEstoque(equipamentoB, 5);
 
-    Map<Equipamento, Integer> equipamentosAcautelados = new HashMap<>();
-    equipamentosAcautelados.put(equipamentoA, 8);
-    equipamentosAcautelados.put(equipamentoB, 4);
+    List<ItemAcautelado> itensAcautelados = new ArrayList<>();
 
-    estoque.acautelarEquipamentos(equipamentosAcautelados);
+    itensAcautelados.add(new ItemAcautelado(equipamentoA, 8));
+    itensAcautelados.add(new ItemAcautelado(equipamentoB, 4));
+
+    estoque.acautelarEquipamentos(itensAcautelados);
 
     assertEquals(2, estoque.getQuantidadeEmEstoque(equipamentoA));
     assertEquals(1, estoque.getQuantidadeEmEstoque(equipamentoB));

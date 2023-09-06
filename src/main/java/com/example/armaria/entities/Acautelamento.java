@@ -16,10 +16,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "acautelamentos")
 public class Acautelamento {
@@ -28,19 +31,31 @@ public class Acautelamento {
   private Long id;
 
   @Column(name = "data_acautelamento")
-  private final LocalDateTime dataAcautelamento;
+  @NonNull
+  private LocalDateTime dataAcautelamento;
 
   @ManyToOne
   @JoinColumn(name = "matricula_gm")
-  private final GuardaMunicipal gm;
+  @NonNull
+  private GuardaMunicipal gm;
 
   @ManyToOne
   @JoinColumn(name = "matricula_armeiro")
-  private final Armeiro armeiro;
+  @NonNull
+  private Armeiro armeiro;
 
   @OneToMany(mappedBy = "acautelamento", cascade = CascadeType.ALL)
   @Getter(AccessLevel.NONE)
-  private List<ItemAcautelado> itensAcautelados = new ArrayList<>();
+  private final List<ItemAcautelado> itensAcautelados = new ArrayList<>();
+
+  public Acautelamento(
+      LocalDateTime dataAcautelamento,
+      GuardaMunicipal gm,
+      Armeiro armeiro) {
+    this.dataAcautelamento = dataAcautelamento;
+    this.gm = gm;
+    this.armeiro = armeiro;
+  }
 
   public void adicionarEquipamento(ItemAcautelado item) {
     itensAcautelados.add(item);
