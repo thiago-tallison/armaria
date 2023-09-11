@@ -1,6 +1,7 @@
 package com.example.armaria.entities;
 
-import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
+import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
+import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperUpdateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,10 +16,10 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "municipal_guards")
-public class MunicipalGuard {
-  @NonNull
+@Table(name = "armory_keepers")
+public class ArmoryKepper {
   @Id
+  @NonNull
   @Column(name = "registration_number")
   private String registrationNumber;
 
@@ -31,11 +32,24 @@ public class MunicipalGuard {
   @NonNull
   private String phone;
 
-  public MunicipalGuard(MunicipalGuardCreateDTO dto) {
+  @NonNull
+  private String login;
+
+  @NonNull
+  private String password;
+
+  public ArmoryKepper(ArmoryKeeperCreateDTO dto) {
     this.registrationNumber = dto.registrationNumber();
     this.name = dto.name();
     this.email = dto.email();
     this.phone = dto.phone();
+    this.login = dto.login();
+    this.password = dto.password();
   }
 
+  public ArmoryKepper(ArmoryKeeperUpdateDTO dto) {
+    this.name = dto.name();
+    this.email = dto.email();
+    this.phone = dto.phone();
+  }
 }

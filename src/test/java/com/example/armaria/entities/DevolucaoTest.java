@@ -8,8 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class DevolucaoTest {
-  private MunicipalGuard gm;
-  private Armeiro armeiro;
+  private MunicipalGuard mg;
+  private ArmoryKepper armoryKeeper;
   private Equipamento equipamento;
   private ItemAcautelado itemAcautelado;
   private ItemDevolvido itemDevolvido;
@@ -18,14 +18,14 @@ public class DevolucaoTest {
 
   @BeforeEach
   public void setUp() {
-    gm = new MunicipalGuard("matricula", "nome", "email", "telefone");
+    mg = new MunicipalGuard("registration", "name", "email", "phone");
     equipamento = new Equipamento("nome", "num-serie", true);
 
-    acautelamento = new Acautelamento(LocalDateTime.now(), gm, armeiro);
+    acautelamento = new Acautelamento(LocalDateTime.now(), mg, armoryKeeper);
 
     itemAcautelado = new ItemAcautelado(equipamento, 1);
 
-    devolucao = new Devolucao(acautelamento, LocalDateTime.now(), gm, armeiro);
+    devolucao = new Devolucao(acautelamento, LocalDateTime.now(), mg, armoryKeeper);
 
     itemDevolvido = new ItemDevolvido(equipamento, 1);
   }

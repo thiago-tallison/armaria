@@ -22,8 +22,8 @@ public class GetMunicipalGuardByRegistrationControllerTest {
 
   @Test
   void testHandle() {
-    String matricula = "qualquer-matricula";
-    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
+    String registration = "any-registration";
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + registration;
 
     ResponseEntity<MunicipalGuard> response = restTemplate.getForEntity(baseUrl, null, MunicipalGuard.class);
     assertNull(response.getBody());

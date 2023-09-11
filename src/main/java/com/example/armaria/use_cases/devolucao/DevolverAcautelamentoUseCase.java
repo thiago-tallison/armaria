@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.armaria.dtos.devolucao.DevolverAcautelamentoDTO;
 import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
 import com.example.armaria.entities.Acautelamento;
-import com.example.armaria.entities.Armeiro;
+import com.example.armaria.entities.ArmoryKepper;
 import com.example.armaria.entities.Devolucao;
 import com.example.armaria.entities.ItemDevolvido;
 import com.example.armaria.entities.ItemEstoque;
@@ -18,7 +18,7 @@ import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.errors.AcautelamentoNaoEncontradoException;
 import com.example.armaria.repositories.AcautelamentoRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
-import com.example.armaria.use_cases.armeiro.BuscarArmeiroPorMatriculaUseCase;
+import com.example.armaria.use_cases.armory_keeper.GetArmoryKeeperByRegistrationUseCase;
 import com.example.armaria.use_cases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 
 import jakarta.transaction.Transactional;
@@ -28,31 +28,32 @@ public class DevolverAcautelamentoUseCase {
   private final AcautelamentoRepository acautelamentoRepository;
   private final DevolucaoEquipamentoRepository devolverEquipamentoRepository;
   private final ItemEstoqueRepository itemEstoqueRepository;
-  private final BuscarArmeiroPorMatriculaUseCase buscarArmeiroPorMatriculaUseCase;
-  private final GetMunicipalGuardByRegistrationUseCase buscarmunicipalGuardPorMatriculaUseCase;
+  private final GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase;
+  private final GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase;
 
   public DevolverAcautelamentoUseCase(
       AcautelamentoRepository acautelamentoRepository,
       DevolucaoEquipamentoRepository devolverEquipamentoRepository,
       ItemEstoqueRepository itemEstoqueRepository,
-      BuscarArmeiroPorMatriculaUseCase buscarArmeiroPorMatriculaUseCase,
-      GetMunicipalGuardByRegistrationUseCase buscarmunicipalGuardPorMatriculaUseCase) {
+      GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase,
+      GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase) {
     this.acautelamentoRepository = acautelamentoRepository;
     this.itemEstoqueRepository = itemEstoqueRepository;
     this.devolverEquipamentoRepository = devolverEquipamentoRepository;
-    this.buscarArmeiroPorMatriculaUseCase = buscarArmeiroPorMatriculaUseCase;
-    this.buscarmunicipalGuardPorMatriculaUseCase = buscarmunicipalGuardPorMatriculaUseCase;
+    this.getArmoryKeeperByRegistrationUseCase = getArmoryKeeperByRegistrationUseCase;
+    this.getMunicipalGuardByRegistrationUseCase = getMunicipalGuardByRegistrationUseCase;
   }
 
   @Transactional
   public void execute(DevolverAcautelamentoDTO devolverEquipamentosDto) {
     // verificar se gm existe
-    String matriculaArmeiro = devolverEquipamentosDto.matriculaArmeiro();
-    Optional<Armeiro> armeiroOptional = buscarArmeiroPorMatriculaUseCase.execute(matriculaArmeiro);
+    String armoryKeeperRegistrationNumber = devolverEquipamentosDto.armoryKeeperRegistration();
+    Optional<ArmoryKepper> armoryKeeper = getArmoryKeeperByRegistrationUseCase
+        .execute(armoryKeeperRegistrationNumber);
 
-    // verificar se armeiro existe
-    String matriculaGm = devolverEquipamentosDto.matriculaGm();
-    Optional<MunicipalGuard> gmOptional = buscarmunicipalGuardPorMatriculaUseCase.execute(matriculaGm);
+    // check if municipal guard exists
+    String registration = devolverEquipamentosDto.municipalGuardRegistration();
+    Optional<MunicipalGuard> gmOptional = getMunicipalGuardByRegistrationUseCase.execute(registration);
 
     // verificar se acautelamento existe
     Long idAcautelamento = devolverEquipamentosDto.idAcautelamento();
@@ -99,7 +100,7 @@ public class DevolverAcautelamentoUseCase {
       itensDevolvidos.add(itemDevolvido);
     }
 
-    Devolucao devolucao = new Devolucao(acautelamento, LocalDateTime.now(), gmOptional.get(), armeiroOptional.get());
+    Devolucao devolucao = new Devolucao(acautelamento, LocalDateTime.now(), gmOptional.get(), armoryKeeper.get());
     itensDevolvidos.forEach(devolucao::adicionarEquipamento);
     devolverEquipamentoRepository.save(devolucao);
   }

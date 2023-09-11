@@ -42,9 +42,9 @@ public class Acautelamento {
   private MunicipalGuard guard;
 
   @ManyToOne
-  @JoinColumn(name = "matricula_armeiro")
+  @JoinColumn(name = "armory_keeper_registration_number")
   @NonNull
-  private Armeiro armeiro;
+  private ArmoryKepper armoryKeeper;
 
   @OneToMany(mappedBy = "acautelamento", cascade = CascadeType.ALL)
   @Setter(AccessLevel.NONE)
@@ -53,10 +53,10 @@ public class Acautelamento {
   public Acautelamento(
       LocalDateTime dataAcautelamento,
       MunicipalGuard guard,
-      Armeiro armeiro) {
+      ArmoryKepper armoryKeeper) {
     this.dataAcautelamento = dataAcautelamento;
     this.guard = guard;
-    this.armeiro = armeiro;
+    this.armoryKeeper = armoryKeeper;
   }
 
   public void adicionarEquipamento(ItemAcautelado item) {

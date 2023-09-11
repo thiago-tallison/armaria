@@ -9,8 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record CriarAcautelamentoDTO(
-    @NotNull(message = "dataAcautelamento cannot be null") LocalDateTime dataAcautelamento,
-    @NotBlank(message = "matriculaGm cannot be null") String matriculaGm,
-    @NotBlank(message = "matriculaArmeiro cannot be null") String matriculaArmeiro,
-    @NotNull(message = "itensAcautelados cannot be null") List<ItemAcauteladoDTO> itensAcautelados) {
+                @NotNull(message = "dataAcautelamento cannot be null") LocalDateTime dataAcautelamento,
+                @NotBlank(message = "municipalGuardRegistration cannot be null") String municipalGuardRegistration,
+                @NotBlank(message = "armoryKeeperRegistration cannot be null") String armoryKeeperRegistration,
+                @NotNull(message = "itensAcautelados cannot be null") List<ItemAcauteladoDTO> itensAcautelados) {
 }

@@ -18,13 +18,13 @@ public class DeleteMunicipalGuardUseCase {
     this.municipalGuardRepository = municipalGuardRepository;
   }
 
-  public void execute(String matricula) {
-    Optional<MunicipalGuard> armeiro = municipalGuardRepository.findByRegistrationNumber(matricula);
+  public void execute(String registration) {
+    Optional<MunicipalGuard> optionalArmoryKeeper = municipalGuardRepository.findByRegistrationNumber(registration);
 
-    if (!armeiro.isPresent()) {
-      throw new MunicipalGuardNotFoundException(matricula);
+    if (!optionalArmoryKeeper.isPresent()) {
+      throw new MunicipalGuardNotFoundException(registration);
     }
 
-    municipalGuardRepository.delete(armeiro.get());
+    municipalGuardRepository.delete(optionalArmoryKeeper.get());
   }
 }

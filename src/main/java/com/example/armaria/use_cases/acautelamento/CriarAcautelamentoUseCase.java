@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
 import com.example.armaria.entities.Acautelamento;
-import com.example.armaria.entities.Armeiro;
+import com.example.armaria.entities.ArmoryKepper;
 import com.example.armaria.entities.Equipamento;
 import com.example.armaria.entities.ItemAcautelado;
 import com.example.armaria.entities.MunicipalGuard;
-import com.example.armaria.errors.ArmeiroNaoEncontradoException;
+import com.example.armaria.errors.ArmoryKeeperNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.AcautelamentoRepository;
-import com.example.armaria.repositories.ArmeiroRepository;
+import com.example.armaria.repositories.ArmoryKeeperRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
 import com.example.armaria.repositories.MunicipalGuardRepository;
 
@@ -25,36 +25,37 @@ import jakarta.transaction.Transactional;
 public class CriarAcautelamentoUseCase {
   private final AcautelamentoRepository acautelamentoRepository;
   private final ItemEstoqueRepository itemEstoqueRepository;
-  private final ArmeiroRepository armeiroRepository;
+  private final ArmoryKeeperRepository armoryKeeperRepository;
   private final MunicipalGuardRepository gmRepository;
 
   public CriarAcautelamentoUseCase(
       AcautelamentoRepository acautelamentoRepository,
       ItemEstoqueRepository itemEstoqueRepository,
-      ArmeiroRepository armeiroRepository,
+      ArmoryKeeperRepository armoryKeeperRepository,
       MunicipalGuardRepository gmRepository) {
     this.acautelamentoRepository = acautelamentoRepository;
     this.itemEstoqueRepository = itemEstoqueRepository;
-    this.armeiroRepository = armeiroRepository;
+    this.armoryKeeperRepository = armoryKeeperRepository;
     this.gmRepository = gmRepository;
   }
 
   @Transactional
   public void execute(CriarAcautelamentoDTO data) {
-    // verificar se o armeiro existe
-    String matriculaArmeiro = data.matriculaArmeiro();
-    Optional<Armeiro> armeiroOptional = armeiroRepository.findByMatricula(matriculaArmeiro);
-    if (!armeiroOptional.isPresent()) {
-      throw new ArmeiroNaoEncontradoException(matriculaArmeiro);
+    // check if armory keeper exists
+    String armoryKeeperRegistration = data.armoryKeeperRegistration();
+    Optional<ArmoryKepper> optionalArmoryKeeper = armoryKeeperRepository
+        .findByRegistrationNumber(armoryKeeperRegistration);
+    if (!optionalArmoryKeeper.isPresent()) {
+      throw new ArmoryKeeperNotFoundException(armoryKeeperRegistration);
     }
 
-    // verificar se o gm existe
-    String matriculaGm = data.matriculaGm();
+    // check if municipal guard exists
+    String registration = data.municipalGuardRegistration();
     Optional<MunicipalGuard> gmOptional = gmRepository
-        .findByRegistrationNumber(matriculaGm);
+        .findByRegistrationNumber(registration);
 
     if (!gmOptional.isPresent()) {
-      throw new MunicipalGuardNotFoundException(matriculaGm);
+      throw new MunicipalGuardNotFoundException(registration);
     }
 
     // verificar se cada item acautelado existe e se tem quantidade em estoque
@@ -81,7 +82,7 @@ public class CriarAcautelamentoUseCase {
     }
 
     Acautelamento acautelamento = new Acautelamento(null, data.dataAcautelamento(), gmOptional.get(),
-        armeiroOptional.get());
+        optionalArmoryKeeper.get());
     itensAcautelados.forEach(acautelamento::adicionarEquipamento);
 
     acautelamentoRepository.save(acautelamento);

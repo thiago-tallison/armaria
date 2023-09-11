@@ -20,7 +20,7 @@ import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
 import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
 import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.use_cases.acautelamento.ItemAcauteladoDTO;
-import com.example.armaria.use_cases.armeiro.CriarArmeiroDTO;
+import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
 import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -36,8 +36,8 @@ public class CriarAcautelamentoControllerTest {
   void testExecute() {
     String criarAcautelamentoUrl = "http://localhost:" + port + "/api/acautelamento";
     LocalDateTime dataAcautelamento = LocalDateTime.now();
-    String matriculaGm = "GM123";
-    String matriculaArmeiro = "AR123";
+    String registration = "GM123";
+    String armoryKeeperRegistration = "AR123";
     int quantidadeASerCriada = 10;
     int quantidadeASerAcautelada = 5;
     String numSerieEquipamento = "num-serie-existente";
@@ -45,12 +45,12 @@ public class CriarAcautelamentoControllerTest {
     List<ItemAcauteladoDTO> itensAcauteladosDto = new ArrayList<>();
     itensAcauteladosDto.add(new ItemAcauteladoDTO(1L, 1L, quantidadeASerAcautelada));
 
-    criarArmeiro(matriculaArmeiro);
-    criarGm(matriculaGm);
+    getArmoryKeeper(armoryKeeperRegistration);
+    getMunicipalGuard(registration);
     criarEquipamento(quantidadeASerCriada, numSerieEquipamento);
 
     CriarAcautelamentoDTO dto = new CriarAcautelamentoDTO(dataAcautelamento,
-        matriculaGm, matriculaArmeiro, itensAcauteladosDto);
+        registration, armoryKeeperRegistration, itensAcauteladosDto);
 
     // Verificar se um item estoque foi criado com a quantidade
     // "quantidadeASerCriada"
@@ -78,25 +78,25 @@ public class CriarAcautelamentoControllerTest {
 
   }
 
-  public void criarArmeiro(String matricula) {
-    String baseUrl = "http://localhost:" + port + "/api/armeiro";
+  public void getArmoryKeeper(String registration) {
+    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers";
 
-    CriarArmeiroDTO armeiroDTO = new CriarArmeiroDTO(
-        matricula, // Matrícula
+    ArmoryKeeperCreateDTO armoryKeeperCreateDTO = new ArmoryKeeperCreateDTO(
+        registration, // Matrícula
         "João da Silva",
         "joao@example.com",
         "1234567890",
         "login",
         "senha123");
 
-    restTemplate.postForEntity(baseUrl, armeiroDTO, String.class);
+    restTemplate.postForEntity(baseUrl, armoryKeeperCreateDTO, String.class);
   }
 
-  public void criarGm(String matricula) {
+  public void getMunicipalGuard(String registration) {
     String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/create";
 
     MunicipalGuardCreateDTO municipalGuardCreateDTO = new MunicipalGuardCreateDTO(
-        matricula,
+        registration,
         "João da Silva",
         "joao@example.com",
         "1234567890");

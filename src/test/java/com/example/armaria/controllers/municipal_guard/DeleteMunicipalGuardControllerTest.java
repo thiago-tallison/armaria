@@ -24,16 +24,16 @@ public class DeleteMunicipalGuardControllerTest {
   void testHandle() {
     getMunicipalGuard();
 
-    String matricula = "qualquer-matricula";
-    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
+    String registration = "any-registration";
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + registration;
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Void.class);
     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
   }
 
   @Test
   void when_MunicipalGuardIsNotFound_ThrowError() {
-    String matricula = "matricula-nao-existente";
-    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
+    String registration = "inexistent-registration";
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + registration;
 
     ResponseEntity<Object> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Object.class);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -41,12 +41,12 @@ public class DeleteMunicipalGuardControllerTest {
   }
 
   public void getMunicipalGuard() {
-    String matricula = "qualquer-matricula";
+    String registration = "any-registration";
 
     String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/create";
 
     MunicipalGuardCreateDTO municipalGuardCreateDTO = new MunicipalGuardCreateDTO(
-        matricula,
+        registration,
         "João da Silva",
         "joao@example.com",
         "1234567890");

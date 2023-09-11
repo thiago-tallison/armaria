@@ -25,14 +25,14 @@ import org.springframework.context.annotation.Description;
 
 import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
 import com.example.armaria.entities.Acautelamento;
-import com.example.armaria.entities.Armeiro;
+import com.example.armaria.entities.ArmoryKepper;
 import com.example.armaria.entities.Equipamento;
 import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.entities.MunicipalGuard;
-import com.example.armaria.errors.ArmeiroNaoEncontradoException;
+import com.example.armaria.errors.ArmoryKeeperNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.AcautelamentoRepository;
-import com.example.armaria.repositories.ArmeiroRepository;
+import com.example.armaria.repositories.ArmoryKeeperRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
 import com.example.armaria.repositories.MunicipalGuardRepository;
 
@@ -47,7 +47,7 @@ public class CriarAcautelamentoUseCaseTest {
   private ItemEstoqueRepository itemEstoqueRepository;
 
   @Mock
-  private ArmeiroRepository armeiroRepository;
+  private ArmoryKeeperRepository armoryKeeperRepository;
 
   @Mock
   private MunicipalGuardRepository gmRepository;
@@ -61,16 +61,16 @@ public class CriarAcautelamentoUseCaseTest {
   void testCriarAcautelamentoSucesso() {
     // Configurar objetos mock
     LocalDateTime dataAcautelamento = LocalDateTime.now();
-    String matriculaGm = "GM123";
-    String matriculaArmeiro = "AR123";
+    String registration = "GM123";
+    String armoryKeeperRegistration = "AR123";
     List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
     itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 2));
 
-    Armeiro armeiroMock = new Armeiro();
-    armeiroMock.setMatricula(matriculaArmeiro);
+    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
+    armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
 
     MunicipalGuard gmMock = new MunicipalGuard();
-    gmMock.setRegistrationNumber(matriculaGm);
+    gmMock.setRegistrationNumber(registration);
 
     ItemEstoque itemEstoqueMock = new ItemEstoque();
     Equipamento equipamentoMock = new Equipamento();
@@ -78,12 +78,13 @@ public class CriarAcautelamentoUseCaseTest {
     itemEstoqueMock.setEquipamento(equipamentoMock);
     itemEstoqueMock.setQuantidadeEmEstoque(5);
 
-    when(armeiroRepository.findByMatricula(matriculaArmeiro)).thenReturn(Optional.of(armeiroMock));
-    when(gmRepository.findByRegistrationNumber(matriculaGm)).thenReturn(Optional.of(gmMock));
+    when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
+        .thenReturn(Optional.of(armoryKeeperMock));
+    when(gmRepository.findByRegistrationNumber(registration)).thenReturn(Optional.of(gmMock));
     when(itemEstoqueRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(2))).thenReturn(1);
 
     // Executar o caso de uso
-    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, matriculaGm, matriculaArmeiro,
+    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, registration, armoryKeeperRegistration,
         itensAcauteladosRequest);
     assertDoesNotThrow(() -> sut.execute(request));
 
@@ -95,7 +96,7 @@ public class CriarAcautelamentoUseCaseTest {
     assertNotNull(acautelamentoSalvo);
     assertEquals(dataAcautelamento, acautelamentoSalvo.getDataAcautelamento());
     assertEquals(gmMock, acautelamentoSalvo.getGuard());
-    assertEquals(armeiroMock, acautelamentoSalvo.getArmeiro());
+    assertEquals(armoryKeeperMock, acautelamentoSalvo.getArmoryKeeper());
     assertEquals(1, acautelamentoSalvo.getTotalEquipamentosAcautelados());
   }
 
@@ -103,16 +104,16 @@ public class CriarAcautelamentoUseCaseTest {
   void testCriarAcautelamentoArmeiroNaoEncontrado() {
     // Configurar objetos mock
     LocalDateTime dataAcautelamento = LocalDateTime.now();
-    String matriculaGm = "GM123";
-    String matriculaArmeiro = "AR123";
+    String registration = "GM123";
+    String armoryKeeperRegistration = "AR123";
     List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
     itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 2));
 
-    Armeiro armeiroMock = new Armeiro();
-    armeiroMock.setMatricula(matriculaArmeiro);
+    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
+    armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
 
     MunicipalGuard gmMock = new MunicipalGuard();
-    gmMock.setRegistrationNumber(matriculaGm);
+    gmMock.setRegistrationNumber(registration);
 
     ItemEstoque itemEstoqueMock = new ItemEstoque();
     Equipamento equipamentoMock = new Equipamento();
@@ -120,12 +121,12 @@ public class CriarAcautelamentoUseCaseTest {
     itemEstoqueMock.setEquipamento(equipamentoMock);
     itemEstoqueMock.setQuantidadeEmEstoque(5);
 
-    when(armeiroRepository.findByMatricula(matriculaArmeiro)).thenReturn(Optional.empty());
+    when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration)).thenReturn(Optional.empty());
 
     // Executar o caso de uso
-    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, matriculaGm, matriculaArmeiro,
+    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, registration, armoryKeeperRegistration,
         itensAcauteladosRequest);
-    assertThrows(ArmeiroNaoEncontradoException.class, () -> sut.execute(request));
+    assertThrows(ArmoryKeeperNotFoundException.class, () -> sut.execute(request));
 
     verify(acautelamentoRepository, never()).save(any());
   }
@@ -134,16 +135,18 @@ public class CriarAcautelamentoUseCaseTest {
   void testCriarAcautelamentoGmNaoEncontrado() {
     // Configurar objetos mock
     LocalDateTime dataAcautelamento = LocalDateTime.now();
-    String matriculaGm = "GM123";
-    String matriculaArmeiro = "AR123";
+    String municipalGuardRegistration = "GM123";
+    String armoryKeeperRegistration = "AR123";
     List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
     itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 2));
 
-    when(armeiroRepository.findByMatricula(matriculaArmeiro)).thenReturn(Optional.of(new Armeiro()));
-    when(gmRepository.findByRegistrationNumber(matriculaGm)).thenReturn(Optional.empty());
+    when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
+        .thenReturn(Optional.of(new ArmoryKepper()));
+    when(gmRepository.findByRegistrationNumber(municipalGuardRegistration)).thenReturn(Optional.empty());
 
     // Executar o caso de uso
-    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, matriculaGm, matriculaArmeiro,
+    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, municipalGuardRegistration,
+        armoryKeeperRegistration,
         itensAcauteladosRequest);
 
     // check if MunicipalGuardNotFoundException is thrown
@@ -157,16 +160,16 @@ public class CriarAcautelamentoUseCaseTest {
   @Description("Não deve ser possível criar um acautelamento se a quantidade de itens acautelados for maior que a quantidade em estoque")
   void testCriarAcautelamentoQuantidadeInsuficienteNoEstoque() {
     LocalDateTime dataAcautelamento = LocalDateTime.now();
-    String matriculaGm = "GM123";
-    String matriculaArmeiro = "AR123";
+    String municipalGuardRegistration = "GM123";
+    String armoryKeeperRegistration = "AR123";
     List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
     itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 10)); // Quantidade alta para forçar erro
 
-    Armeiro armeiroMock = new Armeiro();
-    armeiroMock.setMatricula(matriculaArmeiro);
+    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
+    armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
 
     MunicipalGuard gmMock = new MunicipalGuard();
-    gmMock.setRegistrationNumber(matriculaGm);
+    gmMock.setRegistrationNumber(municipalGuardRegistration);
 
     ItemEstoque itemEstoqueMock = new ItemEstoque();
     Equipamento equipamentoMock = new Equipamento();
@@ -174,13 +177,15 @@ public class CriarAcautelamentoUseCaseTest {
     itemEstoqueMock.setEquipamento(equipamentoMock);
     itemEstoqueMock.setQuantidadeEmEstoque(5); // Quantidade em estoque insuficiente
 
-    when(armeiroRepository.findByMatricula(matriculaArmeiro)).thenReturn(Optional.of(armeiroMock));
-    when(gmRepository.findByRegistrationNumber(matriculaGm)).thenReturn(Optional.of(gmMock));
+    when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
+        .thenReturn(Optional.of(armoryKeeperMock));
+    when(gmRepository.findByRegistrationNumber(municipalGuardRegistration)).thenReturn(Optional.of(gmMock));
     when(itemEstoqueRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(10))).thenReturn(0); // Retornar 0 para simular
                                                                                            // erro
 
     // Executar o caso de uso
-    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, matriculaGm, matriculaArmeiro,
+    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, municipalGuardRegistration,
+        armoryKeeperRegistration,
         itensAcauteladosRequest);
 
     // Verificar se RuntimeException é lançada devido à quantidade insuficiente no

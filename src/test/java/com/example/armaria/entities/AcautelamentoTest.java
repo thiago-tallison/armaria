@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 public class AcautelamentoTest {
   private MunicipalGuard gm;
-  private Armeiro armeiro;
+  private ArmoryKepper armoryKeeper;
   private Equipamento equipamento;
   private ItemAcautelado itemAcautelado;
   private Acautelamento acautelamento;
@@ -19,12 +19,12 @@ public class AcautelamentoTest {
 
   @BeforeEach
   public void setUp() {
-    armeiro = new Armeiro("matricula", "nome", "email", "telefone", "login", "senha");
+    armoryKeeper = new ArmoryKepper("matricula", "nome", "email", "telefone", "login", "senha");
     gm = new MunicipalGuard("matricula", "nome", "email", "telefone");
 
     equipamento = new Equipamento("nome", "num-serie", true);
 
-    acautelamento = new Acautelamento(LocalDateTime.now(), gm, armeiro);
+    acautelamento = new Acautelamento(LocalDateTime.now(), gm, armoryKeeper);
 
     itemAcautelado = new ItemAcautelado(equipamento, quantidadeAcautelada);
   }

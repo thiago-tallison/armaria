@@ -20,15 +20,15 @@ record MensagemDeErroGeral(
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(ArmeiroNaoEncontradoException.class)
-  public ResponseEntity<MensagemDeErroGeral> handleArmeiroNaoEncontradoException(
-      ArmeiroNaoEncontradoException e) {
+  @ExceptionHandler(ArmoryKeeperNotFoundException.class)
+  public ResponseEntity<MensagemDeErroGeral> handleArmoryKeeperNotFoundExceptionException(
+      ArmoryKeeperNotFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
   @ExceptionHandler(MunicipalGuardNotFoundException.class)
-  public ResponseEntity<MensagemDeErroGeral> handlemunicipalGuardNaoEncontradoException(
+  public ResponseEntity<MensagemDeErroGeral> handleMunicipalGuardNotFoundExceptionException(
       MunicipalGuardNotFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new MensagemDeErroGeral(e.getMessage()));

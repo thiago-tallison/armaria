@@ -25,16 +25,16 @@ import org.mockito.MockitoAnnotations;
 import com.example.armaria.dtos.devolucao.DevolverAcautelamentoDTO;
 import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
 import com.example.armaria.entities.Acautelamento;
-import com.example.armaria.entities.Armeiro;
+import com.example.armaria.entities.ArmoryKepper;
 import com.example.armaria.entities.Devolucao;
 import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.errors.AcautelamentoNaoEncontradoException;
-import com.example.armaria.errors.ArmeiroNaoEncontradoException;
+import com.example.armaria.errors.ArmoryKeeperNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.AcautelamentoRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
-import com.example.armaria.use_cases.armeiro.BuscarArmeiroPorMatriculaUseCase;
+import com.example.armaria.use_cases.armory_keeper.GetArmoryKeeperByRegistrationUseCase;
 import com.example.armaria.use_cases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 
 public class DevolverAcautelamentoUseCaseTest {
@@ -51,7 +51,7 @@ public class DevolverAcautelamentoUseCaseTest {
   private ItemEstoqueRepository itemEstoqueRepository;
 
   @Mock
-  private BuscarArmeiroPorMatriculaUseCase buscarArmeiroPorMatriculaUseCase;
+  private GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase;
 
   @Mock
   private GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase;
@@ -65,11 +65,11 @@ public class DevolverAcautelamentoUseCaseTest {
   public void deveCriarDevolucao() {
     DevolverAcautelamentoDTO devolverEquipamentosDto = createValidDTO();
 
-    Armeiro armeiroMock = new Armeiro();
-    armeiroMock.setMatricula(devolverEquipamentosDto.matriculaArmeiro());
+    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
+    armoryKeeperMock.setRegistrationNumber(devolverEquipamentosDto.armoryKeeperRegistration());
 
     MunicipalGuard gmMock = new MunicipalGuard();
-    gmMock.setRegistrationNumber(devolverEquipamentosDto.matriculaGm());
+    gmMock.setRegistrationNumber(devolverEquipamentosDto.municipalGuardRegistration());
 
     Acautelamento acatuelamentoMock = new Acautelamento();
     acatuelamentoMock.setId(devolverEquipamentosDto.idAcautelamento());
@@ -78,9 +78,10 @@ public class DevolverAcautelamentoUseCaseTest {
     itemEstoqueMock.setId(devolverEquipamentosDto.itensDevolvidos().get(0).idItemEstoque());
 
     Devolucao devolucaoMock = new Devolucao(acatuelamentoMock, devolverEquipamentosDto.dataDevolucao(), gmMock,
-        armeiroMock);
+        armoryKeeperMock);
 
-    when(buscarArmeiroPorMatriculaUseCase.execute(armeiroMock.getMatricula())).thenReturn(Optional.of(armeiroMock));
+    when(getArmoryKeeperByRegistrationUseCase.execute(armoryKeeperMock.getRegistrationNumber()))
+        .thenReturn(Optional.of(armoryKeeperMock));
     when(getMunicipalGuardByRegistrationUseCase.execute(gmMock.getRegistrationNumber()))
         .thenReturn(Optional.of(gmMock));
     when(acautelamentoRepository.findById(acatuelamentoMock.getId())).thenReturn(Optional.of(acatuelamentoMock));
@@ -98,20 +99,20 @@ public class DevolverAcautelamentoUseCaseTest {
   }
 
   @Test
-  public void naoDeveCriarDevolucaoArmeiroMatriculaInvalida() {
+  public void whenRegistrationIsInvalid_ItShouldNotBeAbleToCreateDevolucao() {
     DevolverAcautelamentoDTO dtoMatriculaInvalida = createValidDTO()
-        .withMatriculaArmeiro("matricula-que-nao-existe");
+        .withArmoryKeeperRegistration("inexistent-registration");
 
     Acautelamento acautelamento = createAcautelamento();
 
-    when(buscarArmeiroPorMatriculaUseCase.execute(eq("matricula-que-nao-existe")))
-        .thenThrow(ArmeiroNaoEncontradoException.class);
+    when(getArmoryKeeperByRegistrationUseCase.execute(eq("inexistent-registration")))
+        .thenThrow(ArmoryKeeperNotFoundException.class);
 
     when(acautelamentoRepository.findById(anyLong())).thenReturn(Optional.of(acautelamento));
 
-    assertThrows(ArmeiroNaoEncontradoException.class, () -> sut.execute(dtoMatriculaInvalida));
+    assertThrows(ArmoryKeeperNotFoundException.class, () -> sut.execute(dtoMatriculaInvalida));
 
-    verify(buscarArmeiroPorMatriculaUseCase).execute(eq("matricula-que-nao-existe"));
+    verify(getArmoryKeeperByRegistrationUseCase).execute(eq("inexistent-registration"));
     verify(itemEstoqueRepository, never()).aumentarQuantidadeEmEstoque(anyLong(), anyInt());
     verify(acautelamentoRepository, never()).findById(anyLong());
   }
@@ -119,17 +120,17 @@ public class DevolverAcautelamentoUseCaseTest {
   @Test
   public void naoDeveCriarDevolucaoGMMatriculaInvalida() {
     DevolverAcautelamentoDTO dtoMatriculaInvalida = createValidDTO()
-        .withMatriculaGM("matricula-que-nao-existe");
+        .withMunicipalGuardRegistration("inexistent-registration");
 
     Acautelamento acautelamento = createAcautelamento();
 
-    when(getMunicipalGuardByRegistrationUseCase.execute(eq("matricula-que-nao-existe")))
+    when(getMunicipalGuardByRegistrationUseCase.execute(eq("inexistent-registration")))
         .thenThrow(MunicipalGuardNotFoundException.class);
     when(acautelamentoRepository.findById(anyLong())).thenReturn(Optional.of(acautelamento));
 
     assertThrows(MunicipalGuardNotFoundException.class, () -> sut.execute(dtoMatriculaInvalida));
 
-    verify(getMunicipalGuardByRegistrationUseCase).execute(eq("matricula-que-nao-existe"));
+    verify(getMunicipalGuardByRegistrationUseCase).execute(eq("inexistent-registration"));
     verify(itemEstoqueRepository, never()).aumentarQuantidadeEmEstoque(anyLong(), anyInt());
     verify(acautelamentoRepository, never()).findById(anyLong());
   }
@@ -138,11 +139,11 @@ public class DevolverAcautelamentoUseCaseTest {
   public void naoDeveCriarDevolucaoAcautelamentoNaoExistente() {
     DevolverAcautelamentoDTO devolverEquipamentosDto = createValidDTO();
 
-    Armeiro armeiroMock = new Armeiro();
-    armeiroMock.setMatricula(devolverEquipamentosDto.matriculaArmeiro());
+    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
+    armoryKeeperMock.setRegistrationNumber(devolverEquipamentosDto.armoryKeeperRegistration());
 
     MunicipalGuard gmMock = new MunicipalGuard();
-    gmMock.setRegistrationNumber(devolverEquipamentosDto.matriculaGm());
+    gmMock.setRegistrationNumber(devolverEquipamentosDto.municipalGuardRegistration());
 
     Acautelamento acatuelamentoMock = new Acautelamento();
     long idNaoExistente = 1001L;
@@ -151,7 +152,8 @@ public class DevolverAcautelamentoUseCaseTest {
     ItemEstoque itemEstoqueMock = new ItemEstoque();
     itemEstoqueMock.setId(devolverEquipamentosDto.itensDevolvidos().get(0).idItemEstoque());
 
-    when(buscarArmeiroPorMatriculaUseCase.execute(armeiroMock.getMatricula())).thenReturn(Optional.of(armeiroMock));
+    when(getArmoryKeeperByRegistrationUseCase.execute(armoryKeeperMock.getRegistrationNumber()))
+        .thenReturn(Optional.of(armoryKeeperMock));
     when(getMunicipalGuardByRegistrationUseCase.execute(gmMock.getRegistrationNumber()))
         .thenReturn(Optional.of(gmMock));
     when(acautelamentoRepository.findById(idNaoExistente)).thenThrow(AcautelamentoNaoEncontradoException.class);
@@ -173,17 +175,17 @@ public class DevolverAcautelamentoUseCaseTest {
     // given
     LocalDateTime dataAcautelamento = LocalDateTime.now();
     Long idAcautelamento = 1L;
-    String matriculaGm = "matricula-gm";
-    String matriculaArmeiro = "matricula-armeiro";
+    String municipalguardRegistration = "municipal-guard-registration";
+    String armoryKeeperRegistration = "armory-keeper-registration";
     List<ItemDevolvidoDTO> itensDevolvidos = new ArrayList<>();
     ItemDevolvidoDTO itemDto = new ItemDevolvidoDTO(1L, 2);
     itensDevolvidos.add(itemDto);
 
     DevolverAcautelamentoDTO dto = new DevolverAcautelamentoDTO(
         dataAcautelamento,
-        matriculaGm,
+        municipalguardRegistration,
         idAcautelamento,
-        matriculaArmeiro,
+        armoryKeeperRegistration,
         itensDevolvidos);
 
     return dto;

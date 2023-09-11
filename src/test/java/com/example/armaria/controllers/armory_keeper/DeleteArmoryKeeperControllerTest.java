@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.armeiro;
+package com.example.armaria.controllers.armory_keeper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,10 +12,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.armaria.use_cases.armeiro.CriarArmeiroDTO;
+import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeletarArmeiroControllerTest {
+public class DeleteArmoryKeeperControllerTest {
   @LocalServerPort
   private int port;
 
@@ -24,35 +24,35 @@ public class DeletarArmeiroControllerTest {
 
   @Test
   void testHandle() {
-    criarArmeiro();
+    getArmoryKeeper();
 
-    String matricula = "qualquer-matricula";
-    String baseUrl = "http://localhost:" + port + "/api/armeiro/" + matricula;
+    String registration = "any-registration";
+    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers/" + registration;
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Void.class);
     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
   }
 
   @Test
-  void testHandle_deve_lancar_erro_para_armeiro_nao_encontrado() {
-    String matricula = "matricula-nao-existente";
-    String baseUrl = "http://localhost:" + port + "/api/armeiro/" + matricula;
+  void when_ArmoryKeeperNotFound_ThrowsException() {
+    String registration = "inexistent-registration";
+    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers/" + registration;
 
     ResponseEntity<Object> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Object.class);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertNotNull(response.getBody());
   }
 
-  private void criarArmeiro() {
-    String criarArmeiroUrl = "http://localhost:" + port + "/api/armeiro";
+  private void getArmoryKeeper() {
+    String url = "http://localhost:" + port + "/api/v1/armory_keepers";
 
-    CriarArmeiroDTO armeiroDTO = new CriarArmeiroDTO(
-        "qualquer-matricula",
+    ArmoryKeeperCreateDTO armoryKeeperCreateDTO = new ArmoryKeeperCreateDTO(
+        "any-registration",
         "João da Silva",
         "joao@example.com",
         "1234567890",
         "login",
         "senha123");
 
-    restTemplate.postForEntity(criarArmeiroUrl, armeiroDTO, String.class);
+    restTemplate.postForEntity(url, armoryKeeperCreateDTO, String.class);
   }
 }

@@ -33,10 +33,10 @@ public class UpdateMunicipalGuardControllerTest {
   void handle() {
     getMunicipalGuard();
 
-    String matricula = "qualquer-matricula";
-    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
+    String registration = "any-registration";
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + registration;
 
-    MunicipalGuardCreateDTO gmDto = new MunicipalGuardCreateDTO(matricula, "nome", "email",
+    MunicipalGuardCreateDTO gmDto = new MunicipalGuardCreateDTO(registration, "nome", "email",
         "telefone");
 
     HttpEntity<MunicipalGuardCreateDTO> requestEntity = getRequestBody(gmDto);
@@ -48,10 +48,10 @@ public class UpdateMunicipalGuardControllerTest {
 
   @Test
   void test_handle_deve_retornar_not_found_para_matricula_nao_encontrada() {
-    String matricula = "matricula-nao-existente";
-    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
+    String registration = "matricula-nao-existente";
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + registration;
 
-    MunicipalGuardCreateDTO gmDto = new MunicipalGuardCreateDTO(matricula, "nome", "email",
+    MunicipalGuardCreateDTO gmDto = new MunicipalGuardCreateDTO(registration, "nome", "email",
         "telefone");
 
     HttpEntity<MunicipalGuardCreateDTO> requestEntity = getRequestBody(gmDto);
@@ -62,11 +62,11 @@ public class UpdateMunicipalGuardControllerTest {
   }
 
   public void getMunicipalGuard() {
-    String matricula = "qualquer-matricula";
+    String registration = "any-registration";
     String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/create";
 
     MunicipalGuardCreateDTO municipalGuardCreateDTO = new MunicipalGuardCreateDTO(
-        matricula,
+        registration,
         "João da Silva",
         "joao@example.com",
         "1234567890");
