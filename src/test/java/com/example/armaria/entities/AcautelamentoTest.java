@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class AcautelamentoTest {
   private MunicipalGuard gm;
   private ArmoryKepper armoryKeeper;
-  private Equipamento equipamento;
+  private Equipament equipament;
   private ItemAcautelado itemAcautelado;
   private Acautelamento acautelamento;
 
@@ -22,31 +22,31 @@ public class AcautelamentoTest {
     armoryKeeper = new ArmoryKepper("matricula", "nome", "email", "telefone", "login", "senha");
     gm = new MunicipalGuard("matricula", "nome", "email", "telefone");
 
-    equipamento = new Equipamento("nome", "num-serie", true);
+    equipament = new Equipament("nome", "num-serie", true);
 
     acautelamento = new Acautelamento(LocalDateTime.now(), gm, armoryKeeper);
 
-    itemAcautelado = new ItemAcautelado(equipamento, quantidadeAcautelada);
+    itemAcautelado = new ItemAcautelado(equipament, quantidadeAcautelada);
   }
 
   @Test
-  void testAdicionarEquipamento() {
-    assertEquals(0, acautelamento.getTotalEquipamentosAcautelados());
+  void testAdicionarEquipament() {
+    assertEquals(0, acautelamento.getTotalEquipamentsAcautelados());
 
-    acautelamento.adicionarEquipamento(itemAcautelado);
+    acautelamento.addItemAcautelado(itemAcautelado);
 
-    assertEquals(1, acautelamento.getTotalEquipamentosAcautelados());
+    assertEquals(1, acautelamento.getTotalEquipamentsAcautelados());
 
     assertEquals(quantidadeAcautelada, acautelamento.getTotalUnidadesAcautelados());
   }
 
   @Test
-  void testRemoverEquipamento() {
-    acautelamento.adicionarEquipamento(itemAcautelado);
+  void testRemoveEquipament() {
+    acautelamento.addItemAcautelado(itemAcautelado);
 
-    acautelamento.removerEquipamento(itemAcautelado);
+    acautelamento.removeItemAcautelado(itemAcautelado);
 
-    assertEquals(0, acautelamento.getTotalEquipamentosAcautelados());
+    assertEquals(0, acautelamento.getTotalEquipamentsAcautelados());
   }
 
   @Test
@@ -54,12 +54,12 @@ public class AcautelamentoTest {
   void deve_ser_possivel_remover_quantidade_menor_que_acautelada() {
     int quantidadeASerRemovida = 1;
 
-    acautelamento.adicionarEquipamento(itemAcautelado);
+    acautelamento.addItemAcautelado(itemAcautelado);
     acautelamento.diminuirQuantidade(itemAcautelado, quantidadeASerRemovida);
 
     assertEquals(quantidadeAcautelada - quantidadeASerRemovida,
         acautelamento.getItem(itemAcautelado).get().getQuantidadeAcautelada());
 
-    assertEquals(1, acautelamento.getTotalEquipamentosAcautelados());
+    assertEquals(1, acautelamento.getTotalEquipamentsAcautelados());
   }
 }

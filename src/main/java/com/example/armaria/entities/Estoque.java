@@ -27,73 +27,73 @@ public class Estoque {
   @JoinColumn(name = "id_item_estoque")
   private List<ItemEstoque> itensEmEstoque = new ArrayList<>();
 
-  public void adicionarQuantidade(Equipamento equipamento, int quantidade) {
-    ItemEstoque item = encontrarItemNoEstoque(equipamento);
+  public void adicionarQuantidade(Equipament equipament, int quantidade) {
+    ItemEstoque item = encontrarItemNoEstoque(equipament);
 
     if (item != null) {
       item.aumentarQuantidade(quantidade);
     } else {
-      adicionarItemEmEstoque(equipamento, quantidade);
+      adicionarItemEmEstoque(equipament, quantidade);
     }
   }
 
-  public void removerQuantidade(Equipamento equipamento, int quantidade) {
-    ItemEstoque item = encontrarItemNoEstoque(equipamento);
+  public void removerQuantidade(Equipament equipament, int quantidade) {
+    ItemEstoque item = encontrarItemNoEstoque(equipament);
 
     if (item != null) {
       item.diminuirQuantidade(quantidade);
     }
   }
 
-  public void adicionarItemEmEstoque(Equipamento equipamento, int quantidade) {
-    ItemEstoque item = new ItemEstoque(equipamento);
+  public void adicionarItemEmEstoque(Equipament equipament, int quantidade) {
+    ItemEstoque item = new ItemEstoque(equipament);
     item.aumentarQuantidade(quantidade);
 
     itensEmEstoque.add(item);
   }
 
-  public void removerItemDoEstoque(Equipamento equipamento) {
-    ItemEstoque item = encontrarItemNoEstoque(equipamento);
+  public void removerItemDoEstoque(Equipament equipament) {
+    ItemEstoque item = encontrarItemNoEstoque(equipament);
 
     if (item != null) {
       itensEmEstoque.remove(item);
     }
   }
 
-  public int getQuantidadeEmEstoque(Equipamento equipamento) {
-    ItemEstoque item = encontrarItemNoEstoque(equipamento);
+  public int getQuantityInStock(Equipament equipament) {
+    ItemEstoque item = encontrarItemNoEstoque(equipament);
 
     if (item != null) {
-      return item.getQuantidadeEmEstoque();
+      return item.getQuantityInStock();
     }
 
-    return 0; // Retorna 0 se o equipamento não estiver no estoque
+    return 0; // returns 0 if item is not in stock
   }
 
-  public void acautelarEquipamentos(List<ItemAcautelado> itensAcautelados) {
+  public void checkOutEquipaments(List<ItemAcautelado> itensAcautelados) {
     for (ItemAcautelado itemAcautelado : itensAcautelados) {
       ItemEstoque itemEstoque = encontrarItemNoEstoque(itemAcautelado);
       itemEstoque.diminuirQuantidade(itemAcautelado.getQuantidadeAcautelada());
     }
   }
 
-  public void devolverEquipamentos(Map<Equipamento, Integer> equipamentosDevolvidos) {
-    for (Map.Entry<Equipamento, Integer> entry : equipamentosDevolvidos.entrySet()) {
-      Equipamento equipamento = entry.getKey();
+  public void returnEquipaments(Map<Equipament, Integer> returnedEquipaments) {
+    for (Map.Entry<Equipament, Integer> entry : returnedEquipaments.entrySet()) {
+      Equipament equipament = entry.getKey();
       int quantidadeDevolvida = entry.getValue();
-      ItemEstoque itemEstoque = encontrarItemNoEstoque(equipamento);
+      ItemEstoque itemEstoque = encontrarItemNoEstoque(equipament);
 
       if (itemEstoque == null) {
-        throw new ItemEstoqueNaoDisponivelException("Item não disponível em estoque: " + equipamento.toString());
+        throw new ItemEstoqueNaoDisponivelException("Item não disponível em estoque: " + equipament.toString());
       }
 
       itemEstoque.aumentarQuantidade(quantidadeDevolvida);
     }
   }
 
-  private ItemEstoque encontrarItemNoEstoque(Equipamento equipamento) {
+  private ItemEstoque encontrarItemNoEstoque(Equipament equipament) {
     for (ItemEstoque item : itensEmEstoque) {
-      if (item.getEquipamento().equals(equipamento)) {
+      if (item.getEquipament().equals(equipament)) {
         return item;
       }
     }
@@ -102,7 +102,7 @@ public class Estoque {
 
   private ItemEstoque encontrarItemNoEstoque(ItemAcautelado itemAcautelado) {
     for (ItemEstoque item : itensEmEstoque) {
-      if (item.getEquipamento().equals(itemAcautelado.getEquipamento())) {
+      if (item.getEquipament().equals(itemAcautelado.getEquipament())) {
         return item;
       }
     }

@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.equipamento;
+package com.example.armaria.controllers.equipament;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,11 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
+import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CriarEquipamentoControllerTest {
+public class CreateEquipamentControllerTest {
   @LocalServerPort
   private int port;
 
@@ -24,12 +24,12 @@ public class CriarEquipamentoControllerTest {
 
   @Test
   void testHandle() {
-    String baseUrl = "http://localhost:" + port + "/api/equipamento";
+    String baseUrl = "http://localhost:" + port + "/api/v1/equipaments";
 
-    CriarEquipamentoComItemDTO equipamentoComItemDto = new CriarEquipamentoComItemDTO("Nome do equipamento",
-        "Numero de série", true, 10);
+    EquipamentCreateDTO equipamentCreateDTO = new EquipamentCreateDTO("Equipament A",
+        "serial-number", true, 10);
 
-    ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, equipamentoComItemDto, Void.class);
+    ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, equipamentCreateDTO, Void.class);
 
     assertTrue(response.getStatusCode().equals(HttpStatus.CREATED));
   }

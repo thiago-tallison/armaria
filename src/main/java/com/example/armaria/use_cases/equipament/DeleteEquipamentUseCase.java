@@ -1,34 +1,34 @@
-package com.example.armaria.use_cases.equipamento;
+package com.example.armaria.use_cases.equipament;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.armaria.entities.Equipamento;
+import com.example.armaria.entities.Equipament;
 import com.example.armaria.entities.ItemEstoque;
-import com.example.armaria.repositories.EquipamentoRepository;
+import com.example.armaria.repositories.EquipamentRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
 
 @Service
-public class DeletarEquipamentoUseCase {
-  private final EquipamentoRepository equipamentoRepository;
+public class DeleteEquipamentUseCase {
+  private final EquipamentRepository equipamentRepository;
   private final ItemEstoqueRepository itemEstoqueRepository;
 
   @Autowired
-  public DeletarEquipamentoUseCase(
-      EquipamentoRepository equipamentoRepository,
+  public DeleteEquipamentUseCase(
+      EquipamentRepository equipamentRepository,
       ItemEstoqueRepository itemEstoqueRepository) {
-    this.equipamentoRepository = equipamentoRepository;
+    this.equipamentRepository = equipamentRepository;
     this.itemEstoqueRepository = itemEstoqueRepository;
   }
 
   public void execute(String numSerie) {
     // verificar se existe
-    Optional<Equipamento> equipamento = equipamentoRepository.findByNumSerie(numSerie);
+    Optional<Equipament> optionalEquipament = equipamentRepository.findBySerialNumber(numSerie);
 
-    if (equipamento.isPresent()) {
-      Optional<ItemEstoque> item = itemEstoqueRepository.findByEquipamento(equipamento.get());
+    if (optionalEquipament.isPresent()) {
+      Optional<ItemEstoque> item = itemEstoqueRepository.findByEquipament(optionalEquipament.get());
       ItemEstoque itemIndisponivel = item.get();
       itemIndisponivel.setDisponivel(false);
       itemEstoqueRepository.save(itemIndisponivel);

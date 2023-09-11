@@ -46,11 +46,11 @@ public class Devolucao {
   @Getter(AccessLevel.NONE)
   private final List<ItemDevolvido> itensDevolvidos = new ArrayList<>();
 
-  public void adicionarEquipamento(ItemDevolvido itemDevolvido) {
+  public void addItemDevolvido(ItemDevolvido itemDevolvido) {
     itensDevolvidos.add(itemDevolvido);
   }
 
-  public void removerEquipamento(ItemDevolvido itemDevolvido, int quantidade) {
+  public void removeItemDevolvido(ItemDevolvido itemDevolvido, int quantidade) {
     int index = itensDevolvidos.indexOf(itemDevolvido);
     if (index == -1) {
       return;

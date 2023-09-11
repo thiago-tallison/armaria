@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
+import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -54,11 +54,11 @@ public class AumentarQuantidadeEmEstoqueControllerTest {
   }
 
   public void criarItemEstoque() {
-    String baseUrl = "http://localhost:" + port + "/api/equipamento";
+    String baseUrl = "http://localhost:" + port + "/api/v1/equipaments";
 
-    CriarEquipamentoComItemDTO equipamentoComItemDto = new CriarEquipamentoComItemDTO("Nome do equipamento",
+    EquipamentCreateDTO equipamentCreateDTO = new EquipamentCreateDTO("Equipament A",
         "Numero de série", true, 10);
 
-    restTemplate.postForEntity(baseUrl, equipamentoComItemDto, Void.class);
+    restTemplate.postForEntity(baseUrl, equipamentCreateDTO, Void.class);
   }
 }

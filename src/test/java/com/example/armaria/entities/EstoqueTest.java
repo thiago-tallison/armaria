@@ -12,80 +12,80 @@ import org.junit.jupiter.api.Test;
 
 public class EstoqueTest {
   private Estoque estoque;
-  private Equipamento equipamentoA;
-  private Equipamento equipamentoB;
+  private Equipament equipamentA;
+  private Equipament equipamentB;
 
   @BeforeEach
   void setUp() {
     estoque = new Estoque();
-    equipamentoA = new Equipamento("Equipamento A", "num-serie-A", true);
-    equipamentoB = new Equipamento("Equipamento B", "num-serie-B", true);
+    equipamentA = new Equipament("Equipament A", "serial-number-A", true);
+    equipamentB = new Equipament("Equipament B", "serial-number-B", true);
   }
 
   @Test
   void testAdicionarItemEmEstoque() {
-    estoque.adicionarItemEmEstoque(equipamentoA, 10);
-    estoque.adicionarItemEmEstoque(equipamentoB, 5);
+    estoque.adicionarItemEmEstoque(equipamentA, 10);
+    estoque.adicionarItemEmEstoque(equipamentB, 5);
 
-    assertEquals(10, estoque.getQuantidadeEmEstoque(equipamentoA));
-    assertEquals(5, estoque.getQuantidadeEmEstoque(equipamentoB));
+    assertEquals(10, estoque.getQuantityInStock(equipamentA));
+    assertEquals(5, estoque.getQuantityInStock(equipamentB));
   }
 
   @Test
   void testRemoverItemDoEstoque() {
-    estoque.adicionarItemEmEstoque(equipamentoA, 10);
-    estoque.adicionarItemEmEstoque(equipamentoB, 5);
+    estoque.adicionarItemEmEstoque(equipamentA, 10);
+    estoque.adicionarItemEmEstoque(equipamentB, 5);
 
-    estoque.removerQuantidade(equipamentoA, 5);
-    estoque.removerQuantidade(equipamentoB, 3);
+    estoque.removerQuantidade(equipamentA, 5);
+    estoque.removerQuantidade(equipamentB, 3);
 
-    assertEquals(5, estoque.getQuantidadeEmEstoque(equipamentoA));
-    assertEquals(2, estoque.getQuantidadeEmEstoque(equipamentoB));
+    assertEquals(5, estoque.getQuantityInStock(equipamentA));
+    assertEquals(2, estoque.getQuantityInStock(equipamentB));
   }
 
   @Test
   void testRemoverItemDoEstoqueQuantidadeZero() {
-    estoque.adicionarItemEmEstoque(equipamentoA, 10);
+    estoque.adicionarItemEmEstoque(equipamentA, 10);
 
-    estoque.removerQuantidade(equipamentoA, 10);
+    estoque.removerQuantidade(equipamentA, 10);
 
-    assertEquals(0, estoque.getQuantidadeEmEstoque(equipamentoA));
+    assertEquals(0, estoque.getQuantityInStock(equipamentA));
   }
 
   @Test
   void testRemoverItemDoEstoqueInexistente() {
-    estoque.adicionarItemEmEstoque(equipamentoA, 10);
+    estoque.adicionarItemEmEstoque(equipamentA, 10);
 
-    estoque.removerQuantidade(equipamentoB, 5);
+    estoque.removerQuantidade(equipamentB, 5);
 
-    assertEquals(10, estoque.getQuantidadeEmEstoque(equipamentoA));
+    assertEquals(10, estoque.getQuantityInStock(equipamentA));
   }
 
   @Test
-  void testAcautelarEquipamentos() {
-    estoque.adicionarItemEmEstoque(equipamentoA, 10);
-    estoque.adicionarItemEmEstoque(equipamentoB, 5);
+  void testAcautelarEquipaments() {
+    estoque.adicionarItemEmEstoque(equipamentA, 10);
+    estoque.adicionarItemEmEstoque(equipamentB, 5);
 
     List<ItemAcautelado> itensAcautelados = new ArrayList<>();
 
-    itensAcautelados.add(new ItemAcautelado(equipamentoA, 8));
-    itensAcautelados.add(new ItemAcautelado(equipamentoB, 4));
+    itensAcautelados.add(new ItemAcautelado(equipamentA, 8));
+    itensAcautelados.add(new ItemAcautelado(equipamentB, 4));
 
-    estoque.acautelarEquipamentos(itensAcautelados);
+    estoque.checkOutEquipaments(itensAcautelados);
 
-    assertEquals(2, estoque.getQuantidadeEmEstoque(equipamentoA));
-    assertEquals(1, estoque.getQuantidadeEmEstoque(equipamentoB));
+    assertEquals(2, estoque.getQuantityInStock(equipamentA));
+    assertEquals(1, estoque.getQuantityInStock(equipamentB));
   }
 
   @Test
-  void testDevolverEquipamentos() {
-    estoque.adicionarItemEmEstoque(equipamentoA, 10);
+  void testReturnEquipaments() {
+    estoque.adicionarItemEmEstoque(equipamentA, 10);
 
-    Map<Equipamento, Integer> equipamentosDevolvidos = new HashMap<>();
-    equipamentosDevolvidos.put(equipamentoA, 5);
+    Map<Equipament, Integer> returnedEquipaments = new HashMap<>();
+    returnedEquipaments.put(equipamentA, 5);
 
-    estoque.devolverEquipamentos(equipamentosDevolvidos);
+    estoque.returnEquipaments(returnedEquipaments);
 
-    assertEquals(15, estoque.getQuantidadeEmEstoque(equipamentoA));
+    assertEquals(15, estoque.getQuantityInStock(equipamentA));
   }
 }

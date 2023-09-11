@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.armaria.dtos.devolucao.DevolverAcautelamentoDTO;
+import com.example.armaria.dtos.devolucao.EquipamentReturnDTO;
 import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
 import com.example.armaria.entities.Acautelamento;
 import com.example.armaria.entities.ArmoryKepper;
@@ -26,37 +26,37 @@ import jakarta.transaction.Transactional;
 @Service
 public class DevolverAcautelamentoUseCase {
   private final AcautelamentoRepository acautelamentoRepository;
-  private final DevolucaoEquipamentoRepository devolverEquipamentoRepository;
+  private final ReturnEquipamentRepository returnEquipamentRepository;
   private final ItemEstoqueRepository itemEstoqueRepository;
   private final GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase;
   private final GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase;
 
   public DevolverAcautelamentoUseCase(
       AcautelamentoRepository acautelamentoRepository,
-      DevolucaoEquipamentoRepository devolverEquipamentoRepository,
+      ReturnEquipamentRepository returnEquipamentRepository,
       ItemEstoqueRepository itemEstoqueRepository,
       GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase,
       GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase) {
     this.acautelamentoRepository = acautelamentoRepository;
     this.itemEstoqueRepository = itemEstoqueRepository;
-    this.devolverEquipamentoRepository = devolverEquipamentoRepository;
+    this.returnEquipamentRepository = returnEquipamentRepository;
     this.getArmoryKeeperByRegistrationUseCase = getArmoryKeeperByRegistrationUseCase;
     this.getMunicipalGuardByRegistrationUseCase = getMunicipalGuardByRegistrationUseCase;
   }
 
   @Transactional
-  public void execute(DevolverAcautelamentoDTO devolverEquipamentosDto) {
+  public void execute(EquipamentReturnDTO equipamentReturnDTO) {
     // verificar se gm existe
-    String armoryKeeperRegistrationNumber = devolverEquipamentosDto.armoryKeeperRegistration();
+    String armoryKeeperRegistrationNumber = equipamentReturnDTO.armoryKeeperRegistration();
     Optional<ArmoryKepper> armoryKeeper = getArmoryKeeperByRegistrationUseCase
         .execute(armoryKeeperRegistrationNumber);
 
     // check if municipal guard exists
-    String registration = devolverEquipamentosDto.municipalGuardRegistration();
+    String registration = equipamentReturnDTO.municipalGuardRegistration();
     Optional<MunicipalGuard> gmOptional = getMunicipalGuardByRegistrationUseCase.execute(registration);
 
     // verificar se acautelamento existe
-    Long idAcautelamento = devolverEquipamentosDto.idAcautelamento();
+    Long idAcautelamento = equipamentReturnDTO.idAcautelamento();
     Optional<Acautelamento> acautelamentoOptional = acautelamentoRepository.findById(idAcautelamento);
     if (!acautelamentoOptional.isPresent()) {
       throw new AcautelamentoNaoEncontradoException(idAcautelamento);
@@ -65,7 +65,7 @@ public class DevolverAcautelamentoUseCase {
     // aumentar o estoque para cada item devolvido
     Acautelamento acautelamento = acautelamentoOptional.get();
     List<ItemDevolvido> itensDevolvidos = new ArrayList<>();
-    for (ItemDevolvidoDTO item : devolverEquipamentosDto.itensDevolvidos()) {
+    for (ItemDevolvidoDTO item : equipamentReturnDTO.itensDevolvidos()) {
       int linhasAfetadas = itemEstoqueRepository.aumentarQuantidadeEmEstoque(item.idItemEstoque(),
           item.quantidadeDevolvida());
 
@@ -101,7 +101,7 @@ public class DevolverAcautelamentoUseCase {
     }
 
     Devolucao devolucao = new Devolucao(acautelamento, LocalDateTime.now(), gmOptional.get(), armoryKeeper.get());
-    itensDevolvidos.forEach(devolucao::adicionarEquipamento);
-    devolverEquipamentoRepository.save(devolucao);
+    itensDevolvidos.forEach(devolucao::addItemDevolvido);
+    returnEquipamentRepository.save(devolucao);
   }
 }

@@ -27,9 +27,9 @@ public class ItemDevolvido {
   private Long id;
 
   @OneToOne
-  @JoinColumn(name = "id_equipamento")
+  @JoinColumn(name = "equipamet_id")
   @NonNull
-  private Equipamento equipamento;
+  private Equipament equipament;
 
   @OneToOne
   @JoinColumn(name = "id_item_estoque")
@@ -45,14 +45,14 @@ public class ItemDevolvido {
   @ManyToOne
   private Devolucao devolucao;
 
-  public ItemDevolvido(Equipamento equipamento, ItemEstoque itemEstoque, int quantidadeDevolvida) {
-    this.equipamento = equipamento;
+  public ItemDevolvido(Equipament equipament, ItemEstoque itemEstoque, int quantidadeDevolvida) {
+    this.equipament = equipament;
     this.itemEstoque = itemEstoque;
     this.quantidadeDevolvida = quantidadeDevolvida;
   }
 
-  public ItemDevolvido(Equipamento equipamento, int quantidadeDevolvida) {
-    this.equipamento = equipamento;
+  public ItemDevolvido(Equipament equipament, int quantidadeDevolvida) {
+    this.equipament = equipament;
     setQuantidadeDevolvida(quantidadeDevolvida);
   }
 

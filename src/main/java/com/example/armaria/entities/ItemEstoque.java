@@ -30,11 +30,11 @@ public class ItemEstoque {
   private Long id;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "id_equipamento", referencedColumnName = "id")
-  private Equipamento equipamento;
+  @JoinColumn(name = "equipament_id", referencedColumnName = "id")
+  private Equipament equipament;
 
   @Column(name = "quantidade_em_estoque")
-  private int quantidadeEmEstoque;
+  private int quantityInStock;
 
   @Column(name = "disponivel", columnDefinition = "boolean default true")
   private boolean disponivel = true;
@@ -43,13 +43,13 @@ public class ItemEstoque {
     this.id = id;
   }
 
-  public ItemEstoque(Equipamento equipamento) {
-    this.equipamento = equipamento;
+  public ItemEstoque(Equipament equipament) {
+    this.equipament = equipament;
   }
 
-  public ItemEstoque(Equipamento equipamento, int quantidadeEmEstoque) {
-    this.equipamento = equipamento;
-    this.quantidadeEmEstoque = quantidadeEmEstoque;
+  public ItemEstoque(Equipament equipament, int quantityInStock) {
+    this.equipament = equipament;
+    this.quantityInStock = quantityInStock;
   }
 
   public void aumentarQuantidade(int quantidade) {
@@ -57,20 +57,20 @@ public class ItemEstoque {
       throw new IllegalArgumentException("Qauntidade a ser aumentada precisa ser maior ou igual a zero.");
     }
 
-    quantidadeEmEstoque += quantidade;
+    quantityInStock += quantidade;
   }
 
-  public void diminuirQuantidade(int quantidade) {
-    if (quantidade <= 0) {
+  public void diminuirQuantidade(int quantity) {
+    if (quantity <= 0) {
       throw new IllegalArgumentException("Qauntidade a ser diminuida precisa ser maior ou igual a zero.");
     }
 
-    if (quantidade > quantidadeEmEstoque) {
+    if (quantity > quantityInStock) {
       throw new IllegalArgumentException(
           "Qauntidade a ser diminuida precisa ser menor ou igual à quantidade em estoque.");
     }
 
-    quantidadeEmEstoque -= quantidade;
+    quantityInStock -= quantity;
   }
 
 }

@@ -21,7 +21,7 @@ import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
 import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.use_cases.acautelamento.ItemAcauteladoDTO;
 import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
-import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
+import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -36,32 +36,32 @@ public class CriarAcautelamentoControllerTest {
   void testExecute() {
     String criarAcautelamentoUrl = "http://localhost:" + port + "/api/acautelamento";
     LocalDateTime dataAcautelamento = LocalDateTime.now();
-    String registration = "GM123";
-    String armoryKeeperRegistration = "AR123";
+    String registration = "municipal-guard-registration";
+    String armoryKeeperRegistration = "armory-keeper-registration";
     int quantidadeASerCriada = 10;
     int quantidadeASerAcautelada = 5;
-    String numSerieEquipamento = "num-serie-existente";
+    String equipamentSerialNumber = "serial-number-existente";
 
     List<ItemAcauteladoDTO> itensAcauteladosDto = new ArrayList<>();
     itensAcauteladosDto.add(new ItemAcauteladoDTO(1L, 1L, quantidadeASerAcautelada));
 
     getArmoryKeeper(armoryKeeperRegistration);
     getMunicipalGuard(registration);
-    criarEquipamento(quantidadeASerCriada, numSerieEquipamento);
+    createEquipament(quantidadeASerCriada, equipamentSerialNumber);
 
     CriarAcautelamentoDTO dto = new CriarAcautelamentoDTO(dataAcautelamento,
         registration, armoryKeeperRegistration, itensAcauteladosDto);
 
     // Verificar se um item estoque foi criado com a quantidade
     // "quantidadeASerCriada"
-    String getItemEstoqueUrl = "http://localhost:" + port + "/api/item-estoque/num-serie/" + numSerieEquipamento;
+    String getItemEstoqueUrl = "http://localhost:" + port + "/api/item-estoque/num-serie/" + equipamentSerialNumber;
     ResponseEntity<ItemEstoque> itemEstoqueAntesAcautelamentoResponse = restTemplate.getForEntity(getItemEstoqueUrl,
         ItemEstoque.class);
     ItemEstoque itemEstoqueAntesAcautelamento = itemEstoqueAntesAcautelamentoResponse.getBody();
     assertNotNull(itemEstoqueAntesAcautelamento);
     assertEquals(HttpStatus.OK, itemEstoqueAntesAcautelamentoResponse.getStatusCode());
     assertEquals(quantidadeASerCriada,
-        itemEstoqueAntesAcautelamento.getQuantidadeEmEstoque());
+        itemEstoqueAntesAcautelamento.getQuantityInStock());
 
     ResponseEntity<Void> response = restTemplate.postForEntity(criarAcautelamentoUrl, dto, Void.class);
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -74,7 +74,7 @@ public class CriarAcautelamentoControllerTest {
     assertNotNull(itemEstoqueDepoisAcautelamento);
     assertEquals(HttpStatus.OK, itemEstoqueDepoisAcautelamentoResponse.getStatusCode());
     assertEquals(quantidadeASerCriada - quantidadeASerAcautelada,
-        itemEstoqueDepoisAcautelamento.getQuantidadeEmEstoque());
+        itemEstoqueDepoisAcautelamento.getQuantityInStock());
 
   }
 
@@ -104,12 +104,12 @@ public class CriarAcautelamentoControllerTest {
     restTemplate.postForEntity(baseUrl, municipalGuardCreateDTO, String.class);
   }
 
-  public void criarEquipamento(int quantidadeEmEstoque, String numSerieEquipamento) {
-    String baseUrl = "http://localhost:" + port + "/api/equipamento";
+  public void createEquipament(int quantityInStock, String serialNumber) {
+    String baseUrl = "http://localhost:" + port + "/api/v1/equipaments";
 
-    CriarEquipamentoComItemDTO equipamentoComItemDto = new CriarEquipamentoComItemDTO("Nome do equipamento",
-        numSerieEquipamento, true, quantidadeEmEstoque);
+    EquipamentCreateDTO equipamentCreateDTO = new EquipamentCreateDTO("Equipament A",
+        serialNumber, true, quantityInStock);
 
-    restTemplate.postForEntity(baseUrl, equipamentoComItemDto, Void.class);
+    restTemplate.postForEntity(baseUrl, equipamentCreateDTO, Void.class);
   }
 }

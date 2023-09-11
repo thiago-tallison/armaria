@@ -11,10 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.example.armaria.entities.Equipamento;
+import com.example.armaria.entities.Equipament;
 import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.repositories.ItemEstoqueRepository;
-import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
+import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 public class AumentarQuantidadeEmEstoqueUseCaseTest {
 
@@ -34,10 +34,10 @@ public class AumentarQuantidadeEmEstoqueUseCaseTest {
     int quatidadeEmEstoque = 10;
     int quantidadeParaAumentar = 10;
 
-    CriarEquipamentoComItemDTO dto = new CriarEquipamentoComItemDTO("Equipamento 1", "num-serie-1", true,
+    EquipamentCreateDTO dto = new EquipamentCreateDTO("Equipament 1", "serial-number-1", true,
         quatidadeEmEstoque);
 
-    Equipamento e1 = new Equipamento(dto);
+    Equipament e1 = new Equipament(dto);
 
     ItemEstoque itemEstoque = new ItemEstoque(e1, quatidadeEmEstoque);
     itemEstoque.setId(1L);
@@ -47,6 +47,6 @@ public class AumentarQuantidadeEmEstoqueUseCaseTest {
 
     aumentarQuantidadeEmEstoqueUseCase.execute(1L, quantidadeParaAumentar);
 
-    assertEquals(20, itemEstoqueRepositoryMock.findById(1L).get().getQuantidadeEmEstoque());
+    assertEquals(20, itemEstoqueRepositoryMock.findById(1L).get().getQuantityInStock());
   }
 }

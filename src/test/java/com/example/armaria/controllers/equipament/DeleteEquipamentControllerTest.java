@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.equipamento;
+package com.example.armaria.controllers.equipament;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,11 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
+import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class DeletarEquipamentoControllerTest {
+public class DeleteEquipamentControllerTest {
   @LocalServerPort
   private int port;
 
@@ -28,30 +28,30 @@ public class DeletarEquipamentoControllerTest {
   private TestRestTemplate restTemplate;
 
   @Test
-  public void deve_ser_possivel_deletar_um_equipamento() {
-    String numSerieEquipamento = "123456";
-    String baseUrl = "http://localhost:" + port + "/api/equipamento/" + numSerieEquipamento;
+  public void itShouldBeAbleToDeleteAEquipament() {
+    String equipamentSerialNumber = "123456";
+    String baseUrl = "http://localhost:" + port + "/api/v1/equipaments/" + equipamentSerialNumber;
 
-    ciarEquipamento();
+    createEquipament();
 
     restTemplate.getRestTemplate().getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<String> requestBody = new HttpEntity<>(numSerieEquipamento, headers);
+    HttpEntity<String> requestBody = new HttpEntity<>(equipamentSerialNumber, headers);
 
     ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, requestBody, String.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
-  public void ciarEquipamento() {
-    String baseUrl = "http://localhost:" + port + "/api/equipamento";
+  public void createEquipament() {
+    String baseUrl = "http://localhost:" + port + "/api/v1/equipaments";
 
-    CriarEquipamentoComItemDTO equipamentoComItemDto = new CriarEquipamentoComItemDTO("Equipamento 1",
+    EquipamentCreateDTO equipamentCreateDTO = new EquipamentCreateDTO("Equipament 1",
         "123456", true, 10);
 
-    restTemplate.postForEntity(baseUrl, equipamentoComItemDto, Void.class);
+    restTemplate.postForEntity(baseUrl, equipamentCreateDTO, Void.class);
   }
 }

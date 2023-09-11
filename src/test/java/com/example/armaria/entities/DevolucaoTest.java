@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class DevolucaoTest {
   private MunicipalGuard mg;
   private ArmoryKepper armoryKeeper;
-  private Equipamento equipamento;
+  private Equipament equipament;
   private ItemAcautelado itemAcautelado;
   private ItemDevolvido itemDevolvido;
   private Acautelamento acautelamento;
@@ -19,15 +19,15 @@ public class DevolucaoTest {
   @BeforeEach
   public void setUp() {
     mg = new MunicipalGuard("registration", "name", "email", "phone");
-    equipamento = new Equipamento("nome", "num-serie", true);
+    equipament = new Equipament("nome", "num-serie", true);
 
     acautelamento = new Acautelamento(LocalDateTime.now(), mg, armoryKeeper);
 
-    itemAcautelado = new ItemAcautelado(equipamento, 1);
+    itemAcautelado = new ItemAcautelado(equipament, 1);
 
     devolucao = new Devolucao(acautelamento, LocalDateTime.now(), mg, armoryKeeper);
 
-    itemDevolvido = new ItemDevolvido(equipamento, 1);
+    itemDevolvido = new ItemDevolvido(equipament, 1);
   }
 
   @Test
@@ -36,10 +36,10 @@ public class DevolucaoTest {
 
     itemDevolvido.setQuantidadeDevolvida(quantidadeDevolvida);
 
-    devolucao.adicionarEquipamento(itemDevolvido);
+    devolucao.addItemDevolvido(itemDevolvido);
 
     // assertTrue(devolucao.getItensDevolvidos().size() == 1);
-    assertEquals(itemAcautelado.getEquipamento(), itemDevolvido.getEquipamento());
+    assertEquals(itemAcautelado.getEquipament(), itemDevolvido.getEquipament());
   }
 
   @Test
@@ -49,8 +49,8 @@ public class DevolucaoTest {
 
     itemDevolvido.setQuantidadeDevolvida(quantidadeDevolvida);
 
-    devolucao.adicionarEquipamento(itemDevolvido);
-    devolucao.removerEquipamento(itemDevolvido, quantidadeASerRemovida);
+    devolucao.addItemDevolvido(itemDevolvido);
+    devolucao.removeItemDevolvido(itemDevolvido, quantidadeASerRemovida);
 
     // // int index = devolucao.getItensDevolvidos().indexOf(itemDevolvido);
     // // ItemDevolvido item = devolucao.getItensDevolvidos().get(index);
@@ -66,8 +66,8 @@ public class DevolucaoTest {
 
     itemDevolvido.setQuantidadeDevolvida(quantidadeDevolvida);
 
-    devolucao.adicionarEquipamento(itemDevolvido);
-    devolucao.removerEquipamento(itemDevolvido, quantidadeMaiorQueQuantidadeDevolvida);
+    devolucao.addItemDevolvido(itemDevolvido);
+    devolucao.removeItemDevolvido(itemDevolvido, quantidadeMaiorQueQuantidadeDevolvida);
 
     // assertTrue(devolucao.getItensDevolvidos().isEmpty());
   }

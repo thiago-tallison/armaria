@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.example.armaria.entities.ItemEstoque;
-import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
+import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -45,18 +45,18 @@ public class DiminuirQuantidadeEmEstoqueControllerTest {
     ItemEstoque item = response1.getBody();
 
     assertNotNull(item);
-    assertEquals(5, item.getQuantidadeEmEstoque());
+    assertEquals(5, item.getQuantityInStock());
   }
 
   public void criarItemEstoque() {
-    String baseUrl = "http://localhost:" + port + "/api/equipamento";
+    String baseUrl = "http://localhost:" + port + "/api/v1/equipaments";
 
-    String nomeEquipamento = UUID.randomUUID().toString();
-    String numSerieEquipamento = UUID.randomUUID().toString();
+    String equipamentName = UUID.randomUUID().toString();
+    String equipamentSerialNumber = UUID.randomUUID().toString();
 
-    CriarEquipamentoComItemDTO equipamentoComItemDto = new CriarEquipamentoComItemDTO(nomeEquipamento,
-        numSerieEquipamento, true, 10);
+    EquipamentCreateDTO equipamentCreateDTO = new EquipamentCreateDTO(equipamentName,
+        equipamentSerialNumber, true, 10);
 
-    restTemplate.postForEntity(baseUrl, equipamentoComItemDto, Void.class);
+    restTemplate.postForEntity(baseUrl, equipamentCreateDTO, Void.class);
   }
 }

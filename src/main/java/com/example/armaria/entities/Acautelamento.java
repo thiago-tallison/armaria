@@ -59,11 +59,11 @@ public class Acautelamento {
     this.armoryKeeper = armoryKeeper;
   }
 
-  public void adicionarEquipamento(ItemAcautelado item) {
+  public void addItemAcautelado(ItemAcautelado item) {
     itensAcautelados.add(item);
   }
 
-  public void removerEquipamento(ItemAcautelado item) {
+  public void removeItemAcautelado(ItemAcautelado item) {
     itensAcautelados.remove(item);
   }
 
@@ -87,7 +87,7 @@ public class Acautelamento {
     int quantidadeAtual = itensAcautelados.get(index).getQuantidadeAcautelada();
 
     if (quantidadeAtual <= quantidade) {
-      removerEquipamento(item);
+      removeItemAcautelado(item);
       return;
     }
 
@@ -96,7 +96,7 @@ public class Acautelamento {
     itensAcautelados.get(index).setQuantidadeAcautelada(quantidadeAtual);
   }
 
-  public int getTotalEquipamentosAcautelados() {
+  public int getTotalEquipamentsAcautelados() {
     return itensAcautelados.size();
   }
 

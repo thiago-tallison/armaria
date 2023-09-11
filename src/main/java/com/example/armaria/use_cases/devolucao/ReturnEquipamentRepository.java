@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.armaria.entities.Devolucao;
 
-public interface DevolucaoEquipamentoRepository extends JpaRepository<Devolucao, Long> {
+public interface ReturnEquipamentRepository extends JpaRepository<Devolucao, Long> {
 
 }

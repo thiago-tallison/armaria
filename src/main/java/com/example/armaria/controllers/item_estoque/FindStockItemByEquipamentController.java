@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.armaria.entities.ItemEstoque;
-import com.example.armaria.use_cases.item_estoque.BuscarItemEstoquePorEquipamentoUseCase;
+import com.example.armaria.use_cases.item_estoque.FindStockItemByEquipamentUseCase;
 
 @RestController
 @RequestMapping("/api/item-estoque")
-public class BuscarItemEstoquePorEquipamentoController {
-  private final BuscarItemEstoquePorEquipamentoUseCase buscarItemEstoquePorEquipamentoUseCase;
+public class FindStockItemByEquipamentController {
+  private final FindStockItemByEquipamentUseCase findStockItemByEquipamentUseCase;
 
-  public BuscarItemEstoquePorEquipamentoController(
-      BuscarItemEstoquePorEquipamentoUseCase buscarItemEstoquePorEquipamentoUseCase) {
-    this.buscarItemEstoquePorEquipamentoUseCase = buscarItemEstoquePorEquipamentoUseCase;
+  public FindStockItemByEquipamentController(
+      FindStockItemByEquipamentUseCase findStockItemByEquipamentUseCase) {
+    this.findStockItemByEquipamentUseCase = findStockItemByEquipamentUseCase;
   }
 
   @GetMapping("/num-serie/{numSerie}")
   public ResponseEntity<Optional<ItemEstoque>> handle(@PathVariable String numSerie) {
-    Optional<ItemEstoque> itemEstoque = buscarItemEstoquePorEquipamentoUseCase.execute(numSerie);
+    Optional<ItemEstoque> itemEstoque = findStockItemByEquipamentUseCase.execute(numSerie);
 
     return ResponseEntity.ok().body(itemEstoque);
   }

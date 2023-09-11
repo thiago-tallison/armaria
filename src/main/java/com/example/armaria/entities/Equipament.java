@@ -1,6 +1,6 @@
 package com.example.armaria.entities;
 
-import com.example.armaria.use_cases.equipamento.CriarEquipamentoComItemDTO;
+import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,26 +17,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "equipamentos")
-public class Equipamento {
+@Table(name = "equipaments")
+public class Equipament {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NonNull
-  private String nome;
+  private String name;
 
   @NonNull
-  @Column(name = "num_serie")
-  private String numSerie;
+  @Column(name = "serial_number")
+  private String serialNumber;
 
   @NonNull
-  @Column(name = "requer_devolucao")
-  private Boolean requerDevolucao;
+  @Column(name = "require_return")
+  private Boolean requireReturn;
 
-  public Equipamento(CriarEquipamentoComItemDTO dto) {
-    this.nome = dto.nome();
-    this.numSerie = dto.numSerie();
-    this.requerDevolucao = dto.requerDevolucao();
+  public Equipament(EquipamentCreateDTO dto) {
+    this.name = dto.name();
+    this.serialNumber = dto.serialNumber();
+    this.requireReturn = dto.requireReturn();
   }
 }

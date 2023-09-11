@@ -34,16 +34,16 @@ public class GlobalExceptionHandler {
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
-  @ExceptionHandler(EquipamentoNaoEncontradoException.class)
-  public ResponseEntity<MensagemDeErroGeral> handleEquipamentoNaoEncontradoException(
-      EquipamentoNaoEncontradoException e) {
+  @ExceptionHandler(EquipamentNotFoundException.class)
+  public ResponseEntity<MensagemDeErroGeral> handleEquipamentNotFoundException(
+      EquipamentNotFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
-  @ExceptionHandler(EquipamentoExistenteException.class)
-  public ResponseEntity<MensagemDeErroGeral> handleEquipamentoExistenteException(
-      EquipamentoExistenteException e) {
+  @ExceptionHandler(EquipamentAlreadyExistsException.class)
+  public ResponseEntity<MensagemDeErroGeral> handleEquipamentAlreadyExistsException(
+      EquipamentAlreadyExistsException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
@@ -76,9 +76,9 @@ public class GlobalExceptionHandler {
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
-  @ExceptionHandler(TamanhoDePaginaExcedeuOLimiteException.class)
+  @ExceptionHandler(PageSizeOutOfBoundException.class)
   public ResponseEntity<MensagemDeErroGeral> handlePaginaNaoExistenteException(
-      TamanhoDePaginaExcedeuOLimiteException e) {
+      PageSizeOutOfBoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new MensagemDeErroGeral(e.getMessage()));
   }

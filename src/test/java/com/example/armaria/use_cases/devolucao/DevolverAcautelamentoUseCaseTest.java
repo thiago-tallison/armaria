@@ -22,7 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.example.armaria.dtos.devolucao.DevolverAcautelamentoDTO;
+import com.example.armaria.dtos.devolucao.EquipamentReturnDTO;
 import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
 import com.example.armaria.entities.Acautelamento;
 import com.example.armaria.entities.ArmoryKepper;
@@ -45,7 +45,7 @@ public class DevolverAcautelamentoUseCaseTest {
   private AcautelamentoRepository acautelamentoRepository;
 
   @Mock
-  private DevolucaoEquipamentoRepository devolverEquipamentoRepository;
+  private ReturnEquipamentRepository returnEquipamentRepository;
 
   @Mock
   private ItemEstoqueRepository itemEstoqueRepository;
@@ -63,21 +63,21 @@ public class DevolverAcautelamentoUseCaseTest {
 
   @Test
   public void deveCriarDevolucao() {
-    DevolverAcautelamentoDTO devolverEquipamentosDto = createValidDTO();
+    EquipamentReturnDTO equipamentReturnDTO = createValidDTO();
 
     ArmoryKepper armoryKeeperMock = new ArmoryKepper();
-    armoryKeeperMock.setRegistrationNumber(devolverEquipamentosDto.armoryKeeperRegistration());
+    armoryKeeperMock.setRegistrationNumber(equipamentReturnDTO.armoryKeeperRegistration());
 
     MunicipalGuard gmMock = new MunicipalGuard();
-    gmMock.setRegistrationNumber(devolverEquipamentosDto.municipalGuardRegistration());
+    gmMock.setRegistrationNumber(equipamentReturnDTO.municipalGuardRegistration());
 
     Acautelamento acatuelamentoMock = new Acautelamento();
-    acatuelamentoMock.setId(devolverEquipamentosDto.idAcautelamento());
+    acatuelamentoMock.setId(equipamentReturnDTO.idAcautelamento());
 
     ItemEstoque itemEstoqueMock = new ItemEstoque();
-    itemEstoqueMock.setId(devolverEquipamentosDto.itensDevolvidos().get(0).idItemEstoque());
+    itemEstoqueMock.setId(equipamentReturnDTO.itensDevolvidos().get(0).idItemEstoque());
 
-    Devolucao devolucaoMock = new Devolucao(acatuelamentoMock, devolverEquipamentosDto.dataDevolucao(), gmMock,
+    Devolucao devolucaoMock = new Devolucao(acatuelamentoMock, equipamentReturnDTO.dataDevolucao(), gmMock,
         armoryKeeperMock);
 
     when(getArmoryKeeperByRegistrationUseCase.execute(armoryKeeperMock.getRegistrationNumber()))
@@ -86,21 +86,21 @@ public class DevolverAcautelamentoUseCaseTest {
         .thenReturn(Optional.of(gmMock));
     when(acautelamentoRepository.findById(acatuelamentoMock.getId())).thenReturn(Optional.of(acatuelamentoMock));
     when(itemEstoqueRepository.aumentarQuantidadeEmEstoque(itemEstoqueMock.getId(),
-        devolverEquipamentosDto.itensDevolvidos().get(0).quantidadeDevolvida())).thenReturn(1);
-    when(devolverEquipamentoRepository.save(devolucaoMock)).thenReturn(devolucaoMock);
+        equipamentReturnDTO.itensDevolvidos().get(0).quantidadeDevolvida())).thenReturn(1);
+    when(returnEquipamentRepository.save(devolucaoMock)).thenReturn(devolucaoMock);
 
-    assertDoesNotThrow(() -> sut.execute(devolverEquipamentosDto));
+    assertDoesNotThrow(() -> sut.execute(equipamentReturnDTO));
 
     verify(itemEstoqueRepository, times(1)).aumentarQuantidadeEmEstoque(
         itemEstoqueMock.getId(),
-        devolverEquipamentosDto.itensDevolvidos().get(0).quantidadeDevolvida());
+        equipamentReturnDTO.itensDevolvidos().get(0).quantidadeDevolvida());
 
-    verify(devolverEquipamentoRepository, times(1)).save(any(Devolucao.class));
+    verify(returnEquipamentRepository, times(1)).save(any(Devolucao.class));
   }
 
   @Test
   public void whenRegistrationIsInvalid_ItShouldNotBeAbleToCreateDevolucao() {
-    DevolverAcautelamentoDTO dtoMatriculaInvalida = createValidDTO()
+    EquipamentReturnDTO dtoMatriculaInvalida = createValidDTO()
         .withArmoryKeeperRegistration("inexistent-registration");
 
     Acautelamento acautelamento = createAcautelamento();
@@ -119,7 +119,7 @@ public class DevolverAcautelamentoUseCaseTest {
 
   @Test
   public void naoDeveCriarDevolucaoGMMatriculaInvalida() {
-    DevolverAcautelamentoDTO dtoMatriculaInvalida = createValidDTO()
+    EquipamentReturnDTO dtoMatriculaInvalida = createValidDTO()
         .withMunicipalGuardRegistration("inexistent-registration");
 
     Acautelamento acautelamento = createAcautelamento();
@@ -137,20 +137,20 @@ public class DevolverAcautelamentoUseCaseTest {
 
   @Test
   public void naoDeveCriarDevolucaoAcautelamentoNaoExistente() {
-    DevolverAcautelamentoDTO devolverEquipamentosDto = createValidDTO();
+    EquipamentReturnDTO equipamentReturnDTO = createValidDTO();
 
     ArmoryKepper armoryKeeperMock = new ArmoryKepper();
-    armoryKeeperMock.setRegistrationNumber(devolverEquipamentosDto.armoryKeeperRegistration());
+    armoryKeeperMock.setRegistrationNumber(equipamentReturnDTO.armoryKeeperRegistration());
 
     MunicipalGuard gmMock = new MunicipalGuard();
-    gmMock.setRegistrationNumber(devolverEquipamentosDto.municipalGuardRegistration());
+    gmMock.setRegistrationNumber(equipamentReturnDTO.municipalGuardRegistration());
 
     Acautelamento acatuelamentoMock = new Acautelamento();
     long idNaoExistente = 1001L;
     acatuelamentoMock.setId(idNaoExistente);
 
     ItemEstoque itemEstoqueMock = new ItemEstoque();
-    itemEstoqueMock.setId(devolverEquipamentosDto.itensDevolvidos().get(0).idItemEstoque());
+    itemEstoqueMock.setId(equipamentReturnDTO.itensDevolvidos().get(0).idItemEstoque());
 
     when(getArmoryKeeperByRegistrationUseCase.execute(armoryKeeperMock.getRegistrationNumber()))
         .thenReturn(Optional.of(armoryKeeperMock));
@@ -158,20 +158,20 @@ public class DevolverAcautelamentoUseCaseTest {
         .thenReturn(Optional.of(gmMock));
     when(acautelamentoRepository.findById(idNaoExistente)).thenThrow(AcautelamentoNaoEncontradoException.class);
 
-    assertThrows(AcautelamentoNaoEncontradoException.class, () -> sut.execute(devolverEquipamentosDto));
+    assertThrows(AcautelamentoNaoEncontradoException.class, () -> sut.execute(equipamentReturnDTO));
 
     verify(itemEstoqueRepository, never()).aumentarQuantidadeEmEstoque(
         anyLong(),
         anyInt());
 
-    verify(devolverEquipamentoRepository, never()).save(any(Devolucao.class));
+    verify(returnEquipamentRepository, never()).save(any(Devolucao.class));
   }
 
   private Acautelamento createAcautelamento() {
     return new Acautelamento();
   }
 
-  private DevolverAcautelamentoDTO createValidDTO() {
+  private EquipamentReturnDTO createValidDTO() {
     // given
     LocalDateTime dataAcautelamento = LocalDateTime.now();
     Long idAcautelamento = 1L;
@@ -181,7 +181,7 @@ public class DevolverAcautelamentoUseCaseTest {
     ItemDevolvidoDTO itemDto = new ItemDevolvidoDTO(1L, 2);
     itensDevolvidos.add(itemDto);
 
-    DevolverAcautelamentoDTO dto = new DevolverAcautelamentoDTO(
+    EquipamentReturnDTO dto = new EquipamentReturnDTO(
         dataAcautelamento,
         municipalguardRegistration,
         idAcautelamento,

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
 import com.example.armaria.entities.Acautelamento;
 import com.example.armaria.entities.ArmoryKepper;
-import com.example.armaria.entities.Equipamento;
+import com.example.armaria.entities.Equipament;
 import com.example.armaria.entities.ItemAcautelado;
 import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.errors.ArmoryKeeperNotFoundException;
@@ -65,7 +65,7 @@ public class CriarAcautelamentoUseCase {
 
     for (int i = 0; i < itens.size(); i++) {
       Long idAtual = itens.get(i).id();
-      Integer quantidadeASerAcautelada = itens.get(i).quantidadeAcautelada();
+      Integer quantidadeASerAcautelada = itens.get(i).quantityCheckedOut();
 
       int linhasAfetadas = itemEstoqueRepository
           .diminuirQuantidadeEmEstoque(idAtual, quantidadeASerAcautelada);
@@ -74,16 +74,16 @@ public class CriarAcautelamentoUseCase {
         throw new RuntimeException("Não foi possível acautelar o item " + idAtual);
       }
 
-      Equipamento equipamento = new Equipamento();
-      equipamento.setId(itens.get(i).idEquipamento());
+      Equipament equipament = new Equipament();
+      equipament.setId(itens.get(i).equipamentId());
 
-      itensAcautelados.add(new ItemAcautelado(equipamento,
+      itensAcautelados.add(new ItemAcautelado(equipament,
           quantidadeASerAcautelada));
     }
 
     Acautelamento acautelamento = new Acautelamento(null, data.dataAcautelamento(), gmOptional.get(),
         optionalArmoryKeeper.get());
-    itensAcautelados.forEach(acautelamento::adicionarEquipamento);
+    itensAcautelados.forEach(acautelamento::addItemAcautelado);
 
     acautelamentoRepository.save(acautelamento);
   }
