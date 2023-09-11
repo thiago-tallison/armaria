@@ -1,5 +1,7 @@
 package com.example.armaria.entities;
 
+import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,9 +11,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "itens_devolvidos")
 public class ItemDevolvido {
@@ -21,7 +28,12 @@ public class ItemDevolvido {
 
   @OneToOne
   @JoinColumn(name = "id_equipamento")
-  private final Equipamento equipamento;
+  @NonNull
+  private Equipamento equipamento;
+
+  @OneToOne
+  @JoinColumn(name = "id_item_estoque")
+  private ItemEstoque itemEstoque;
 
   @Column(name = "quantidade_devolvida")
   private int quantidadeDevolvida;
@@ -33,9 +45,20 @@ public class ItemDevolvido {
   @ManyToOne
   private Devolucao devolucao;
 
+  public ItemDevolvido(Equipamento equipamento, ItemEstoque itemEstoque, int quantidadeDevolvida) {
+    this.equipamento = equipamento;
+    this.itemEstoque = itemEstoque;
+    this.quantidadeDevolvida = quantidadeDevolvida;
+  }
+
   public ItemDevolvido(Equipamento equipamento, int quantidadeDevolvida) {
     this.equipamento = equipamento;
     setQuantidadeDevolvida(quantidadeDevolvida);
+  }
+
+  public ItemDevolvido(ItemDevolvidoDTO itemDevolvidoDTO) {
+    this.quantidadeDevolvida = itemDevolvidoDTO.quantidadeDevolvida();
+    this.itemEstoque = new ItemEstoque(itemDevolvidoDTO.idItemEstoque());
   }
 
   public void setQuantidadeDevolvida(int quantidadeDevolvida) {

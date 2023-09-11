@@ -39,6 +39,10 @@ public class ItemEstoque {
   @Column(name = "disponivel", columnDefinition = "boolean default true")
   private boolean disponivel = true;
 
+  public ItemEstoque(Long id) {
+    this.id = id;
+  }
+
   public ItemEstoque(Equipamento equipamento) {
     this.equipamento = equipamento;
   }

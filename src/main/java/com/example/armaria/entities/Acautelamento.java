@@ -18,9 +18,9 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 
 @Data
 @AllArgsConstructor
@@ -47,7 +47,7 @@ public class Acautelamento {
   private Armeiro armeiro;
 
   @OneToMany(mappedBy = "acautelamento", cascade = CascadeType.ALL)
-  @Getter(AccessLevel.NONE)
+  @Setter(AccessLevel.NONE)
   private final List<ItemAcautelado> itensAcautelados = new ArrayList<>();
 
   public Acautelamento(

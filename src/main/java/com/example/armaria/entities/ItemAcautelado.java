@@ -23,12 +23,28 @@ public class ItemAcautelado {
   @JoinColumn(name = "id_equipamento")
   private final Equipamento equipamento;
 
+  @OneToOne
+  @JoinColumn(name = "id_item_estoque")
+  private ItemEstoque itemEstoque;
+
   @Column(name = "quantidade_acautelada")
   private int quantidadeAcautelada;
 
   @ManyToOne
   @JoinColumn(name = "id_acautelamento")
   private Acautelamento acautelamento;
+
+  public ItemAcautelado(Equipamento equipamento, ItemEstoque itemEstoque, int quantidadeAcautelada) {
+    this.equipamento = equipamento;
+    this.itemEstoque = itemEstoque;
+    setQuantidadeAcautelada(quantidadeAcautelada);
+  }
+
+  public ItemAcautelado(ItemEstoque itemEstoque, int quantidadeAcautelada) {
+    this.itemEstoque = itemEstoque;
+    setQuantidadeAcautelada(quantidadeAcautelada);
+    this.equipamento = new Equipamento();
+  }
 
   public ItemAcautelado(Equipamento equipamento, int quantidadeAcautelada) {
     this.equipamento = equipamento;
