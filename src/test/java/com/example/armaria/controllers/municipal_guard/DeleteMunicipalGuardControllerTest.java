@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.guarda_municipal;
+package com.example.armaria.controllers.municipal_guard;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeletarGuardaMunicipalControllerTest {
+public class DeleteMunicipalGuardControllerTest {
   @LocalServerPort
   private int port;
 
@@ -22,35 +22,35 @@ public class DeletarGuardaMunicipalControllerTest {
 
   @Test
   void testHandle() {
-    criarGuardaMunicipal();
+    getMunicipalGuard();
 
     String matricula = "qualquer-matricula";
-    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/" + matricula;
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Void.class);
     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
   }
 
   @Test
-  void testHandle_deve_lancar_erro_para_guarda_municipal_nao_encontrado() {
+  void when_MunicipalGuardIsNotFound_ThrowError() {
     String matricula = "matricula-nao-existente";
-    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/" + matricula;
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
 
     ResponseEntity<Object> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Object.class);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertNotNull(response.getBody());
   }
 
-  public void criarGuardaMunicipal() {
+  public void getMunicipalGuard() {
     String matricula = "qualquer-matricula";
 
-    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/cadastrar";
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/create";
 
-    CriarGuardaMunicipalDTO guardaMunicipalDTO = new CriarGuardaMunicipalDTO(
+    MunicipalGuardCreateDTO municipalGuardCreateDTO = new MunicipalGuardCreateDTO(
         matricula,
         "João da Silva",
         "joao@example.com",
         "1234567890");
 
-    restTemplate.postForEntity(baseUrl, guardaMunicipalDTO, String.class);
+    restTemplate.postForEntity(baseUrl, municipalGuardCreateDTO, String.class);
   }
 }

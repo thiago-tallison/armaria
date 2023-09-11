@@ -27,9 +27,9 @@ public class GlobalExceptionHandler {
         .body(new MensagemDeErroGeral(e.getMessage()));
   }
 
-  @ExceptionHandler(GuardaMunicipalNaoEncontradoException.class)
-  public ResponseEntity<MensagemDeErroGeral> handleGuardaMunicipalNaoEncontradoException(
-      GuardaMunicipalNaoEncontradoException e) {
+  @ExceptionHandler(MunicipalGuardNotFoundException.class)
+  public ResponseEntity<MensagemDeErroGeral> handlemunicipalGuardNaoEncontradoException(
+      MunicipalGuardNotFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new MensagemDeErroGeral(e.getMessage()));
   }

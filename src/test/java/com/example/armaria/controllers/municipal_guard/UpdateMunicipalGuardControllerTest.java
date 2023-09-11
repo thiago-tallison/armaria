@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.guarda_municipal;
+package com.example.armaria.controllers.municipal_guard;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AtualizarGuardaMunicipalControllerTest {
+public class UpdateMunicipalGuardControllerTest {
   @LocalServerPort
   private int port;
 
@@ -31,15 +31,15 @@ public class AtualizarGuardaMunicipalControllerTest {
 
   @Test
   void handle() {
-    criarGuardaMunicipal();
+    getMunicipalGuard();
 
     String matricula = "qualquer-matricula";
-    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/" + matricula;
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
 
-    CriarGuardaMunicipalDTO gmDto = new CriarGuardaMunicipalDTO(matricula, "nome", "email",
+    MunicipalGuardCreateDTO gmDto = new MunicipalGuardCreateDTO(matricula, "nome", "email",
         "telefone");
 
-    HttpEntity<CriarGuardaMunicipalDTO> requestEntity = getRequestBody(gmDto);
+    HttpEntity<MunicipalGuardCreateDTO> requestEntity = getRequestBody(gmDto);
 
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, Void.class);
 
@@ -49,38 +49,38 @@ public class AtualizarGuardaMunicipalControllerTest {
   @Test
   void test_handle_deve_retornar_not_found_para_matricula_nao_encontrada() {
     String matricula = "matricula-nao-existente";
-    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/" + matricula;
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/" + matricula;
 
-    CriarGuardaMunicipalDTO gmDto = new CriarGuardaMunicipalDTO(matricula, "nome", "email",
+    MunicipalGuardCreateDTO gmDto = new MunicipalGuardCreateDTO(matricula, "nome", "email",
         "telefone");
 
-    HttpEntity<CriarGuardaMunicipalDTO> requestEntity = getRequestBody(gmDto);
+    HttpEntity<MunicipalGuardCreateDTO> requestEntity = getRequestBody(gmDto);
 
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, Void.class);
 
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 
-  public void criarGuardaMunicipal() {
+  public void getMunicipalGuard() {
     String matricula = "qualquer-matricula";
-    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/cadastrar";
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/create";
 
-    CriarGuardaMunicipalDTO guardaMunicipalDTO = new CriarGuardaMunicipalDTO(
+    MunicipalGuardCreateDTO municipalGuardCreateDTO = new MunicipalGuardCreateDTO(
         matricula,
         "João da Silva",
         "joao@example.com",
         "1234567890");
 
-    restTemplate.postForEntity(baseUrl, guardaMunicipalDTO, String.class);
+    restTemplate.postForEntity(baseUrl, municipalGuardCreateDTO, String.class);
   }
 
-  public HttpEntity<CriarGuardaMunicipalDTO> getRequestBody(CriarGuardaMunicipalDTO gmDto) {
+  public HttpEntity<MunicipalGuardCreateDTO> getRequestBody(MunicipalGuardCreateDTO gmDto) {
     restTemplate.getRestTemplate().getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<CriarGuardaMunicipalDTO> requestEntity = new HttpEntity<>(gmDto, headers);
+    HttpEntity<MunicipalGuardCreateDTO> requestEntity = new HttpEntity<>(gmDto, headers);
     return requestEntity;
   }
 }

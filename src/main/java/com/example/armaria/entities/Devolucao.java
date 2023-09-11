@@ -36,7 +36,7 @@ public class Devolucao {
 
   @ManyToOne
   @JoinColumn(name = "matricula_gm")
-  private final GuardaMunicipal gm;
+  private final MunicipalGuard gm;
 
   @ManyToOne
   @JoinColumn(name = "matricula_armeiro")

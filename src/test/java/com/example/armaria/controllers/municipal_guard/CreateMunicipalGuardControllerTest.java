@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.guarda_municipal;
+package com.example.armaria.controllers.municipal_guard;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class CriarGuardaMunicipalControllerTest {
+public class CreateMunicipalGuardControllerTest {
 
   @LocalServerPort
   private int port;
@@ -22,16 +22,16 @@ public class CriarGuardaMunicipalControllerTest {
   private TestRestTemplate restTemplate;
 
   @Test
-  public void testCriarGuardaMunicipal() {
-    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/cadastrar";
+  public void testgetMunicipalGuard() {
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/create";
 
-    CriarGuardaMunicipalDTO guardaMunicipalDTO = new CriarGuardaMunicipalDTO(
+    MunicipalGuardCreateDTO municipalGuardCreateDTO = new MunicipalGuardCreateDTO(
         "123456", // Matrícula
         "João da Silva",
         "joao@example.com",
         "1234567890");
 
-    ResponseEntity<String> responseEntity = restTemplate.postForEntity(baseUrl, guardaMunicipalDTO, String.class);
+    ResponseEntity<String> responseEntity = restTemplate.postForEntity(baseUrl, municipalGuardCreateDTO, String.class);
 
     assertTrue(responseEntity.getStatusCode().equals(HttpStatus.CREATED));
   }

@@ -27,14 +27,14 @@ import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
 import com.example.armaria.entities.Acautelamento;
 import com.example.armaria.entities.Armeiro;
 import com.example.armaria.entities.Equipamento;
-import com.example.armaria.entities.GuardaMunicipal;
 import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.errors.ArmeiroNaoEncontradoException;
-import com.example.armaria.errors.GuardaMunicipalNaoEncontradoException;
+import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.AcautelamentoRepository;
 import com.example.armaria.repositories.ArmeiroRepository;
-import com.example.armaria.repositories.GuardaMunicipalRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
+import com.example.armaria.repositories.MunicipalGuardRepository;
 
 public class CriarAcautelamentoUseCaseTest {
   @InjectMocks
@@ -50,7 +50,7 @@ public class CriarAcautelamentoUseCaseTest {
   private ArmeiroRepository armeiroRepository;
 
   @Mock
-  private GuardaMunicipalRepository gmRepository;
+  private MunicipalGuardRepository gmRepository;
 
   @BeforeEach
   public void setUp() {
@@ -69,8 +69,8 @@ public class CriarAcautelamentoUseCaseTest {
     Armeiro armeiroMock = new Armeiro();
     armeiroMock.setMatricula(matriculaArmeiro);
 
-    GuardaMunicipal gmMock = new GuardaMunicipal();
-    gmMock.setMatricula(matriculaGm);
+    MunicipalGuard gmMock = new MunicipalGuard();
+    gmMock.setRegistrationNumber(matriculaGm);
 
     ItemEstoque itemEstoqueMock = new ItemEstoque();
     Equipamento equipamentoMock = new Equipamento();
@@ -79,7 +79,7 @@ public class CriarAcautelamentoUseCaseTest {
     itemEstoqueMock.setQuantidadeEmEstoque(5);
 
     when(armeiroRepository.findByMatricula(matriculaArmeiro)).thenReturn(Optional.of(armeiroMock));
-    when(gmRepository.findByMatricula(matriculaGm)).thenReturn(Optional.of(gmMock));
+    when(gmRepository.findByRegistrationNumber(matriculaGm)).thenReturn(Optional.of(gmMock));
     when(itemEstoqueRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(2))).thenReturn(1);
 
     // Executar o caso de uso
@@ -94,7 +94,7 @@ public class CriarAcautelamentoUseCaseTest {
 
     assertNotNull(acautelamentoSalvo);
     assertEquals(dataAcautelamento, acautelamentoSalvo.getDataAcautelamento());
-    assertEquals(gmMock, acautelamentoSalvo.getGm());
+    assertEquals(gmMock, acautelamentoSalvo.getGuard());
     assertEquals(armeiroMock, acautelamentoSalvo.getArmeiro());
     assertEquals(1, acautelamentoSalvo.getTotalEquipamentosAcautelados());
   }
@@ -111,8 +111,8 @@ public class CriarAcautelamentoUseCaseTest {
     Armeiro armeiroMock = new Armeiro();
     armeiroMock.setMatricula(matriculaArmeiro);
 
-    GuardaMunicipal gmMock = new GuardaMunicipal();
-    gmMock.setMatricula(matriculaGm);
+    MunicipalGuard gmMock = new MunicipalGuard();
+    gmMock.setRegistrationNumber(matriculaGm);
 
     ItemEstoque itemEstoqueMock = new ItemEstoque();
     Equipamento equipamentoMock = new Equipamento();
@@ -140,14 +140,14 @@ public class CriarAcautelamentoUseCaseTest {
     itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 2));
 
     when(armeiroRepository.findByMatricula(matriculaArmeiro)).thenReturn(Optional.of(new Armeiro()));
-    when(gmRepository.findByMatricula(matriculaGm)).thenReturn(Optional.empty());
+    when(gmRepository.findByRegistrationNumber(matriculaGm)).thenReturn(Optional.empty());
 
     // Executar o caso de uso
     CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, matriculaGm, matriculaArmeiro,
         itensAcauteladosRequest);
 
-    // Verificar se GuardaMunicipalNaoEncontradoException é lançada
-    assertThrows(GuardaMunicipalNaoEncontradoException.class, () -> sut.execute(request));
+    // check if MunicipalGuardNotFoundException is thrown
+    assertThrows(MunicipalGuardNotFoundException.class, () -> sut.execute(request));
 
     // Verificar que acautelamentoRepository.save() nunca foi chamado
     verify(acautelamentoRepository, never()).save(any());
@@ -165,8 +165,8 @@ public class CriarAcautelamentoUseCaseTest {
     Armeiro armeiroMock = new Armeiro();
     armeiroMock.setMatricula(matriculaArmeiro);
 
-    GuardaMunicipal gmMock = new GuardaMunicipal();
-    gmMock.setMatricula(matriculaGm);
+    MunicipalGuard gmMock = new MunicipalGuard();
+    gmMock.setRegistrationNumber(matriculaGm);
 
     ItemEstoque itemEstoqueMock = new ItemEstoque();
     Equipamento equipamentoMock = new Equipamento();
@@ -175,7 +175,7 @@ public class CriarAcautelamentoUseCaseTest {
     itemEstoqueMock.setQuantidadeEmEstoque(5); // Quantidade em estoque insuficiente
 
     when(armeiroRepository.findByMatricula(matriculaArmeiro)).thenReturn(Optional.of(armeiroMock));
-    when(gmRepository.findByMatricula(matriculaGm)).thenReturn(Optional.of(gmMock));
+    when(gmRepository.findByRegistrationNumber(matriculaGm)).thenReturn(Optional.of(gmMock));
     when(itemEstoqueRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(10))).thenReturn(0); // Retornar 0 para simular
                                                                                            // erro
 

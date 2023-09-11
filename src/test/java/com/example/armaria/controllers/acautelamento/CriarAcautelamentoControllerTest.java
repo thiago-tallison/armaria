@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.armaria.controllers.guarda_municipal.CriarGuardaMunicipalDTO;
+import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
 import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
 import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.use_cases.acautelamento.ItemAcauteladoDTO;
@@ -93,15 +93,15 @@ public class CriarAcautelamentoControllerTest {
   }
 
   public void criarGm(String matricula) {
-    String baseUrl = "http://localhost:" + port + "/api/guarda-municipal/cadastrar";
+    String baseUrl = "http://localhost:" + port + "/api/v1/municipal_guards/create";
 
-    CriarGuardaMunicipalDTO guardaMunicipalDTO = new CriarGuardaMunicipalDTO(
+    MunicipalGuardCreateDTO municipalGuardCreateDTO = new MunicipalGuardCreateDTO(
         matricula,
         "João da Silva",
         "joao@example.com",
         "1234567890");
 
-    restTemplate.postForEntity(baseUrl, guardaMunicipalDTO, String.class);
+    restTemplate.postForEntity(baseUrl, municipalGuardCreateDTO, String.class);
   }
 
   public void criarEquipamento(int quantidadeEmEstoque, String numSerieEquipamento) {

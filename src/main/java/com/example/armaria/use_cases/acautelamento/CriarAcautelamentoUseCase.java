@@ -10,14 +10,14 @@ import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
 import com.example.armaria.entities.Acautelamento;
 import com.example.armaria.entities.Armeiro;
 import com.example.armaria.entities.Equipamento;
-import com.example.armaria.entities.GuardaMunicipal;
 import com.example.armaria.entities.ItemAcautelado;
+import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.errors.ArmeiroNaoEncontradoException;
-import com.example.armaria.errors.GuardaMunicipalNaoEncontradoException;
+import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.AcautelamentoRepository;
 import com.example.armaria.repositories.ArmeiroRepository;
-import com.example.armaria.repositories.GuardaMunicipalRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
+import com.example.armaria.repositories.MunicipalGuardRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -26,13 +26,13 @@ public class CriarAcautelamentoUseCase {
   private final AcautelamentoRepository acautelamentoRepository;
   private final ItemEstoqueRepository itemEstoqueRepository;
   private final ArmeiroRepository armeiroRepository;
-  private final GuardaMunicipalRepository gmRepository;
+  private final MunicipalGuardRepository gmRepository;
 
   public CriarAcautelamentoUseCase(
       AcautelamentoRepository acautelamentoRepository,
       ItemEstoqueRepository itemEstoqueRepository,
       ArmeiroRepository armeiroRepository,
-      GuardaMunicipalRepository gmRepository) {
+      MunicipalGuardRepository gmRepository) {
     this.acautelamentoRepository = acautelamentoRepository;
     this.itemEstoqueRepository = itemEstoqueRepository;
     this.armeiroRepository = armeiroRepository;
@@ -50,11 +50,11 @@ public class CriarAcautelamentoUseCase {
 
     // verificar se o gm existe
     String matriculaGm = data.matriculaGm();
-    Optional<GuardaMunicipal> gmOptional = gmRepository
-        .findByMatricula(matriculaGm);
+    Optional<MunicipalGuard> gmOptional = gmRepository
+        .findByRegistrationNumber(matriculaGm);
 
     if (!gmOptional.isPresent()) {
-      throw new GuardaMunicipalNaoEncontradoException(matriculaGm);
+      throw new MunicipalGuardNotFoundException(matriculaGm);
     }
 
     // verificar se cada item acautelado existe e se tem quantidade em estoque

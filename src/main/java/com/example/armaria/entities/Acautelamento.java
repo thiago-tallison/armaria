@@ -37,9 +37,9 @@ public class Acautelamento {
   private LocalDateTime dataAcautelamento;
 
   @ManyToOne
-  @JoinColumn(name = "matricula_gm")
+  @JoinColumn(name = "municipal_guard_registration")
   @NonNull
-  private GuardaMunicipal gm;
+  private MunicipalGuard guard;
 
   @ManyToOne
   @JoinColumn(name = "matricula_armeiro")
@@ -52,10 +52,10 @@ public class Acautelamento {
 
   public Acautelamento(
       LocalDateTime dataAcautelamento,
-      GuardaMunicipal gm,
+      MunicipalGuard guard,
       Armeiro armeiro) {
     this.dataAcautelamento = dataAcautelamento;
-    this.gm = gm;
+    this.guard = guard;
     this.armeiro = armeiro;
   }
 

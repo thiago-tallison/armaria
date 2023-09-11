@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class AcautelamentoTest {
-  private GuardaMunicipal gm;
+  private MunicipalGuard gm;
   private Armeiro armeiro;
   private Equipamento equipamento;
   private ItemAcautelado itemAcautelado;
@@ -20,7 +20,7 @@ public class AcautelamentoTest {
   @BeforeEach
   public void setUp() {
     armeiro = new Armeiro("matricula", "nome", "email", "telefone", "login", "senha");
-    gm = new GuardaMunicipal("matricula", "nome", "email", "telefone");
+    gm = new MunicipalGuard("matricula", "nome", "email", "telefone");
 
     equipamento = new Equipamento("nome", "num-serie", true);
 

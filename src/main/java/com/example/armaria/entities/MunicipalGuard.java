@@ -1,6 +1,6 @@
 package com.example.armaria.entities;
 
-import com.example.armaria.controllers.guarda_municipal.CriarGuardaMunicipalDTO;
+import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,26 +14,26 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "guardas_municipais")
-public class GuardaMunicipal {
+@Table(name = "municipal_guards")
+public class MunicipalGuard {
   @NonNull
   @Id
-  private String matricula;
+  private String registrationNumber;
 
   @NonNull
-  private String nome;
+  private String name;
 
   @NonNull
   private String email;
 
   @NonNull
-  private String telefone;
+  private String phone;
 
-  public GuardaMunicipal(CriarGuardaMunicipalDTO dto) {
-    this.matricula = dto.matricula();
-    this.nome = dto.nome();
+  public MunicipalGuard(MunicipalGuardCreateDTO dto) {
+    this.registrationNumber = dto.registrationNumber();
+    this.name = dto.name();
     this.email = dto.email();
-    this.telefone = dto.telefone();
+    this.phone = dto.phone();
   }
 
 }

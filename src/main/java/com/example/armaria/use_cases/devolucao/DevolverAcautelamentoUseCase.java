@@ -12,14 +12,14 @@ import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
 import com.example.armaria.entities.Acautelamento;
 import com.example.armaria.entities.Armeiro;
 import com.example.armaria.entities.Devolucao;
-import com.example.armaria.entities.GuardaMunicipal;
 import com.example.armaria.entities.ItemDevolvido;
 import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.errors.AcautelamentoNaoEncontradoException;
 import com.example.armaria.repositories.AcautelamentoRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
 import com.example.armaria.use_cases.armeiro.BuscarArmeiroPorMatriculaUseCase;
-import com.example.armaria.use_cases.guarda_municipal.BuscarGuardaMunicipalPorMatriculaUseCase;
+import com.example.armaria.use_cases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 
 import jakarta.transaction.Transactional;
 
@@ -29,19 +29,19 @@ public class DevolverAcautelamentoUseCase {
   private final DevolucaoEquipamentoRepository devolverEquipamentoRepository;
   private final ItemEstoqueRepository itemEstoqueRepository;
   private final BuscarArmeiroPorMatriculaUseCase buscarArmeiroPorMatriculaUseCase;
-  private final BuscarGuardaMunicipalPorMatriculaUseCase buscarGuardaMunicipalPorMatriculaUseCase;
+  private final GetMunicipalGuardByRegistrationUseCase buscarmunicipalGuardPorMatriculaUseCase;
 
   public DevolverAcautelamentoUseCase(
       AcautelamentoRepository acautelamentoRepository,
       DevolucaoEquipamentoRepository devolverEquipamentoRepository,
       ItemEstoqueRepository itemEstoqueRepository,
       BuscarArmeiroPorMatriculaUseCase buscarArmeiroPorMatriculaUseCase,
-      BuscarGuardaMunicipalPorMatriculaUseCase buscarGuardaMunicipalPorMatriculaUseCase) {
+      GetMunicipalGuardByRegistrationUseCase buscarmunicipalGuardPorMatriculaUseCase) {
     this.acautelamentoRepository = acautelamentoRepository;
     this.itemEstoqueRepository = itemEstoqueRepository;
     this.devolverEquipamentoRepository = devolverEquipamentoRepository;
     this.buscarArmeiroPorMatriculaUseCase = buscarArmeiroPorMatriculaUseCase;
-    this.buscarGuardaMunicipalPorMatriculaUseCase = buscarGuardaMunicipalPorMatriculaUseCase;
+    this.buscarmunicipalGuardPorMatriculaUseCase = buscarmunicipalGuardPorMatriculaUseCase;
   }
 
   @Transactional
@@ -52,7 +52,7 @@ public class DevolverAcautelamentoUseCase {
 
     // verificar se armeiro existe
     String matriculaGm = devolverEquipamentosDto.matriculaGm();
-    Optional<GuardaMunicipal> gmOptional = buscarGuardaMunicipalPorMatriculaUseCase.execute(matriculaGm);
+    Optional<MunicipalGuard> gmOptional = buscarmunicipalGuardPorMatriculaUseCase.execute(matriculaGm);
 
     // verificar se acautelamento existe
     Long idAcautelamento = devolverEquipamentosDto.idAcautelamento();
