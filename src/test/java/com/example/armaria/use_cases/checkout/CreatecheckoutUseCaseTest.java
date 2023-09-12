@@ -81,7 +81,7 @@ public class CreatecheckoutUseCaseTest {
     when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
         .thenReturn(Optional.of(armoryKeeperMock));
     when(gmRepository.findByRegistrationNumber(registration)).thenReturn(Optional.of(gmMock));
-    when(stockItemRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(2))).thenReturn(1);
+    when(stockItemRepository.increaseStockItemQuantity(eq(1L), eq(2))).thenReturn(1);
 
     // Execute usecase
     CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, registration, armoryKeeperRegistration,
@@ -180,8 +180,8 @@ public class CreatecheckoutUseCaseTest {
     when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
         .thenReturn(Optional.of(armoryKeeperMock));
     when(gmRepository.findByRegistrationNumber(municipalGuardRegistration)).thenReturn(Optional.of(gmMock));
-    when(stockItemRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(10))).thenReturn(0); // Retornar 0 para simular
-                                                                                         // erro
+    when(stockItemRepository.increaseStockItemQuantity(eq(1L), eq(10))).thenReturn(0); // Retornar 0 para simular
+                                                                                       // erro
 
     // Executar o caso de uso
     CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, municipalGuardRegistration,

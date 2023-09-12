@@ -68,7 +68,7 @@ public class CreateCheckoutEquipamentUseCase {
       Integer quantidadeASerAcautelada = itens.get(i).quantityCheckedOut();
 
       int linhasAfetadas = stockItemRepository
-          .diminuirQuantidadeEmEstoque(idAtual, quantidadeASerAcautelada);
+          .increaseStockItemQuantity(idAtual, quantidadeASerAcautelada);
 
       if (linhasAfetadas == 0) {
         throw new RuntimeException("Não foi possível acautelar o item " + idAtual);

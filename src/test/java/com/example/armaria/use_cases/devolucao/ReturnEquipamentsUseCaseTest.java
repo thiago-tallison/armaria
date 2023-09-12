@@ -85,13 +85,13 @@ public class ReturnEquipamentsUseCaseTest {
     when(getMunicipalGuardByRegistrationUseCase.execute(gmMock.getRegistrationNumber()))
         .thenReturn(Optional.of(gmMock));
     when(chcekoutRepository.findById(acatuelamentoMock.getId())).thenReturn(Optional.of(acatuelamentoMock));
-    when(stockItemRepository.aumentarQuantidadeEmEstoque(itemEstoqueMock.getId(),
+    when(stockItemRepository.decreaseStockItemQuantity(itemEstoqueMock.getId(),
         equipamentReturnDTO.itensDevolvidos().get(0).quantidadeDevolvida())).thenReturn(1);
     when(returnEquipamentRepository.save(devolucaoMock)).thenReturn(devolucaoMock);
 
     assertDoesNotThrow(() -> sut.execute(equipamentReturnDTO));
 
-    verify(stockItemRepository, times(1)).aumentarQuantidadeEmEstoque(
+    verify(stockItemRepository, times(1)).decreaseStockItemQuantity(
         itemEstoqueMock.getId(),
         equipamentReturnDTO.itensDevolvidos().get(0).quantidadeDevolvida());
 
@@ -113,7 +113,7 @@ public class ReturnEquipamentsUseCaseTest {
     assertThrows(ArmoryKeeperNotFoundException.class, () -> sut.execute(dtoMatriculaInvalida));
 
     verify(getArmoryKeeperByRegistrationUseCase).execute(eq("inexistent-registration"));
-    verify(stockItemRepository, never()).aumentarQuantidadeEmEstoque(anyLong(), anyInt());
+    verify(stockItemRepository, never()).decreaseStockItemQuantity(anyLong(), anyInt());
     verify(chcekoutRepository, never()).findById(anyLong());
   }
 
@@ -131,7 +131,7 @@ public class ReturnEquipamentsUseCaseTest {
     assertThrows(MunicipalGuardNotFoundException.class, () -> sut.execute(dtoMatriculaInvalida));
 
     verify(getMunicipalGuardByRegistrationUseCase).execute(eq("inexistent-registration"));
-    verify(stockItemRepository, never()).aumentarQuantidadeEmEstoque(anyLong(), anyInt());
+    verify(stockItemRepository, never()).decreaseStockItemQuantity(anyLong(), anyInt());
     verify(chcekoutRepository, never()).findById(anyLong());
   }
 
@@ -160,7 +160,7 @@ public class ReturnEquipamentsUseCaseTest {
 
     assertThrows(CheckoutNotFoundException.class, () -> sut.execute(equipamentReturnDTO));
 
-    verify(stockItemRepository, never()).aumentarQuantidadeEmEstoque(
+    verify(stockItemRepository, never()).decreaseStockItemQuantity(
         anyLong(),
         anyInt());
 

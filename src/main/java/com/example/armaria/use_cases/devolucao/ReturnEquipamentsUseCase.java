@@ -66,7 +66,7 @@ public class ReturnEquipamentsUseCase {
     Checkout checkout = optionalCheckout.get();
     List<ItemDevolvido> itensDevolvidos = new ArrayList<>();
     for (ItemDevolvidoDTO item : equipamentReturnDTO.itensDevolvidos()) {
-      int linhasAfetadas = stockItemRepository.aumentarQuantidadeEmEstoque(item.idItemEstoque(),
+      int linhasAfetadas = stockItemRepository.decreaseStockItemQuantity(item.idItemEstoque(),
           item.quantidadeDevolvida());
 
       if (linhasAfetadas == 0) {

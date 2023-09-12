@@ -16,11 +16,11 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
 
     @Transactional
     @Modifying
-    @Query("update ItemEstoque set quantityInStock = quantityInStock - :quantidade where id = :id and quantityInStock >= :quantidade and :quantidade > 0")
-    int diminuirQuantidadeEmEstoque(@Param("id") Long id, @Param("quantidade") Integer quantidade);
+    @Query("update StockItem set quantityInStock = quantityInStock - :quantity where id = :id and quantityInStock >= :quantity and :quantity > 0")
+    int increaseStockItemQuantity(@Param("id") Long id, @Param("quantity") Integer quantity);
 
     @Transactional
     @Modifying
-    @Query("update ItemEstoque set quantityInStock = quantityInStock + :quantidade where id = :id and quantityInStock >= :quantidade and :quantidade > 0")
-    int aumentarQuantidadeEmEstoque(@Param("id") Long id, @Param("quantidade") Integer quantidade);
+    @Query("update StockItem set quantityInStock = quantityInStock + :quantity where id = :id and quantityInStock >= :quantity and :quantity > 0")
+    int decreaseStockItemQuantity(@Param("id") Long id, @Param("quantity") Integer quantity);
 }
