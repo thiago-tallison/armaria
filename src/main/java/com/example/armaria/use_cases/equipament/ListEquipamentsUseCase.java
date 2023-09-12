@@ -1,6 +1,5 @@
 package com.example.armaria.use_cases.equipament;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +18,6 @@ public class ListEquipamentsUseCase {
   private final EquipamentRepository equipamentRepository;
   public static final int TAMANHO_MAXIMO_PAGINA = 30;
 
-  @Autowired
   public ListEquipamentsUseCase(EquipamentRepository equipamentRepository) {
     this.equipamentRepository = equipamentRepository;
   }

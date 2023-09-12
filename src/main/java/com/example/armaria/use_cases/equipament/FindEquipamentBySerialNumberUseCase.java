@@ -2,7 +2,6 @@ package com.example.armaria.use_cases.equipament;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.Equipament;
@@ -14,7 +13,6 @@ import com.example.armaria.repositories.ItemEstoqueRepository;
 public class FindEquipamentBySerialNumberUseCase {
   private final EquipamentRepository equipamentRepository;
 
-  @Autowired
   public FindEquipamentBySerialNumberUseCase(EquipamentRepository equipamentRepository,
       ItemEstoqueRepository itemEstoqueRepository) {
     this.equipamentRepository = equipamentRepository;

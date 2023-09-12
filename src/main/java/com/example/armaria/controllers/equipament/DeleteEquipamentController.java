@@ -1,6 +1,5 @@
 package com.example.armaria.controllers.equipament;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +13,6 @@ import com.example.armaria.use_cases.equipament.DeleteEquipamentUseCase;
 public class DeleteEquipamentController {
   private final DeleteEquipamentUseCase deleteEquipamentUseCase;
 
-  @Autowired
   public DeleteEquipamentController(DeleteEquipamentUseCase deleteEquipamentUseCase) {
     this.deleteEquipamentUseCase = deleteEquipamentUseCase;
   }

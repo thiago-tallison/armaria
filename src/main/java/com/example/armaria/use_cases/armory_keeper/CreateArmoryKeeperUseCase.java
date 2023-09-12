@@ -2,7 +2,6 @@ package com.example.armaria.use_cases.armory_keeper;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.ArmoryKepper;
@@ -15,7 +14,6 @@ public class CreateArmoryKeeperUseCase {
   private final ArmoryKeeperRepository armoryKeeperRepository;
   private final CifradorDeSenha cifradorDeSenha;
 
-  @Autowired
   public CreateArmoryKeeperUseCase(ArmoryKeeperRepository armoryKeeperRepository,
       CifradorDeSenha cifradorDeSenha) {
     this.armoryKeeperRepository = armoryKeeperRepository;

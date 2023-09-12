@@ -2,7 +2,6 @@ package com.example.armaria.use_cases.municipal_guard;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
@@ -14,7 +13,6 @@ import com.example.armaria.repositories.MunicipalGuardRepository;
 public class UpdateMunicipalGuardUseCase {
   private final MunicipalGuardRepository municipalGuardRepository;
 
-  @Autowired
   public UpdateMunicipalGuardUseCase(MunicipalGuardRepository municipalGuardRepository) {
     this.municipalGuardRepository = municipalGuardRepository;
   }

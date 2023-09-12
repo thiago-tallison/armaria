@@ -2,7 +2,6 @@ package com.example.armaria.use_cases.stock_item;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.ItemEstoque;
@@ -15,7 +14,6 @@ import jakarta.transaction.Transactional;
 public class DeletarItemEstoqueUseCase {
   private final ItemEstoqueRepository itemEstoqueRepository;
 
-  @Autowired
   public DeletarItemEstoqueUseCase(
       ItemEstoqueRepository itemEstoqueRepository) {
     this.itemEstoqueRepository = itemEstoqueRepository;
