@@ -2,35 +2,27 @@ package com.example.armaria.use_cases.stock_item;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.ItemEstoqueNaoEncontradoException;
 import com.example.armaria.repositories.StockItemRepository;
 
-import jakarta.transaction.Transactional;
-
 @Service
-public class DeletarItemEstoqueUseCase {
+public class GetStockItemByIdUseCase {
   private final StockItemRepository stockItemRepository;
 
-  @Autowired
-  public DeletarItemEstoqueUseCase(
-      StockItemRepository stockItemRepository) {
+  public GetStockItemByIdUseCase(StockItemRepository stockItemRepository) {
     this.stockItemRepository = stockItemRepository;
   }
 
-  @Transactional
-  public void execute(Long id) {
+  public Optional<StockItem> execute(long id) {
     Optional<StockItem> optionalStockItem = stockItemRepository.findById(id);
 
     if (!optionalStockItem.isPresent()) {
       throw new ItemEstoqueNaoEncontradoException();
     }
 
-    StockItem item = optionalStockItem.get();
-    item.setAvailable(false);
-    stockItemRepository.save(item);
+    return optionalStockItem;
   }
 }

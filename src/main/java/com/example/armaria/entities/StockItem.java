@@ -23,8 +23,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Table(name = "itens_estoque")
-public class ItemEstoque {
+@Table(name = "stock_items")
+public class StockItem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -36,28 +36,28 @@ public class ItemEstoque {
   @Column(name = "quantidade_em_estoque")
   private int quantityInStock;
 
-  @Column(name = "disponivel", columnDefinition = "boolean default true")
-  private boolean disponivel = true;
+  @Column(name = "available", columnDefinition = "boolean default true")
+  private boolean available = true;
 
-  public ItemEstoque(Long id) {
+  public StockItem(Long id) {
     this.id = id;
   }
 
-  public ItemEstoque(Equipament equipament) {
+  public StockItem(Equipament equipament) {
     this.equipament = equipament;
   }
 
-  public ItemEstoque(Equipament equipament, int quantityInStock) {
+  public StockItem(Equipament equipament, int quantityInStock) {
     this.equipament = equipament;
     this.quantityInStock = quantityInStock;
   }
 
-  public void aumentarQuantidade(int quantidade) {
-    if (quantidade <= 0) {
+  public void aumentarQuantidade(int quantity) {
+    if (quantity <= 0) {
       throw new IllegalArgumentException("Qauntidade a ser aumentada precisa ser maior ou igual a zero.");
     }
 
-    quantityInStock += quantidade;
+    quantityInStock += quantity;
   }
 
   public void diminuirQuantidade(int quantity) {

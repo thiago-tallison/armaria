@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -32,13 +32,13 @@ public class ListEquipamentsControllerTest {
 
     String baseUrl = "http://localhost:" + port + "/api/v1/stock_items/serial_number/" + serialNumber;
 
-    ResponseEntity<ItemEstoque> response = restTemplate.getForEntity(baseUrl, ItemEstoque.class);
+    ResponseEntity<StockItem> response = restTemplate.getForEntity(baseUrl, StockItem.class);
 
-    ItemEstoque itemEstoque = response.getBody();
+    StockItem stockItem = response.getBody();
 
-    assertNotNull(itemEstoque);
+    assertNotNull(stockItem);
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(serialNumber, itemEstoque.getEquipament().getSerialNumber());
+    assertEquals(serialNumber, stockItem.getEquipament().getSerialNumber());
   }
 
   public void criarItemEstoque(String serialNumber) {

@@ -66,10 +66,10 @@ public class EstoqueTest {
     estoque.adicionarItemEmEstoque(equipamentA, 10);
     estoque.adicionarItemEmEstoque(equipamentB, 5);
 
-    List<ItemAcautelado> itensAcautelados = new ArrayList<>();
+    List<CheckedoutItem> itensAcautelados = new ArrayList<>();
 
-    itensAcautelados.add(new ItemAcautelado(equipamentA, 8));
-    itensAcautelados.add(new ItemAcautelado(equipamentB, 4));
+    itensAcautelados.add(new CheckedoutItem(equipamentA, 8));
+    itensAcautelados.add(new CheckedoutItem(equipamentB, 4));
 
     estoque.checkOutEquipaments(itensAcautelados);
 

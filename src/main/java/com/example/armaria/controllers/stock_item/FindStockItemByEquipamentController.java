@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.use_cases.stock_item.FindStockItemByEquipamentUseCase;
 
 @RestController
@@ -22,9 +22,9 @@ public class FindStockItemByEquipamentController {
   }
 
   @GetMapping("/serial_number/{serialNumber}")
-  public ResponseEntity<Optional<ItemEstoque>> handle(@PathVariable String serialNumber) {
-    Optional<ItemEstoque> itemEstoque = findStockItemByEquipamentUseCase.execute(serialNumber);
+  public ResponseEntity<Optional<StockItem>> handle(@PathVariable String serialNumber) {
+    Optional<StockItem> optionalStockItem = findStockItemByEquipamentUseCase.execute(serialNumber);
 
-    return ResponseEntity.ok().body(itemEstoque);
+    return ResponseEntity.ok().body(optionalStockItem);
   }
 }

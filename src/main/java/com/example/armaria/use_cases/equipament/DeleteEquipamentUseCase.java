@@ -6,21 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.repositories.EquipamentRepository;
-import com.example.armaria.repositories.ItemEstoqueRepository;
+import com.example.armaria.repositories.StockItemRepository;
 
 @Service
 public class DeleteEquipamentUseCase {
   private final EquipamentRepository equipamentRepository;
-  private final ItemEstoqueRepository itemEstoqueRepository;
+  private final StockItemRepository stockItemRepository;
 
   @Autowired
   public DeleteEquipamentUseCase(
       EquipamentRepository equipamentRepository,
-      ItemEstoqueRepository itemEstoqueRepository) {
+      StockItemRepository stockItemRepository) {
     this.equipamentRepository = equipamentRepository;
-    this.itemEstoqueRepository = itemEstoqueRepository;
+    this.stockItemRepository = stockItemRepository;
   }
 
   public void execute(String serialNumber) {
@@ -28,10 +28,10 @@ public class DeleteEquipamentUseCase {
     Optional<Equipament> optionalEquipament = equipamentRepository.findBySerialNumber(serialNumber);
 
     if (optionalEquipament.isPresent()) {
-      Optional<ItemEstoque> item = itemEstoqueRepository.findByEquipament(optionalEquipament.get());
-      ItemEstoque itemIndisponivel = item.get();
-      itemIndisponivel.setDisponivel(false);
-      itemEstoqueRepository.save(itemIndisponivel);
+      Optional<StockItem> optionalStockItem = stockItemRepository.findByEquipament(optionalEquipament.get());
+      StockItem itemIndisponivel = optionalStockItem.get();
+      itemIndisponivel.setAvailable(false);
+      stockItemRepository.save(itemIndisponivel);
     }
   }
 }

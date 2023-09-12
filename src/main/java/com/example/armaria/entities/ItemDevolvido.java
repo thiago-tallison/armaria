@@ -33,7 +33,7 @@ public class ItemDevolvido {
 
   @OneToOne
   @JoinColumn(name = "stock_item_id")
-  private ItemEstoque itemEstoque;
+  private StockItem stockItem;
 
   @Column(name = "quantidade_devolvida")
   private int quantidadeDevolvida;
@@ -45,9 +45,9 @@ public class ItemDevolvido {
   @ManyToOne
   private Devolucao devolucao;
 
-  public ItemDevolvido(Equipament equipament, ItemEstoque itemEstoque, int quantidadeDevolvida) {
+  public ItemDevolvido(Equipament equipament, StockItem stockItem, int quantidadeDevolvida) {
     this.equipament = equipament;
-    this.itemEstoque = itemEstoque;
+    this.stockItem = stockItem;
     this.quantidadeDevolvida = quantidadeDevolvida;
   }
 
@@ -58,7 +58,7 @@ public class ItemDevolvido {
 
   public ItemDevolvido(ItemDevolvidoDTO itemDevolvidoDTO) {
     this.quantidadeDevolvida = itemDevolvidoDTO.quantidadeDevolvida();
-    this.itemEstoque = new ItemEstoque(itemDevolvidoDTO.idItemEstoque());
+    this.stockItem = new StockItem(itemDevolvidoDTO.idItemEstoque());
   }
 
   public void setQuantidadeDevolvida(int quantidadeDevolvida) {

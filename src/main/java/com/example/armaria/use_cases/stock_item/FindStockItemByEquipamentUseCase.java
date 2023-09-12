@@ -5,24 +5,24 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.EquipamentNotFoundException;
 import com.example.armaria.repositories.EquipamentRepository;
-import com.example.armaria.repositories.ItemEstoqueRepository;
+import com.example.armaria.repositories.StockItemRepository;
 
 @Service
 public class FindStockItemByEquipamentUseCase {
-  private final ItemEstoqueRepository itemEstoqueRepository;
+  private final StockItemRepository stockItemRepository;
   private final EquipamentRepository equipamentRepository;
 
   public FindStockItemByEquipamentUseCase(
-      ItemEstoqueRepository itemEstoqueRepository,
+      StockItemRepository stockItemRepository,
       EquipamentRepository equipamentRepository) {
-    this.itemEstoqueRepository = itemEstoqueRepository;
+    this.stockItemRepository = stockItemRepository;
     this.equipamentRepository = equipamentRepository;
   }
 
-  public Optional<ItemEstoque> execute(String serialNumber) {
+  public Optional<StockItem> execute(String serialNumber) {
     Optional<Equipament> optionalEquipament = equipamentRepository
         .findBySerialNumber(serialNumber);
 
@@ -30,10 +30,10 @@ public class FindStockItemByEquipamentUseCase {
       throw new EquipamentNotFoundException(serialNumber);
     }
 
-    Optional<ItemEstoque> itOptional = itemEstoqueRepository
+    Optional<StockItem> optionalStockItem = stockItemRepository
         .findByEquipament(optionalEquipament.get());
 
-    return itOptional;
+    return optionalStockItem;
   }
 
 }

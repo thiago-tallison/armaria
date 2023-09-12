@@ -25,35 +25,35 @@ public class Estoque {
 
   @OneToMany
   @JoinColumn(name = "stock_item_id")
-  private List<ItemEstoque> itensEmEstoque = new ArrayList<>();
+  private List<StockItem> itensEmEstoque = new ArrayList<>();
 
-  public void adicionarQuantidade(Equipament equipament, int quantidade) {
-    ItemEstoque item = encontrarItemNoEstoque(equipament);
+  public void adicionarQuantidade(Equipament equipament, int quantity) {
+    StockItem item = encontrarItemNoEstoque(equipament);
 
     if (item != null) {
-      item.aumentarQuantidade(quantidade);
+      item.aumentarQuantidade(quantity);
     } else {
-      adicionarItemEmEstoque(equipament, quantidade);
+      adicionarItemEmEstoque(equipament, quantity);
     }
   }
 
-  public void removerQuantidade(Equipament equipament, int quantidade) {
-    ItemEstoque item = encontrarItemNoEstoque(equipament);
+  public void removerQuantidade(Equipament equipament, int quantity) {
+    StockItem item = encontrarItemNoEstoque(equipament);
 
     if (item != null) {
-      item.diminuirQuantidade(quantidade);
+      item.diminuirQuantidade(quantity);
     }
   }
 
-  public void adicionarItemEmEstoque(Equipament equipament, int quantidade) {
-    ItemEstoque item = new ItemEstoque(equipament);
-    item.aumentarQuantidade(quantidade);
+  public void adicionarItemEmEstoque(Equipament equipament, int quantity) {
+    StockItem item = new StockItem(equipament);
+    item.aumentarQuantidade(quantity);
 
     itensEmEstoque.add(item);
   }
 
   public void removerItemDoEstoque(Equipament equipament) {
-    ItemEstoque item = encontrarItemNoEstoque(equipament);
+    StockItem item = encontrarItemNoEstoque(equipament);
 
     if (item != null) {
       itensEmEstoque.remove(item);
@@ -61,7 +61,7 @@ public class Estoque {
   }
 
   public int getQuantityInStock(Equipament equipament) {
-    ItemEstoque item = encontrarItemNoEstoque(equipament);
+    StockItem item = encontrarItemNoEstoque(equipament);
 
     if (item != null) {
       return item.getQuantityInStock();
@@ -70,10 +70,10 @@ public class Estoque {
     return 0; // returns 0 if item is not in stock
   }
 
-  public void checkOutEquipaments(List<ItemAcautelado> itensAcautelados) {
-    for (ItemAcautelado itemAcautelado : itensAcautelados) {
-      ItemEstoque itemEstoque = encontrarItemNoEstoque(itemAcautelado);
-      itemEstoque.diminuirQuantidade(itemAcautelado.getCheckoutQuantity());
+  public void checkOutEquipaments(List<CheckedoutItem> itensAcautelados) {
+    for (CheckedoutItem checkedoutItem : itensAcautelados) {
+      StockItem stockItem = encontrarItemNoEstoque(checkedoutItem);
+      stockItem.diminuirQuantidade(checkedoutItem.getCheckoutQuantity());
     }
   }
 
@@ -81,18 +81,18 @@ public class Estoque {
     for (Map.Entry<Equipament, Integer> entry : returnedEquipaments.entrySet()) {
       Equipament equipament = entry.getKey();
       int quantidadeDevolvida = entry.getValue();
-      ItemEstoque itemEstoque = encontrarItemNoEstoque(equipament);
+      StockItem stockItem = encontrarItemNoEstoque(equipament);
 
-      if (itemEstoque == null) {
+      if (stockItem == null) {
         throw new ItemEstoqueNaoDisponivelException("Item não disponível em estoque: " + equipament.toString());
       }
 
-      itemEstoque.aumentarQuantidade(quantidadeDevolvida);
+      stockItem.aumentarQuantidade(quantidadeDevolvida);
     }
   }
 
-  private ItemEstoque encontrarItemNoEstoque(Equipament equipament) {
-    for (ItemEstoque item : itensEmEstoque) {
+  private StockItem encontrarItemNoEstoque(Equipament equipament) {
+    for (StockItem item : itensEmEstoque) {
       if (item.getEquipament().equals(equipament)) {
         return item;
       }
@@ -100,9 +100,9 @@ public class Estoque {
     return null;
   }
 
-  private ItemEstoque encontrarItemNoEstoque(ItemAcautelado itemAcautelado) {
-    for (ItemEstoque item : itensEmEstoque) {
-      if (item.getEquipament().equals(itemAcautelado.getEquipament())) {
+  private StockItem encontrarItemNoEstoque(CheckedoutItem checkedoutItem) {
+    for (StockItem item : itensEmEstoque) {
+      if (item.getEquipament().equals(checkedoutItem.getEquipament())) {
         return item;
       }
     }

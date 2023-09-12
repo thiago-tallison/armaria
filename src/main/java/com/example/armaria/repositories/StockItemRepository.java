@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.StockItem;
 
-public interface ItemEstoqueRepository extends JpaRepository<ItemEstoque, Long> {
-    Optional<ItemEstoque> findByEquipament(Equipament equipament);
+public interface StockItemRepository extends JpaRepository<StockItem, Long> {
+    Optional<StockItem> findByEquipament(Equipament equipament);
 
     @Transactional
     @Modifying

@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.entities.ItemEstoque;
-import com.example.armaria.use_cases.stock_item.BuscarItemEstoquePorIdUseCase;
+import com.example.armaria.entities.StockItem;
+import com.example.armaria.use_cases.stock_item.GetStockItemByIdUseCase;
 
 @RestController
 @RequestMapping("/api/v1/stock_items")
 public class BuscarItemEstoquePorIdController {
-  private final BuscarItemEstoquePorIdUseCase buscarItemEstoquePorIdUseCase;
+  private final GetStockItemByIdUseCase buscarItemEstoquePorIdUseCase;
 
-  public BuscarItemEstoquePorIdController(BuscarItemEstoquePorIdUseCase buscarItemEstoquePorIdUseCase) {
+  public BuscarItemEstoquePorIdController(GetStockItemByIdUseCase buscarItemEstoquePorIdUseCase) {
     this.buscarItemEstoquePorIdUseCase = buscarItemEstoquePorIdUseCase;
   }
 
   @GetMapping("{id}")
-  public ResponseEntity<Optional<ItemEstoque>> handle(@PathVariable Long id) {
-    Optional<ItemEstoque> itemEstoque = buscarItemEstoquePorIdUseCase.execute(id);
-    return ResponseEntity.ok().body(itemEstoque);
+  public ResponseEntity<Optional<StockItem>> handle(@PathVariable Long id) {
+    Optional<StockItem> optionalStockItem = buscarItemEstoquePorIdUseCase.execute(id);
+    return ResponseEntity.ok().body(optionalStockItem);
   }
 }

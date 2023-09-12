@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "itens_acautelados")
-public class ItemAcautelado {
+public class CheckedoutItem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -25,7 +25,7 @@ public class ItemAcautelado {
 
   @OneToOne
   @JoinColumn(name = "stock_item_id")
-  private ItemEstoque itemEstoque;
+  private StockItem stockItem;
 
   @Column(name = "checkout_quantity")
   private int checkoutQuantity;
@@ -34,28 +34,28 @@ public class ItemAcautelado {
   @JoinColumn(name = "checkout_id")
   private Checkout checkout;
 
-  public ItemAcautelado(Equipament equipament, ItemEstoque itemEstoque, int quantidadeAcautelada) {
+  public CheckedoutItem(Equipament equipament, StockItem stockItem, int checkedoutQuantity) {
     this.equipament = equipament;
-    this.itemEstoque = itemEstoque;
-    setCheckoutQuantity(quantidadeAcautelada);
+    this.stockItem = stockItem;
+    setCheckoutQuantity(checkedoutQuantity);
   }
 
-  public ItemAcautelado(ItemEstoque itemEstoque, int quantidadeAcautelada) {
-    this.itemEstoque = itemEstoque;
-    setCheckoutQuantity(quantidadeAcautelada);
+  public CheckedoutItem(StockItem stockItem, int checkedoutQuantity) {
+    this.stockItem = stockItem;
+    setCheckoutQuantity(checkedoutQuantity);
     this.equipament = new Equipament();
   }
 
-  public ItemAcautelado(Equipament equipament, int quantidadeAcautelada) {
+  public CheckedoutItem(Equipament equipament, int checkedoutQuantity) {
     this.equipament = equipament;
-    setCheckoutQuantity(quantidadeAcautelada);
+    setCheckoutQuantity(checkedoutQuantity);
   }
 
-  public void setCheckoutQuantity(int quantidadeAcautelada) {
-    if (quantidadeAcautelada <= 0) {
+  public void setCheckoutQuantity(int checkedoutQuantity) {
+    if (checkedoutQuantity <= 0) {
       throw new IllegalArgumentException("Não é possível acautelar um item em quantidade menor ou igual a zero");
     }
 
-    this.checkoutQuantity = quantidadeAcautelada;
+    this.checkoutQuantity = checkedoutQuantity;
   }
 }
