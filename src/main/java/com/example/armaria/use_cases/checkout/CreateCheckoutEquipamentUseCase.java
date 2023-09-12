@@ -1,4 +1,4 @@
-package com.example.armaria.use_cases.acautelamento;
+package com.example.armaria.use_cases.checkout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,41 +6,41 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
-import com.example.armaria.entities.Acautelamento;
+import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
 import com.example.armaria.entities.ArmoryKepper;
+import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Equipament;
 import com.example.armaria.entities.ItemAcautelado;
 import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.errors.ArmoryKeeperNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
-import com.example.armaria.repositories.AcautelamentoRepository;
 import com.example.armaria.repositories.ArmoryKeeperRepository;
+import com.example.armaria.repositories.CheckoutRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
 import com.example.armaria.repositories.MunicipalGuardRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
-public class CriarAcautelamentoUseCase {
-  private final AcautelamentoRepository acautelamentoRepository;
+public class CreateCheckoutEquipamentUseCase {
+  private final CheckoutRepository checkoutRepository;
   private final ItemEstoqueRepository itemEstoqueRepository;
   private final ArmoryKeeperRepository armoryKeeperRepository;
   private final MunicipalGuardRepository gmRepository;
 
-  public CriarAcautelamentoUseCase(
-      AcautelamentoRepository acautelamentoRepository,
+  public CreateCheckoutEquipamentUseCase(
+      CheckoutRepository checkoutRepository,
       ItemEstoqueRepository itemEstoqueRepository,
       ArmoryKeeperRepository armoryKeeperRepository,
       MunicipalGuardRepository gmRepository) {
-    this.acautelamentoRepository = acautelamentoRepository;
+    this.checkoutRepository = checkoutRepository;
     this.itemEstoqueRepository = itemEstoqueRepository;
     this.armoryKeeperRepository = armoryKeeperRepository;
     this.gmRepository = gmRepository;
   }
 
   @Transactional
-  public void execute(CriarAcautelamentoDTO data) {
+  public void execute(CheckoutCreateTDO data) {
     // check if armory keeper exists
     String armoryKeeperRegistration = data.armoryKeeperRegistration();
     Optional<ArmoryKepper> optionalArmoryKeeper = armoryKeeperRepository
@@ -60,7 +60,7 @@ public class CriarAcautelamentoUseCase {
 
     // verificar se cada item acautelado existe e se tem quantidade em estoque
     // suficiente
-    List<ItemAcauteladoDTO> itens = data.itensAcautelados();
+    List<ItemAcauteladoDTO> itens = data.itens();
     List<ItemAcautelado> itensAcautelados = new ArrayList<>();
 
     for (int i = 0; i < itens.size(); i++) {
@@ -81,10 +81,10 @@ public class CriarAcautelamentoUseCase {
           quantidadeASerAcautelada));
     }
 
-    Acautelamento acautelamento = new Acautelamento(null, data.dataAcautelamento(), gmOptional.get(),
+    Checkout checkout = new Checkout(null, data.checkoutDate(), gmOptional.get(),
         optionalArmoryKeeper.get());
-    itensAcautelados.forEach(acautelamento::addItemAcautelado);
+    itensAcautelados.forEach(checkout::addItem);
 
-    acautelamentoRepository.save(acautelamento);
+    checkoutRepository.save(checkout);
   }
 }

@@ -1,4 +1,4 @@
-package com.example.armaria.use_cases.acautelamento;
+package com.example.armaria.use_cases.checkout;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,25 +23,25 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.context.annotation.Description;
 
-import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
-import com.example.armaria.entities.Acautelamento;
+import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
 import com.example.armaria.entities.ArmoryKepper;
+import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Equipament;
 import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.errors.ArmoryKeeperNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
-import com.example.armaria.repositories.AcautelamentoRepository;
 import com.example.armaria.repositories.ArmoryKeeperRepository;
+import com.example.armaria.repositories.CheckoutRepository;
 import com.example.armaria.repositories.ItemEstoqueRepository;
 import com.example.armaria.repositories.MunicipalGuardRepository;
 
-public class CriarAcautelamentoUseCaseTest {
+public class CreatecheckoutUseCaseTest {
   @InjectMocks
-  private CriarAcautelamentoUseCase sut;
+  private CreateCheckoutEquipamentUseCase sut;
 
   @Mock
-  private AcautelamentoRepository acautelamentoRepository;
+  private CheckoutRepository checkoutRepository;
 
   @Mock
   private ItemEstoqueRepository itemEstoqueRepository;
@@ -58,9 +58,9 @@ public class CriarAcautelamentoUseCaseTest {
   }
 
   @Test
-  void testCriarAcautelamentoSucesso() {
+  void testCreateCheckoutSucess() {
     // Configurar objetos mock
-    LocalDateTime dataAcautelamento = LocalDateTime.now();
+    LocalDateTime checkoutDate = LocalDateTime.now();
     String registration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
     List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
@@ -83,27 +83,27 @@ public class CriarAcautelamentoUseCaseTest {
     when(gmRepository.findByRegistrationNumber(registration)).thenReturn(Optional.of(gmMock));
     when(itemEstoqueRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(2))).thenReturn(1);
 
-    // Executar o caso de uso
-    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, registration, armoryKeeperRegistration,
+    // Execute usecase
+    CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, registration, armoryKeeperRegistration,
         itensAcauteladosRequest);
     assertDoesNotThrow(() -> sut.execute(request));
 
-    // Verificar se o acautelamento foi salvo
-    ArgumentCaptor<Acautelamento> acautelamentoCaptor = ArgumentCaptor.forClass(Acautelamento.class);
-    verify(acautelamentoRepository).save(acautelamentoCaptor.capture());
-    Acautelamento acautelamentoSalvo = acautelamentoCaptor.getValue();
+    // check if checkoutRepository.save() was called
+    ArgumentCaptor<Checkout> checkoutCaptor = ArgumentCaptor.forClass(Checkout.class);
+    verify(checkoutRepository).save(checkoutCaptor.capture());
+    Checkout savedCheckout = checkoutCaptor.getValue();
 
-    assertNotNull(acautelamentoSalvo);
-    assertEquals(dataAcautelamento, acautelamentoSalvo.getDataAcautelamento());
-    assertEquals(gmMock, acautelamentoSalvo.getGuard());
-    assertEquals(armoryKeeperMock, acautelamentoSalvo.getArmoryKeeper());
-    assertEquals(1, acautelamentoSalvo.getTotalEquipamentsAcautelados());
+    assertNotNull(savedCheckout);
+    assertEquals(checkoutDate, savedCheckout.getCheckoutDate());
+    assertEquals(gmMock, savedCheckout.getGuard());
+    assertEquals(armoryKeeperMock, savedCheckout.getArmoryKeeper());
+    assertEquals(1, savedCheckout.getItemsSize());
   }
 
   @Test
-  void testCriarAcautelamentoArmeiroNaoEncontrado() {
+  void testCreateCheckoutWithArmoryKeeperNotFound() {
     // Configurar objetos mock
-    LocalDateTime dataAcautelamento = LocalDateTime.now();
+    LocalDateTime checkoutDate = LocalDateTime.now();
     String registration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
     List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
@@ -124,17 +124,17 @@ public class CriarAcautelamentoUseCaseTest {
     when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration)).thenReturn(Optional.empty());
 
     // Executar o caso de uso
-    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, registration, armoryKeeperRegistration,
+    CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, registration, armoryKeeperRegistration,
         itensAcauteladosRequest);
     assertThrows(ArmoryKeeperNotFoundException.class, () -> sut.execute(request));
 
-    verify(acautelamentoRepository, never()).save(any());
+    verify(checkoutRepository, never()).save(any());
   }
 
   @Test
-  void testCriarAcautelamentoGmNaoEncontrado() {
+  void testCreateCheckoutWithMunicialGuardNotFound() {
     // Configurar objetos mock
-    LocalDateTime dataAcautelamento = LocalDateTime.now();
+    LocalDateTime checkoutDate = LocalDateTime.now();
     String municipalGuardRegistration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
     List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
@@ -145,21 +145,21 @@ public class CriarAcautelamentoUseCaseTest {
     when(gmRepository.findByRegistrationNumber(municipalGuardRegistration)).thenReturn(Optional.empty());
 
     // Executar o caso de uso
-    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, municipalGuardRegistration,
+    CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, municipalGuardRegistration,
         armoryKeeperRegistration,
         itensAcauteladosRequest);
 
     // check if MunicipalGuardNotFoundException is thrown
     assertThrows(MunicipalGuardNotFoundException.class, () -> sut.execute(request));
 
-    // Verificar que acautelamentoRepository.save() nunca foi chamado
-    verify(acautelamentoRepository, never()).save(any());
+    // check if checkoutRepository.save() was never called
+    verify(checkoutRepository, never()).save(any());
   }
 
   @Test
-  @Description("Não deve ser possível criar um acautelamento se a quantidade de itens acautelados for maior que a quantidade em estoque")
-  void testCriarAcautelamentoQuantidadeInsuficienteNoEstoque() {
-    LocalDateTime dataAcautelamento = LocalDateTime.now();
+  @Description("It should not be able to create a checkout when the quantity of items in stock is insuficient")
+  void testCreateCheckoutWithInsuficientStockItemQuantity() {
+    LocalDateTime checkoutDate = LocalDateTime.now();
     String municipalGuardRegistration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
     List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
@@ -184,15 +184,15 @@ public class CriarAcautelamentoUseCaseTest {
                                                                                            // erro
 
     // Executar o caso de uso
-    CriarAcautelamentoDTO request = new CriarAcautelamentoDTO(dataAcautelamento, municipalGuardRegistration,
+    CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, municipalGuardRegistration,
         armoryKeeperRegistration,
         itensAcauteladosRequest);
 
     // check if RuntimeException is thrown
     assertThrows(RuntimeException.class, () -> sut.execute(request));
 
-    // check if acautelamentoRepository.save() was never called
-    verify(acautelamentoRepository, never()).save(any());
+    // check if checkoutRepository.save() was never called
+    verify(checkoutRepository, never()).save(any());
   }
 
 }

@@ -26,15 +26,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "acautelamentos")
-public class Acautelamento {
+@Table(name = "checkouts")
+public class Checkout {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "data_acautelamento")
+  @Column(name = "checkout_date")
   @NonNull
-  private LocalDateTime dataAcautelamento;
+  private LocalDateTime checkoutDate;
 
   @ManyToOne
   @JoinColumn(name = "municipal_guard_registration")
@@ -46,75 +46,75 @@ public class Acautelamento {
   @NonNull
   private ArmoryKepper armoryKeeper;
 
-  @OneToMany(mappedBy = "acautelamento", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "checkout", cascade = CascadeType.ALL)
   @Setter(AccessLevel.NONE)
-  private final List<ItemAcautelado> itensAcautelados = new ArrayList<>();
+  private final List<ItemAcautelado> checkedOutItems = new ArrayList<>();
 
-  public Acautelamento(
-      LocalDateTime dataAcautelamento,
+  public Checkout(
+      LocalDateTime checkoutDate,
       MunicipalGuard guard,
       ArmoryKepper armoryKeeper) {
-    this.dataAcautelamento = dataAcautelamento;
+    this.checkoutDate = checkoutDate;
     this.guard = guard;
     this.armoryKeeper = armoryKeeper;
   }
 
-  public void addItemAcautelado(ItemAcautelado item) {
-    itensAcautelados.add(item);
+  public void addItem(ItemAcautelado item) {
+    checkedOutItems.add(item);
   }
 
-  public void removeItemAcautelado(ItemAcautelado item) {
-    itensAcautelados.remove(item);
+  public void removeItem(ItemAcautelado item) {
+    checkedOutItems.remove(item);
   }
 
   public void adicionarQuantidade(ItemAcautelado item, int quantidade) {
-    int index = itensAcautelados.indexOf(item);
+    int index = checkedOutItems.indexOf(item);
 
     if (index != -1) {
-      int quantidadeAtual = itensAcautelados.get(index).getQuantidadeAcautelada();
-      quantidadeAtual += item.getQuantidadeAcautelada();
-      itensAcautelados.get(index).setQuantidadeAcautelada(quantidadeAtual);
+      int currentQuantity = checkedOutItems.get(index).getCheckoutQuantity();
+      currentQuantity += item.getCheckoutQuantity();
+      checkedOutItems.get(index).setCheckoutQuantity(currentQuantity);
     }
   }
 
-  public void diminuirQuantidade(ItemAcautelado item, int quantidade) {
-    int index = itensAcautelados.indexOf(item);
+  public void decreaseQuantity(ItemAcautelado item, int quantity) {
+    int index = checkedOutItems.indexOf(item);
 
     if (index == -1) {
       return;
     }
 
-    int quantidadeAtual = itensAcautelados.get(index).getQuantidadeAcautelada();
+    int currentQuantity = checkedOutItems.get(index).getCheckoutQuantity();
 
-    if (quantidadeAtual <= quantidade) {
-      removeItemAcautelado(item);
+    if (currentQuantity <= quantity) {
+      removeItem(item);
       return;
     }
 
-    quantidadeAtual -= quantidade;
+    currentQuantity -= quantity;
 
-    itensAcautelados.get(index).setQuantidadeAcautelada(quantidadeAtual);
+    checkedOutItems.get(index).setCheckoutQuantity(currentQuantity);
   }
 
-  public int getTotalEquipamentsAcautelados() {
-    return itensAcautelados.size();
+  public int getItemsSize() {
+    return checkedOutItems.size();
   }
 
   public int getTotalUnidadesAcautelados() {
-    return itensAcautelados
+    return checkedOutItems
         .stream()
-        .mapToInt(ItemAcautelado::getQuantidadeAcautelada)
+        .mapToInt(ItemAcautelado::getCheckoutQuantity)
         .sum();
   }
 
   public Optional<ItemAcautelado> getItem(ItemAcautelado item) {
-    int index = itensAcautelados.indexOf(item);
+    int index = checkedOutItems.indexOf(item);
 
     if (index == -1) {
       return null;
     }
 
-    return Optional.ofNullable(itensAcautelados.get(index));
+    return Optional.ofNullable(checkedOutItems.get(index));
   }
 
 }

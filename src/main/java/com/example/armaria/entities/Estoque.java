@@ -73,7 +73,7 @@ public class Estoque {
   public void checkOutEquipaments(List<ItemAcautelado> itensAcautelados) {
     for (ItemAcautelado itemAcautelado : itensAcautelados) {
       ItemEstoque itemEstoque = encontrarItemNoEstoque(itemAcautelado);
-      itemEstoque.diminuirQuantidade(itemAcautelado.getQuantidadeAcautelada());
+      itemEstoque.diminuirQuantidade(itemAcautelado.getCheckoutQuantity());
     }
   }
 

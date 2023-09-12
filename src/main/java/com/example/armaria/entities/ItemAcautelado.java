@@ -27,35 +27,35 @@ public class ItemAcautelado {
   @JoinColumn(name = "stock_item_id")
   private ItemEstoque itemEstoque;
 
-  @Column(name = "quantidade_acautelada")
-  private int quantidadeAcautelada;
+  @Column(name = "checkout_quantity")
+  private int checkoutQuantity;
 
   @ManyToOne
-  @JoinColumn(name = "id_acautelamento")
-  private Acautelamento acautelamento;
+  @JoinColumn(name = "checkout_id")
+  private Checkout checkout;
 
   public ItemAcautelado(Equipament equipament, ItemEstoque itemEstoque, int quantidadeAcautelada) {
     this.equipament = equipament;
     this.itemEstoque = itemEstoque;
-    setQuantidadeAcautelada(quantidadeAcautelada);
+    setCheckoutQuantity(quantidadeAcautelada);
   }
 
   public ItemAcautelado(ItemEstoque itemEstoque, int quantidadeAcautelada) {
     this.itemEstoque = itemEstoque;
-    setQuantidadeAcautelada(quantidadeAcautelada);
+    setCheckoutQuantity(quantidadeAcautelada);
     this.equipament = new Equipament();
   }
 
   public ItemAcautelado(Equipament equipament, int quantidadeAcautelada) {
     this.equipament = equipament;
-    setQuantidadeAcautelada(quantidadeAcautelada);
+    setCheckoutQuantity(quantidadeAcautelada);
   }
 
-  public void setQuantidadeAcautelada(int quantidadeAcautelada) {
+  public void setCheckoutQuantity(int quantidadeAcautelada) {
     if (quantidadeAcautelada <= 0) {
       throw new IllegalArgumentException("Não é possível acautelar um item em quantidade menor ou igual a zero");
     }
 
-    this.quantidadeAcautelada = quantidadeAcautelada;
+    this.checkoutQuantity = quantidadeAcautelada;
   }
 }

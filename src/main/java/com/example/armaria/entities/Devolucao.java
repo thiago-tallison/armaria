@@ -28,8 +28,8 @@ public class Devolucao {
   private Long id;
 
   @OneToOne
-  @JoinColumn(name = "id_acautelamento")
-  private final Acautelamento acautelamento;
+  @JoinColumn(name = "checkout_id")
+  private final Checkout checkout;
 
   @Column(name = "data_devolucao")
   private final LocalDateTime dataDevolucao;

@@ -8,12 +8,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class AcautelamentoTest {
+public class CheckoutTest {
   private MunicipalGuard gm;
   private ArmoryKepper armoryKeeper;
   private Equipament equipament;
   private ItemAcautelado itemAcautelado;
-  private Acautelamento acautelamento;
+  private Checkout checkout;
 
   private int quantidadeAcautelada = 10;
 
@@ -24,29 +24,29 @@ public class AcautelamentoTest {
 
     equipament = new Equipament("nome", "num-serie", true);
 
-    acautelamento = new Acautelamento(LocalDateTime.now(), gm, armoryKeeper);
+    checkout = new Checkout(LocalDateTime.now(), gm, armoryKeeper);
 
     itemAcautelado = new ItemAcautelado(equipament, quantidadeAcautelada);
   }
 
   @Test
   void testAdicionarEquipament() {
-    assertEquals(0, acautelamento.getTotalEquipamentsAcautelados());
+    assertEquals(0, checkout.getItemsSize());
 
-    acautelamento.addItemAcautelado(itemAcautelado);
+    checkout.addItem(itemAcautelado);
 
-    assertEquals(1, acautelamento.getTotalEquipamentsAcautelados());
+    assertEquals(1, checkout.getItemsSize());
 
-    assertEquals(quantidadeAcautelada, acautelamento.getTotalUnidadesAcautelados());
+    assertEquals(quantidadeAcautelada, checkout.getTotalUnidadesAcautelados());
   }
 
   @Test
   void testRemoveEquipament() {
-    acautelamento.addItemAcautelado(itemAcautelado);
+    checkout.addItem(itemAcautelado);
 
-    acautelamento.removeItemAcautelado(itemAcautelado);
+    checkout.removeItem(itemAcautelado);
 
-    assertEquals(0, acautelamento.getTotalEquipamentsAcautelados());
+    assertEquals(0, checkout.getItemsSize());
   }
 
   @Test
@@ -54,12 +54,12 @@ public class AcautelamentoTest {
   void deve_ser_possivel_remover_quantidade_menor_que_acautelada() {
     int quantidadeASerRemovida = 1;
 
-    acautelamento.addItemAcautelado(itemAcautelado);
-    acautelamento.diminuirQuantidade(itemAcautelado, quantidadeASerRemovida);
+    checkout.addItem(itemAcautelado);
+    checkout.decreaseQuantity(itemAcautelado, quantidadeASerRemovida);
 
     assertEquals(quantidadeAcautelada - quantidadeASerRemovida,
-        acautelamento.getItem(itemAcautelado).get().getQuantidadeAcautelada());
+        checkout.getItem(itemAcautelado).get().getCheckoutQuantity());
 
-    assertEquals(1, acautelamento.getTotalEquipamentsAcautelados());
+    assertEquals(1, checkout.getItemsSize());
   }
 }

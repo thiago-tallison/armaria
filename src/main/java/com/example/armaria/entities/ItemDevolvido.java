@@ -39,8 +39,8 @@ public class ItemDevolvido {
   private int quantidadeDevolvida;
 
   @ManyToOne
-  @JoinColumn(name = "id_acautelamento")
-  private Acautelamento acautelamento;
+  @JoinColumn(name = "checkout_id")
+  private Checkout checkout;
 
   @ManyToOne
   private Devolucao devolucao;

@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.acautelamento;
+package com.example.armaria.controllers.checkout;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,15 +17,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
-import com.example.armaria.dtos.acautelamento.CriarAcautelamentoDTO;
+import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
 import com.example.armaria.entities.ItemEstoque;
-import com.example.armaria.use_cases.acautelamento.ItemAcauteladoDTO;
 import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
+import com.example.armaria.use_cases.checkout.ItemAcauteladoDTO;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CriarAcautelamentoControllerTest {
+public class CreateCheckoutControllerTest {
   @LocalServerPort
   private int port;
 
@@ -34,48 +34,48 @@ public class CriarAcautelamentoControllerTest {
 
   @Test
   void testExecute() {
-    String criarAcautelamentoUrl = "http://localhost:" + port + "/api/acautelamento";
-    LocalDateTime dataAcautelamento = LocalDateTime.now();
+    String createCheckoutUrl = "http://localhost:" + port + "/api/v1/checkout_equipaments";
+    LocalDateTime checkoutDate = LocalDateTime.now();
     String registration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
-    int quantidadeASerCriada = 10;
-    int quantidadeASerAcautelada = 5;
+    int quantity = 10;
+    int checkoutQuantity = 5;
     String equipamentSerialNumber = "serial-number-existente";
 
     List<ItemAcauteladoDTO> itensAcauteladosDto = new ArrayList<>();
-    itensAcauteladosDto.add(new ItemAcauteladoDTO(1L, 1L, quantidadeASerAcautelada));
+    itensAcauteladosDto.add(new ItemAcauteladoDTO(1L, 1L, checkoutQuantity));
 
     getArmoryKeeper(armoryKeeperRegistration);
     getMunicipalGuard(registration);
-    createEquipament(quantidadeASerCriada, equipamentSerialNumber);
+    createEquipament(quantity, equipamentSerialNumber);
 
-    CriarAcautelamentoDTO dto = new CriarAcautelamentoDTO(dataAcautelamento,
+    CheckoutCreateTDO dto = new CheckoutCreateTDO(checkoutDate,
         registration, armoryKeeperRegistration, itensAcauteladosDto);
 
     // Verificar se um item estoque foi criado com a quantidade
     // "quantidadeASerCriada"
     String getItemEstoqueUrl = "http://localhost:" + port + "/api/v1/stock_items/serial_number/"
         + equipamentSerialNumber;
-    ResponseEntity<ItemEstoque> itemEstoqueAntesAcautelamentoResponse = restTemplate.getForEntity(getItemEstoqueUrl,
+    ResponseEntity<ItemEstoque> stockItemsBeforeCheckoutResponse = restTemplate.getForEntity(getItemEstoqueUrl,
         ItemEstoque.class);
-    ItemEstoque itemEstoqueAntesAcautelamento = itemEstoqueAntesAcautelamentoResponse.getBody();
-    assertNotNull(itemEstoqueAntesAcautelamento);
-    assertEquals(HttpStatus.OK, itemEstoqueAntesAcautelamentoResponse.getStatusCode());
-    assertEquals(quantidadeASerCriada,
-        itemEstoqueAntesAcautelamento.getQuantityInStock());
+    ItemEstoque stockItemsBeforeCheckout = stockItemsBeforeCheckoutResponse.getBody();
+    assertNotNull(stockItemsBeforeCheckout);
+    assertEquals(HttpStatus.OK, stockItemsBeforeCheckoutResponse.getStatusCode());
+    assertEquals(quantity,
+        stockItemsBeforeCheckout.getQuantityInStock());
 
-    ResponseEntity<Void> response = restTemplate.postForEntity(criarAcautelamentoUrl, dto, Void.class);
+    ResponseEntity<Void> response = restTemplate.postForEntity(createCheckoutUrl, dto, Void.class);
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     // Checar se a quantidade em estoque do item acautelado foi atualizada
-    ResponseEntity<ItemEstoque> itemEstoqueDepoisAcautelamentoResponse = restTemplate.getForEntity(getItemEstoqueUrl,
+    ResponseEntity<ItemEstoque> stockItemsAfterCheckoutResponse = restTemplate.getForEntity(getItemEstoqueUrl,
         ItemEstoque.class);
-    ItemEstoque itemEstoqueDepoisAcautelamento = itemEstoqueDepoisAcautelamentoResponse.getBody();
+    ItemEstoque stockItemAfterCheckout = stockItemsAfterCheckoutResponse.getBody();
 
-    assertNotNull(itemEstoqueDepoisAcautelamento);
-    assertEquals(HttpStatus.OK, itemEstoqueDepoisAcautelamentoResponse.getStatusCode());
-    assertEquals(quantidadeASerCriada - quantidadeASerAcautelada,
-        itemEstoqueDepoisAcautelamento.getQuantityInStock());
+    assertNotNull(stockItemAfterCheckout);
+    assertEquals(HttpStatus.OK, stockItemsAfterCheckoutResponse.getStatusCode());
+    assertEquals(quantity - checkoutQuantity,
+        stockItemAfterCheckout.getQuantityInStock());
 
   }
 
