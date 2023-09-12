@@ -27,14 +27,14 @@ import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
 import com.example.armaria.entities.ArmoryKepper;
 import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.entities.MunicipalGuard;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.ArmoryKeeperNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.ArmoryKeeperRepository;
 import com.example.armaria.repositories.CheckoutRepository;
-import com.example.armaria.repositories.ItemEstoqueRepository;
 import com.example.armaria.repositories.MunicipalGuardRepository;
+import com.example.armaria.repositories.StockItemRepository;
 
 public class CreatecheckoutUseCaseTest {
   @InjectMocks
@@ -44,7 +44,7 @@ public class CreatecheckoutUseCaseTest {
   private CheckoutRepository checkoutRepository;
 
   @Mock
-  private ItemEstoqueRepository itemEstoqueRepository;
+  private StockItemRepository stockItemRepository;
 
   @Mock
   private ArmoryKeeperRepository armoryKeeperRepository;
@@ -63,8 +63,8 @@ public class CreatecheckoutUseCaseTest {
     LocalDateTime checkoutDate = LocalDateTime.now();
     String registration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
-    List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
-    itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 2));
+    List<CheckedOutItemDTO> itensAcauteladosRequest = new ArrayList<>();
+    itensAcauteladosRequest.add(new CheckedOutItemDTO(1L, 1L, 2));
 
     ArmoryKepper armoryKeeperMock = new ArmoryKepper();
     armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
@@ -72,7 +72,7 @@ public class CreatecheckoutUseCaseTest {
     MunicipalGuard gmMock = new MunicipalGuard();
     gmMock.setRegistrationNumber(registration);
 
-    ItemEstoque itemEstoqueMock = new ItemEstoque();
+    StockItem itemEstoqueMock = new StockItem();
     Equipament equipamentMock = new Equipament();
     equipamentMock.setId(1L);
     itemEstoqueMock.setEquipament(equipamentMock);
@@ -81,7 +81,7 @@ public class CreatecheckoutUseCaseTest {
     when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
         .thenReturn(Optional.of(armoryKeeperMock));
     when(gmRepository.findByRegistrationNumber(registration)).thenReturn(Optional.of(gmMock));
-    when(itemEstoqueRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(2))).thenReturn(1);
+    when(stockItemRepository.increaseStockItemQuantity(eq(1L), eq(2))).thenReturn(1);
 
     // Execute usecase
     CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, registration, armoryKeeperRegistration,
@@ -106,8 +106,8 @@ public class CreatecheckoutUseCaseTest {
     LocalDateTime checkoutDate = LocalDateTime.now();
     String registration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
-    List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
-    itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 2));
+    List<CheckedOutItemDTO> itensAcauteladosRequest = new ArrayList<>();
+    itensAcauteladosRequest.add(new CheckedOutItemDTO(1L, 1L, 2));
 
     ArmoryKepper armoryKeeperMock = new ArmoryKepper();
     armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
@@ -115,7 +115,7 @@ public class CreatecheckoutUseCaseTest {
     MunicipalGuard gmMock = new MunicipalGuard();
     gmMock.setRegistrationNumber(registration);
 
-    ItemEstoque itemEstoqueMock = new ItemEstoque();
+    StockItem itemEstoqueMock = new StockItem();
     Equipament equipamentMock = new Equipament();
     equipamentMock.setId(1L);
     itemEstoqueMock.setEquipament(equipamentMock);
@@ -137,8 +137,8 @@ public class CreatecheckoutUseCaseTest {
     LocalDateTime checkoutDate = LocalDateTime.now();
     String municipalGuardRegistration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
-    List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
-    itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 2));
+    List<CheckedOutItemDTO> itensAcauteladosRequest = new ArrayList<>();
+    itensAcauteladosRequest.add(new CheckedOutItemDTO(1L, 1L, 2));
 
     when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
         .thenReturn(Optional.of(new ArmoryKepper()));
@@ -162,8 +162,8 @@ public class CreatecheckoutUseCaseTest {
     LocalDateTime checkoutDate = LocalDateTime.now();
     String municipalGuardRegistration = "municipal-guard-registration";
     String armoryKeeperRegistration = "armory-keeper-registration";
-    List<ItemAcauteladoDTO> itensAcauteladosRequest = new ArrayList<>();
-    itensAcauteladosRequest.add(new ItemAcauteladoDTO(1L, 1L, 10)); // Quantidade alta para forçar erro
+    List<CheckedOutItemDTO> itensAcauteladosRequest = new ArrayList<>();
+    itensAcauteladosRequest.add(new CheckedOutItemDTO(1L, 1L, 10)); // Quantidade alta para forçar erro
 
     ArmoryKepper armoryKeeperMock = new ArmoryKepper();
     armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
@@ -171,7 +171,7 @@ public class CreatecheckoutUseCaseTest {
     MunicipalGuard gmMock = new MunicipalGuard();
     gmMock.setRegistrationNumber(municipalGuardRegistration);
 
-    ItemEstoque itemEstoqueMock = new ItemEstoque();
+    StockItem itemEstoqueMock = new StockItem();
     Equipament equipamentMock = new Equipament();
     equipamentMock.setId(1L);
     itemEstoqueMock.setEquipament(equipamentMock);
@@ -180,8 +180,8 @@ public class CreatecheckoutUseCaseTest {
     when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
         .thenReturn(Optional.of(armoryKeeperMock));
     when(gmRepository.findByRegistrationNumber(municipalGuardRegistration)).thenReturn(Optional.of(gmMock));
-    when(itemEstoqueRepository.diminuirQuantidadeEmEstoque(eq(1L), eq(10))).thenReturn(0); // Retornar 0 para simular
-                                                                                           // erro
+    when(stockItemRepository.increaseStockItemQuantity(eq(1L), eq(10))).thenReturn(0); // Retornar 0 para simular
+                                                                                       // erro
 
     // Executar o caso de uso
     CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, municipalGuardRegistration,

@@ -18,9 +18,9 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
-import com.example.armaria.use_cases.checkout.ItemAcauteladoDTO;
+import com.example.armaria.use_cases.checkout.CheckedOutItemDTO;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,8 +42,8 @@ public class CreateCheckoutControllerTest {
     int checkoutQuantity = 5;
     String equipamentSerialNumber = "serial-number-existente";
 
-    List<ItemAcauteladoDTO> itensAcauteladosDto = new ArrayList<>();
-    itensAcauteladosDto.add(new ItemAcauteladoDTO(1L, 1L, checkoutQuantity));
+    List<CheckedOutItemDTO> itensAcauteladosDto = new ArrayList<>();
+    itensAcauteladosDto.add(new CheckedOutItemDTO(1L, 1L, checkoutQuantity));
 
     getArmoryKeeper(armoryKeeperRegistration);
     getMunicipalGuard(registration);
@@ -56,9 +56,9 @@ public class CreateCheckoutControllerTest {
     // "quantidadeASerCriada"
     String getItemEstoqueUrl = "http://localhost:" + port + "/api/v1/stock_items/serial_number/"
         + equipamentSerialNumber;
-    ResponseEntity<ItemEstoque> stockItemsBeforeCheckoutResponse = restTemplate.getForEntity(getItemEstoqueUrl,
-        ItemEstoque.class);
-    ItemEstoque stockItemsBeforeCheckout = stockItemsBeforeCheckoutResponse.getBody();
+    ResponseEntity<StockItem> stockItemsBeforeCheckoutResponse = restTemplate.getForEntity(getItemEstoqueUrl,
+        StockItem.class);
+    StockItem stockItemsBeforeCheckout = stockItemsBeforeCheckoutResponse.getBody();
     assertNotNull(stockItemsBeforeCheckout);
     assertEquals(HttpStatus.OK, stockItemsBeforeCheckoutResponse.getStatusCode());
     assertEquals(quantity,
@@ -68,9 +68,9 @@ public class CreateCheckoutControllerTest {
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     // Checar se a quantidade em estoque do item acautelado foi atualizada
-    ResponseEntity<ItemEstoque> stockItemsAfterCheckoutResponse = restTemplate.getForEntity(getItemEstoqueUrl,
-        ItemEstoque.class);
-    ItemEstoque stockItemAfterCheckout = stockItemsAfterCheckoutResponse.getBody();
+    ResponseEntity<StockItem> stockItemsAfterCheckoutResponse = restTemplate.getForEntity(getItemEstoqueUrl,
+        StockItem.class);
+    StockItem stockItemAfterCheckout = stockItemsAfterCheckoutResponse.getBody();
 
     assertNotNull(stockItemAfterCheckout);
     assertEquals(HttpStatus.OK, stockItemsAfterCheckoutResponse.getStatusCode());

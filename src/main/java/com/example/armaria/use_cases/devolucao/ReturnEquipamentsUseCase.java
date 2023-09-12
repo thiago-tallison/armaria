@@ -13,11 +13,11 @@ import com.example.armaria.entities.ArmoryKepper;
 import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Devolucao;
 import com.example.armaria.entities.ItemDevolvido;
-import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.entities.MunicipalGuard;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.CheckoutNotFoundException;
 import com.example.armaria.repositories.CheckoutRepository;
-import com.example.armaria.repositories.ItemEstoqueRepository;
+import com.example.armaria.repositories.StockItemRepository;
 import com.example.armaria.use_cases.armory_keeper.GetArmoryKeeperByRegistrationUseCase;
 import com.example.armaria.use_cases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 
@@ -27,18 +27,18 @@ import jakarta.transaction.Transactional;
 public class ReturnEquipamentsUseCase {
   private final CheckoutRepository checkoutRepository;
   private final ReturnEquipamentRepository returnEquipamentRepository;
-  private final ItemEstoqueRepository itemEstoqueRepository;
+  private final StockItemRepository stockItemRepository;
   private final GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase;
   private final GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase;
 
   public ReturnEquipamentsUseCase(
       CheckoutRepository checkoutRepository,
       ReturnEquipamentRepository returnEquipamentRepository,
-      ItemEstoqueRepository itemEstoqueRepository,
+      StockItemRepository stockItemRepository,
       GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase,
       GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase) {
     this.checkoutRepository = checkoutRepository;
-    this.itemEstoqueRepository = itemEstoqueRepository;
+    this.stockItemRepository = stockItemRepository;
     this.returnEquipamentRepository = returnEquipamentRepository;
     this.getArmoryKeeperByRegistrationUseCase = getArmoryKeeperByRegistrationUseCase;
     this.getMunicipalGuardByRegistrationUseCase = getMunicipalGuardByRegistrationUseCase;
@@ -66,7 +66,7 @@ public class ReturnEquipamentsUseCase {
     Checkout checkout = optionalCheckout.get();
     List<ItemDevolvido> itensDevolvidos = new ArrayList<>();
     for (ItemDevolvidoDTO item : equipamentReturnDTO.itensDevolvidos()) {
-      int linhasAfetadas = itemEstoqueRepository.aumentarQuantidadeEmEstoque(item.idItemEstoque(),
+      int linhasAfetadas = stockItemRepository.decreaseStockItemQuantity(item.idItemEstoque(),
           item.quantidadeDevolvida());
 
       if (linhasAfetadas == 0) {
@@ -74,11 +74,11 @@ public class ReturnEquipamentsUseCase {
       }
 
       // save equipament return
-      ItemEstoque itemEstoque = new ItemEstoque();
-      itemEstoque.setId(item.idItemEstoque());
+      StockItem stockItem = new StockItem();
+      stockItem.setId(item.idItemEstoque());
 
       ItemDevolvido itemDevolvido = new ItemDevolvido();
-      itemDevolvido.setItemEstoque(itemEstoque);
+      itemDevolvido.setStockItem(stockItem);
       itemDevolvido.setQuantidadeDevolvida(item.quantidadeDevolvida());
       itemDevolvido.setCheckout(checkout);
 

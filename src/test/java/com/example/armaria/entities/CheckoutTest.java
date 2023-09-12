@@ -12,10 +12,10 @@ public class CheckoutTest {
   private MunicipalGuard gm;
   private ArmoryKepper armoryKeeper;
   private Equipament equipament;
-  private ItemAcautelado itemAcautelado;
+  private CheckedoutItem checkedoutItem;
   private Checkout checkout;
 
-  private int quantidadeAcautelada = 10;
+  private int checkedoutQuantity = 10;
 
   @BeforeEach
   public void setUp() {
@@ -26,25 +26,25 @@ public class CheckoutTest {
 
     checkout = new Checkout(LocalDateTime.now(), gm, armoryKeeper);
 
-    itemAcautelado = new ItemAcautelado(equipament, quantidadeAcautelada);
+    checkedoutItem = new CheckedoutItem(equipament, checkedoutQuantity);
   }
 
   @Test
   void testAdicionarEquipament() {
     assertEquals(0, checkout.getItemsSize());
 
-    checkout.addItem(itemAcautelado);
+    checkout.addItem(checkedoutItem);
 
     assertEquals(1, checkout.getItemsSize());
 
-    assertEquals(quantidadeAcautelada, checkout.getTotalUnidadesAcautelados());
+    assertEquals(checkedoutQuantity, checkout.getTotalUnidadesAcautelados());
   }
 
   @Test
   void testRemoveEquipament() {
-    checkout.addItem(itemAcautelado);
+    checkout.addItem(checkedoutItem);
 
-    checkout.removeItem(itemAcautelado);
+    checkout.removeItem(checkedoutItem);
 
     assertEquals(0, checkout.getItemsSize());
   }
@@ -54,11 +54,11 @@ public class CheckoutTest {
   void deve_ser_possivel_remover_quantidade_menor_que_acautelada() {
     int quantidadeASerRemovida = 1;
 
-    checkout.addItem(itemAcautelado);
-    checkout.decreaseQuantity(itemAcautelado, quantidadeASerRemovida);
+    checkout.addItem(checkedoutItem);
+    checkout.decreaseQuantity(checkedoutItem, quantidadeASerRemovida);
 
-    assertEquals(quantidadeAcautelada - quantidadeASerRemovida,
-        checkout.getItem(itemAcautelado).get().getCheckoutQuantity());
+    assertEquals(checkedoutQuantity - quantidadeASerRemovida,
+        checkout.getItem(checkedoutItem).get().getCheckoutQuantity());
 
     assertEquals(1, checkout.getItemsSize());
   }

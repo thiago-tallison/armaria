@@ -48,7 +48,7 @@ public class Checkout {
 
   @OneToMany(mappedBy = "checkout", cascade = CascadeType.ALL)
   @Setter(AccessLevel.NONE)
-  private final List<ItemAcautelado> checkedOutItems = new ArrayList<>();
+  private final List<CheckedoutItem> checkedOutItems = new ArrayList<>();
 
   public Checkout(
       LocalDateTime checkoutDate,
@@ -59,15 +59,15 @@ public class Checkout {
     this.armoryKeeper = armoryKeeper;
   }
 
-  public void addItem(ItemAcautelado item) {
+  public void addItem(CheckedoutItem item) {
     checkedOutItems.add(item);
   }
 
-  public void removeItem(ItemAcautelado item) {
+  public void removeItem(CheckedoutItem item) {
     checkedOutItems.remove(item);
   }
 
-  public void adicionarQuantidade(ItemAcautelado item, int quantidade) {
+  public void adicionarQuantidade(CheckedoutItem item, int quantity) {
     int index = checkedOutItems.indexOf(item);
 
     if (index != -1) {
@@ -77,7 +77,7 @@ public class Checkout {
     }
   }
 
-  public void decreaseQuantity(ItemAcautelado item, int quantity) {
+  public void decreaseQuantity(CheckedoutItem item, int quantity) {
     int index = checkedOutItems.indexOf(item);
 
     if (index == -1) {
@@ -103,11 +103,11 @@ public class Checkout {
   public int getTotalUnidadesAcautelados() {
     return checkedOutItems
         .stream()
-        .mapToInt(ItemAcautelado::getCheckoutQuantity)
+        .mapToInt(CheckedoutItem::getCheckoutQuantity)
         .sum();
   }
 
-  public Optional<ItemAcautelado> getItem(ItemAcautelado item) {
+  public Optional<CheckedoutItem> getItem(CheckedoutItem item) {
     int index = checkedOutItems.indexOf(item);
 
     if (index == -1) {

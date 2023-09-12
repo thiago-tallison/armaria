@@ -11,7 +11,7 @@ public class DevolucaoTest {
   private MunicipalGuard mg;
   private ArmoryKepper armoryKeeper;
   private Equipament equipament;
-  private ItemAcautelado itemAcautelado;
+  private CheckedoutItem checkedoutItem;
   private ItemDevolvido itemDevolvido;
   private Checkout checkout;
   private Devolucao devolucao;
@@ -23,7 +23,7 @@ public class DevolucaoTest {
 
     checkout = new Checkout(LocalDateTime.now(), mg, armoryKeeper);
 
-    itemAcautelado = new ItemAcautelado(equipament, 1);
+    checkedoutItem = new CheckedoutItem(equipament, 1);
 
     devolucao = new Devolucao(checkout, LocalDateTime.now(), mg, armoryKeeper);
 
@@ -39,7 +39,7 @@ public class DevolucaoTest {
     devolucao.addItemDevolvido(itemDevolvido);
 
     // assertTrue(devolucao.getItensDevolvidos().size() == 1);
-    assertEquals(itemAcautelado.getEquipament(), itemDevolvido.getEquipament());
+    assertEquals(checkedoutItem.getEquipament(), itemDevolvido.getEquipament());
   }
 
   @Test

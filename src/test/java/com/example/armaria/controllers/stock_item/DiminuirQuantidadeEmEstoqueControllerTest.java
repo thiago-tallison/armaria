@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -40,9 +40,9 @@ public class DiminuirQuantidadeEmEstoqueControllerTest {
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
-    ResponseEntity<ItemEstoque> response1 = restTemplate.getForEntity(baseUrlGet, ItemEstoque.class);
+    ResponseEntity<StockItem> response1 = restTemplate.getForEntity(baseUrlGet, StockItem.class);
 
-    ItemEstoque item = response1.getBody();
+    StockItem item = response1.getBody();
 
     assertNotNull(item);
     assertEquals(5, item.getQuantityInStock());

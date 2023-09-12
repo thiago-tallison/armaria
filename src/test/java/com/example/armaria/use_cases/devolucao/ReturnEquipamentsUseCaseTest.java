@@ -27,13 +27,13 @@ import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
 import com.example.armaria.entities.ArmoryKepper;
 import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Devolucao;
-import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.entities.MunicipalGuard;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.ArmoryKeeperNotFoundException;
 import com.example.armaria.errors.CheckoutNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.CheckoutRepository;
-import com.example.armaria.repositories.ItemEstoqueRepository;
+import com.example.armaria.repositories.StockItemRepository;
 import com.example.armaria.use_cases.armory_keeper.GetArmoryKeeperByRegistrationUseCase;
 import com.example.armaria.use_cases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 
@@ -48,7 +48,7 @@ public class ReturnEquipamentsUseCaseTest {
   private ReturnEquipamentRepository returnEquipamentRepository;
 
   @Mock
-  private ItemEstoqueRepository itemEstoqueRepository;
+  private StockItemRepository stockItemRepository;
 
   @Mock
   private GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase;
@@ -74,7 +74,7 @@ public class ReturnEquipamentsUseCaseTest {
     Checkout acatuelamentoMock = new Checkout();
     acatuelamentoMock.setId(equipamentReturnDTO.checkoutId());
 
-    ItemEstoque itemEstoqueMock = new ItemEstoque();
+    StockItem itemEstoqueMock = new StockItem();
     itemEstoqueMock.setId(equipamentReturnDTO.itensDevolvidos().get(0).idItemEstoque());
 
     Devolucao devolucaoMock = new Devolucao(acatuelamentoMock, equipamentReturnDTO.dataDevolucao(), gmMock,
@@ -85,13 +85,13 @@ public class ReturnEquipamentsUseCaseTest {
     when(getMunicipalGuardByRegistrationUseCase.execute(gmMock.getRegistrationNumber()))
         .thenReturn(Optional.of(gmMock));
     when(chcekoutRepository.findById(acatuelamentoMock.getId())).thenReturn(Optional.of(acatuelamentoMock));
-    when(itemEstoqueRepository.aumentarQuantidadeEmEstoque(itemEstoqueMock.getId(),
+    when(stockItemRepository.decreaseStockItemQuantity(itemEstoqueMock.getId(),
         equipamentReturnDTO.itensDevolvidos().get(0).quantidadeDevolvida())).thenReturn(1);
     when(returnEquipamentRepository.save(devolucaoMock)).thenReturn(devolucaoMock);
 
     assertDoesNotThrow(() -> sut.execute(equipamentReturnDTO));
 
-    verify(itemEstoqueRepository, times(1)).aumentarQuantidadeEmEstoque(
+    verify(stockItemRepository, times(1)).decreaseStockItemQuantity(
         itemEstoqueMock.getId(),
         equipamentReturnDTO.itensDevolvidos().get(0).quantidadeDevolvida());
 
@@ -113,7 +113,7 @@ public class ReturnEquipamentsUseCaseTest {
     assertThrows(ArmoryKeeperNotFoundException.class, () -> sut.execute(dtoMatriculaInvalida));
 
     verify(getArmoryKeeperByRegistrationUseCase).execute(eq("inexistent-registration"));
-    verify(itemEstoqueRepository, never()).aumentarQuantidadeEmEstoque(anyLong(), anyInt());
+    verify(stockItemRepository, never()).decreaseStockItemQuantity(anyLong(), anyInt());
     verify(chcekoutRepository, never()).findById(anyLong());
   }
 
@@ -131,7 +131,7 @@ public class ReturnEquipamentsUseCaseTest {
     assertThrows(MunicipalGuardNotFoundException.class, () -> sut.execute(dtoMatriculaInvalida));
 
     verify(getMunicipalGuardByRegistrationUseCase).execute(eq("inexistent-registration"));
-    verify(itemEstoqueRepository, never()).aumentarQuantidadeEmEstoque(anyLong(), anyInt());
+    verify(stockItemRepository, never()).decreaseStockItemQuantity(anyLong(), anyInt());
     verify(chcekoutRepository, never()).findById(anyLong());
   }
 
@@ -149,7 +149,7 @@ public class ReturnEquipamentsUseCaseTest {
     long idNaoExistente = 1001L;
     acatuelamentoMock.setId(idNaoExistente);
 
-    ItemEstoque itemEstoqueMock = new ItemEstoque();
+    StockItem itemEstoqueMock = new StockItem();
     itemEstoqueMock.setId(equipamentReturnDTO.itensDevolvidos().get(0).idItemEstoque());
 
     when(getArmoryKeeperByRegistrationUseCase.execute(armoryKeeperMock.getRegistrationNumber()))
@@ -160,7 +160,7 @@ public class ReturnEquipamentsUseCaseTest {
 
     assertThrows(CheckoutNotFoundException.class, () -> sut.execute(equipamentReturnDTO));
 
-    verify(itemEstoqueRepository, never()).aumentarQuantidadeEmEstoque(
+    verify(stockItemRepository, never()).decreaseStockItemQuantity(
         anyLong(),
         anyInt());
 

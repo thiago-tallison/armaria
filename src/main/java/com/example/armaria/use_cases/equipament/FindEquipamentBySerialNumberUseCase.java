@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 import com.example.armaria.entities.Equipament;
 import com.example.armaria.errors.EquipamentNotFoundException;
 import com.example.armaria.repositories.EquipamentRepository;
-import com.example.armaria.repositories.ItemEstoqueRepository;
+import com.example.armaria.repositories.StockItemRepository;
 
 @Service
 public class FindEquipamentBySerialNumberUseCase {
   private final EquipamentRepository equipamentRepository;
 
   public FindEquipamentBySerialNumberUseCase(EquipamentRepository equipamentRepository,
-      ItemEstoqueRepository itemEstoqueRepository) {
+      StockItemRepository stockItemRepository) {
     this.equipamentRepository = equipamentRepository;
   }
 

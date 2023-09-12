@@ -50,7 +50,7 @@ public class Devolucao {
     itensDevolvidos.add(itemDevolvido);
   }
 
-  public void removeItemDevolvido(ItemDevolvido itemDevolvido, int quantidade) {
+  public void removeItemDevolvido(ItemDevolvido itemDevolvido, int quantity) {
     int index = itensDevolvidos.indexOf(itemDevolvido);
     if (index == -1) {
       return;
@@ -58,10 +58,10 @@ public class Devolucao {
 
     ItemDevolvido item = itensDevolvidos.get(index);
 
-    if (quantidade >= item.getQuantidadeDevolvida()) {
+    if (quantity >= item.getQuantidadeDevolvida()) {
       itensDevolvidos.remove(index);
     } else {
-      itemDevolvido.setQuantidadeDevolvida(item.getQuantidadeDevolvida() - quantidade);
+      itemDevolvido.setQuantidadeDevolvida(item.getQuantidadeDevolvida() - quantity);
       // Atualiza a quantidade do item que esta sendo devolvido
       itensDevolvidos.set(index, item);
     }

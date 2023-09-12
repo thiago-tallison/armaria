@@ -5,22 +5,22 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.EquipamentAlreadyExistsException;
 import com.example.armaria.repositories.EquipamentRepository;
-import com.example.armaria.repositories.ItemEstoqueRepository;
+import com.example.armaria.repositories.StockItemRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class CreateEquipamentUseCase {
   private final EquipamentRepository equipamentRepository;
-  private final ItemEstoqueRepository itemEstoqueRepository;
+  private final StockItemRepository stockItemRepository;
 
   public CreateEquipamentUseCase(EquipamentRepository equipamentRepository,
-      ItemEstoqueRepository itemEstoqueRepository) {
+      StockItemRepository stockItemRepository) {
     this.equipamentRepository = equipamentRepository;
-    this.itemEstoqueRepository = itemEstoqueRepository;
+    this.stockItemRepository = stockItemRepository;
   }
 
   @Transactional
@@ -35,8 +35,8 @@ public class CreateEquipamentUseCase {
     Equipament equipament = new Equipament(equipamentCreateDTO);
     equipamentRepository.save(equipament);
 
-    ItemEstoque itemEstoque = new ItemEstoque(equipament,
+    StockItem stockItem = new StockItem(equipament,
         equipamentCreateDTO.quantityInStock());
-    itemEstoqueRepository.save(itemEstoque);
+    stockItemRepository.save(stockItem);
   }
 }
