@@ -1,4 +1,4 @@
-package com.example.armaria.use_cases.item_estoque;
+package com.example.armaria.use_cases.stock_item;
 
 import java.util.Optional;
 

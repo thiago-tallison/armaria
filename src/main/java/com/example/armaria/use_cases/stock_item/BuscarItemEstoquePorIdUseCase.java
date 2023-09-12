@@ -1,4 +1,4 @@
-package com.example.armaria.use_cases.item_estoque;
+package com.example.armaria.use_cases.stock_item;
 
 import java.util.Optional;
 
@@ -8,28 +8,21 @@ import com.example.armaria.entities.ItemEstoque;
 import com.example.armaria.errors.ItemEstoqueNaoEncontradoException;
 import com.example.armaria.repositories.ItemEstoqueRepository;
 
-import jakarta.transaction.Transactional;
-
 @Service
-public class AumentarQuantidadeEmEstoqueUseCase {
+public class BuscarItemEstoquePorIdUseCase {
   private final ItemEstoqueRepository itemEstoqueRepository;
 
-  public AumentarQuantidadeEmEstoqueUseCase(ItemEstoqueRepository itemEstoqueRepository) {
+  public BuscarItemEstoquePorIdUseCase(ItemEstoqueRepository itemEstoqueRepository) {
     this.itemEstoqueRepository = itemEstoqueRepository;
   }
 
-  @Transactional
-  public void execute(Long id, int quantidade) {
+  public Optional<ItemEstoque> execute(long id) {
     Optional<ItemEstoque> itemEstoque = itemEstoqueRepository.findById(id);
 
     if (!itemEstoque.isPresent()) {
       throw new ItemEstoqueNaoEncontradoException();
     }
 
-    ItemEstoque item = itemEstoque.get();
-
-    item.aumentarQuantidade(quantidade);
-    itemEstoqueRepository.save(item);
+    return itemEstoque;
   }
-
 }

@@ -23,9 +23,9 @@ public class DeleteEquipamentUseCase {
     this.itemEstoqueRepository = itemEstoqueRepository;
   }
 
-  public void execute(String numSerie) {
+  public void execute(String serialNumber) {
     // verificar se existe
-    Optional<Equipament> optionalEquipament = equipamentRepository.findBySerialNumber(numSerie);
+    Optional<Equipament> optionalEquipament = equipamentRepository.findBySerialNumber(serialNumber);
 
     if (optionalEquipament.isPresent()) {
       Optional<ItemEstoque> item = itemEstoqueRepository.findByEquipament(optionalEquipament.get());

@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.item_estoque;
+package com.example.armaria.controllers.stock_item;
 
 import java.util.Optional;
 
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.armaria.entities.ItemEstoque;
-import com.example.armaria.use_cases.item_estoque.BuscarItemEstoquePorIdUseCase;
+import com.example.armaria.use_cases.stock_item.BuscarItemEstoquePorIdUseCase;
 
 @RestController
-@RequestMapping("/api/item-estoque")
+@RequestMapping("/api/v1/stock_items")
 public class BuscarItemEstoquePorIdController {
   private final BuscarItemEstoquePorIdUseCase buscarItemEstoquePorIdUseCase;
 

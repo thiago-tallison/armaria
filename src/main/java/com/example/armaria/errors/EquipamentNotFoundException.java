@@ -5,7 +5,7 @@ public class EquipamentNotFoundException extends RuntimeException {
     super("Equipament não encontrado");
   }
 
-  public EquipamentNotFoundException(String numSerie) {
-    super("Equipament não encontrado: " + numSerie);
+  public EquipamentNotFoundException(String serialNumber) {
+    super("Equipament não encontrado: " + serialNumber);
   }
 }

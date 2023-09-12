@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.item_estoque;
+package com.example.armaria.controllers.stock_item;
 
 import java.util.Optional;
 
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.armaria.entities.ItemEstoque;
-import com.example.armaria.use_cases.item_estoque.FindStockItemByEquipamentUseCase;
+import com.example.armaria.use_cases.stock_item.FindStockItemByEquipamentUseCase;
 
 @RestController
-@RequestMapping("/api/item-estoque")
+@RequestMapping("/api/v1/stock_items")
 public class FindStockItemByEquipamentController {
   private final FindStockItemByEquipamentUseCase findStockItemByEquipamentUseCase;
 
@@ -21,9 +21,9 @@ public class FindStockItemByEquipamentController {
     this.findStockItemByEquipamentUseCase = findStockItemByEquipamentUseCase;
   }
 
-  @GetMapping("/num-serie/{numSerie}")
-  public ResponseEntity<Optional<ItemEstoque>> handle(@PathVariable String numSerie) {
-    Optional<ItemEstoque> itemEstoque = findStockItemByEquipamentUseCase.execute(numSerie);
+  @GetMapping("/serial_number/{serialNumber}")
+  public ResponseEntity<Optional<ItemEstoque>> handle(@PathVariable String serialNumber) {
+    Optional<ItemEstoque> itemEstoque = findStockItemByEquipamentUseCase.execute(serialNumber);
 
     return ResponseEntity.ok().body(itemEstoque);
   }

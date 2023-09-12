@@ -24,7 +24,7 @@ public class Estoque {
   private Long id;
 
   @OneToMany
-  @JoinColumn(name = "id_item_estoque")
+  @JoinColumn(name = "stock_item_id")
   private List<ItemEstoque> itensEmEstoque = new ArrayList<>();
 
   public void adicionarQuantidade(Equipament equipament, int quantidade) {

@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.item_estoque;
+package com.example.armaria.controllers.stock_item;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.item_estoque.DeletarItemEstoqueUseCase;
+import com.example.armaria.use_cases.stock_item.DeletarItemEstoqueUseCase;
 
 @RestController
-@RequestMapping("/api/item-estoque")
+@RequestMapping("/api/v1/stock_items")
 public class DeletarItemEstoqueController {
   private final DeletarItemEstoqueUseCase deletarItemEstoqueUseCase;
 

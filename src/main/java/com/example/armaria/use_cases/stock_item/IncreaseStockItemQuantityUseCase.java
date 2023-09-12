@@ -1,4 +1,4 @@
-package com.example.armaria.use_cases.item_estoque;
+package com.example.armaria.use_cases.stock_item;
 
 import java.util.Optional;
 
@@ -11,10 +11,10 @@ import com.example.armaria.repositories.ItemEstoqueRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class DiminuirQuantidadeEmEstoqueUseCase {
+public class IncreaseStockItemQuantityUseCase {
   private final ItemEstoqueRepository itemEstoqueRepository;
 
-  public DiminuirQuantidadeEmEstoqueUseCase(ItemEstoqueRepository itemEstoqueRepository) {
+  public IncreaseStockItemQuantityUseCase(ItemEstoqueRepository itemEstoqueRepository) {
     this.itemEstoqueRepository = itemEstoqueRepository;
   }
 
@@ -28,7 +28,7 @@ public class DiminuirQuantidadeEmEstoqueUseCase {
 
     ItemEstoque item = itemEstoque.get();
 
-    item.diminuirQuantidade(quantidade);
+    item.aumentarQuantidade(quantidade);
     itemEstoqueRepository.save(item);
   }
 

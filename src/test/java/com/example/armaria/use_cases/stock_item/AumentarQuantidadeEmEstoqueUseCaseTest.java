@@ -1,4 +1,4 @@
-package com.example.armaria.use_cases.item_estoque;
+package com.example.armaria.use_cases.stock_item;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -22,7 +22,7 @@ public class AumentarQuantidadeEmEstoqueUseCaseTest {
   private ItemEstoqueRepository itemEstoqueRepositoryMock;
 
   @InjectMocks
-  private AumentarQuantidadeEmEstoqueUseCase aumentarQuantidadeEmEstoqueUseCase;
+  private IncreaseStockItemQuantityUseCase aumentarQuantidadeEmEstoqueUseCase;
 
   @BeforeEach
   public void setUp() {

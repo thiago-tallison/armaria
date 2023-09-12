@@ -20,8 +20,8 @@ public class FindEquipamentBySerialNumberUseCase {
     this.equipamentRepository = equipamentRepository;
   }
 
-  public Optional<Equipament> execute(String numSerie) {
-    Optional<Equipament> optionalEquipament = equipamentRepository.findBySerialNumber(numSerie);
+  public Optional<Equipament> execute(String serialNumber) {
+    Optional<Equipament> optionalEquipament = equipamentRepository.findBySerialNumber(serialNumber);
 
     if (!optionalEquipament.isPresent()) {
       throw new EquipamentNotFoundException();

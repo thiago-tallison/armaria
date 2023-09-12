@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.item_estoque;
+package com.example.armaria.controllers.stock_item;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.item_estoque.DiminuirQuantidadeEmEstoqueUseCase;
+import com.example.armaria.use_cases.stock_item.DiminuirQuantidadeEmEstoqueUseCase;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -18,7 +18,7 @@ record DiminuirQuantidadeEmEstoqueRequest(
 }
 
 @RestController
-@RequestMapping("/api/item-estoque")
+@RequestMapping("/api/v1/stock_items")
 public class DiminuirQuantidadeEmEstoqueController {
   private final DiminuirQuantidadeEmEstoqueUseCase diminuirQuantidadeUseCase;
 
@@ -26,7 +26,7 @@ public class DiminuirQuantidadeEmEstoqueController {
     this.diminuirQuantidadeUseCase = diminuirQuantidadeUseCase;
   }
 
-  @PostMapping("/{id}/diminuir")
+  @PostMapping("/{id}/decrease_quantity")
   public ResponseEntity<Void> handle(@PathVariable Long id,
       @Valid @RequestBody DiminuirQuantidadeEmEstoqueRequest body) {
     diminuirQuantidadeUseCase.execute(id, body.quantidade());

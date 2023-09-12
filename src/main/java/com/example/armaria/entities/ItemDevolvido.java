@@ -32,7 +32,7 @@ public class ItemDevolvido {
   private Equipament equipament;
 
   @OneToOne
-  @JoinColumn(name = "id_item_estoque")
+  @JoinColumn(name = "stock_item_id")
   private ItemEstoque itemEstoque;
 
   @Column(name = "quantidade_devolvida")

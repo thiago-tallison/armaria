@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.item_estoque;
+package com.example.armaria.controllers.stock_item;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,11 +26,11 @@ public class ListEquipamentsControllerTest {
 
   @Test
   void testHandle() {
-    String numSerie = "qualquer-num-serie";
+    String serialNumber = "qualquer-num-serie";
 
-    criarItemEstoque(numSerie);
+    criarItemEstoque(serialNumber);
 
-    String baseUrl = "http://localhost:" + port + "/api/item-estoque/num-serie/" + numSerie;
+    String baseUrl = "http://localhost:" + port + "/api/v1/stock_items/serial_number/" + serialNumber;
 
     ResponseEntity<ItemEstoque> response = restTemplate.getForEntity(baseUrl, ItemEstoque.class);
 
@@ -38,14 +38,14 @@ public class ListEquipamentsControllerTest {
 
     assertNotNull(itemEstoque);
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(numSerie, itemEstoque.getEquipament().getSerialNumber());
+    assertEquals(serialNumber, itemEstoque.getEquipament().getSerialNumber());
   }
 
-  public void criarItemEstoque(String numSerie) {
+  public void criarItemEstoque(String serialNumber) {
     String baseUrl = "http://localhost:" + port + "/api/v1/equipaments";
 
     EquipamentCreateDTO equipamentCreateDTO = new EquipamentCreateDTO("Equipament A",
-        numSerie, true, 10);
+        serialNumber, true, 10);
 
     restTemplate.postForEntity(baseUrl, equipamentCreateDTO, Void.class);
   }

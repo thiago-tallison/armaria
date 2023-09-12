@@ -1,9 +1,6 @@
-package com.example.armaria.controllers.item_estoque;
+package com.example.armaria.controllers.stock_item;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.armaria.entities.ItemEstoque;
+import com.example.armaria.dtos.stock_item.IncreaseStockItemQuantityDTO;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class DiminuirQuantidadeEmEstoqueControllerTest {
+public class IncreaseStockItemControllerTest {
   @LocalServerPort
   private int port;
 
@@ -31,31 +28,37 @@ public class DiminuirQuantidadeEmEstoqueControllerTest {
     criarItemEstoque();
 
     long itemEstoqueId = 1L;
-    String baseUrl = "http://localhost:" + port + "/api/item-estoque/" + itemEstoqueId + "/diminuir";
-    String baseUrlGet = "http://localhost:" + port + "/api/item-estoque/" + itemEstoqueId;
+    String baseUrl = "http://localhost:" + port + "/api/v1/stock_items/" + itemEstoqueId + "/increase_quantity";
 
-    DiminuirQuantidadeEmEstoqueRequest quantidade = new DiminuirQuantidadeEmEstoqueRequest(5);
+    IncreaseStockItemQuantityDTO quantidade = new IncreaseStockItemQuantityDTO(10);
 
     ResponseEntity<Void> response = restTemplate.postForEntity(baseUrl, quantidade, Void.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
+  }
 
-    ResponseEntity<ItemEstoque> response1 = restTemplate.getForEntity(baseUrlGet, ItemEstoque.class);
+  @Test
+  void testHandle_deve_falhar_para_quantidade_menor_ou_igual_a_zero() {
+    criarItemEstoque();
 
-    ItemEstoque item = response1.getBody();
+    long itemEstoqueId = 1L;
+    String baseUrl = "http://localhost:" + port + "/api/v1/stock_items/" + itemEstoqueId + "/increase_quantity";
 
-    assertNotNull(item);
-    assertEquals(5, item.getQuantityInStock());
+    IncreaseStockItemQuantityDTO quantidadeZero = new IncreaseStockItemQuantityDTO(0);
+    IncreaseStockItemQuantityDTO quantidadeMenorQueZero = new IncreaseStockItemQuantityDTO(-1);
+
+    assertEquals(HttpStatus.BAD_REQUEST,
+        restTemplate.postForEntity(baseUrl, quantidadeZero, Void.class).getStatusCode());
+
+    assertEquals(HttpStatus.BAD_REQUEST,
+        restTemplate.postForEntity(baseUrl, quantidadeMenorQueZero, Void.class).getStatusCode());
   }
 
   public void criarItemEstoque() {
     String baseUrl = "http://localhost:" + port + "/api/v1/equipaments";
 
-    String equipamentName = UUID.randomUUID().toString();
-    String equipamentSerialNumber = UUID.randomUUID().toString();
-
-    EquipamentCreateDTO equipamentCreateDTO = new EquipamentCreateDTO(equipamentName,
-        equipamentSerialNumber, true, 10);
+    EquipamentCreateDTO equipamentCreateDTO = new EquipamentCreateDTO("Equipament A",
+        "Numero de série", true, 10);
 
     restTemplate.postForEntity(baseUrl, equipamentCreateDTO, Void.class);
   }

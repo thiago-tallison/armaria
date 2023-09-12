@@ -1,4 +1,4 @@
-package com.example.armaria.use_cases.item_estoque;
+package com.example.armaria.use_cases.stock_item;
 
 import java.util.Optional;
 
@@ -22,12 +22,12 @@ public class FindStockItemByEquipamentUseCase {
     this.equipamentRepository = equipamentRepository;
   }
 
-  public Optional<ItemEstoque> execute(String numSerie) {
+  public Optional<ItemEstoque> execute(String serialNumber) {
     Optional<Equipament> optionalEquipament = equipamentRepository
-        .findBySerialNumber(numSerie);
+        .findBySerialNumber(serialNumber);
 
-    if (!optionalEquipament.isPresent() || numSerie == null) {
-      throw new EquipamentNotFoundException(numSerie);
+    if (!optionalEquipament.isPresent() || serialNumber == null) {
+      throw new EquipamentNotFoundException(serialNumber);
     }
 
     Optional<ItemEstoque> itOptional = itemEstoqueRepository

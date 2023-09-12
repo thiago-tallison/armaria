@@ -54,7 +54,8 @@ public class CriarAcautelamentoControllerTest {
 
     // Verificar se um item estoque foi criado com a quantidade
     // "quantidadeASerCriada"
-    String getItemEstoqueUrl = "http://localhost:" + port + "/api/item-estoque/num-serie/" + equipamentSerialNumber;
+    String getItemEstoqueUrl = "http://localhost:" + port + "/api/v1/stock_items/serial_number/"
+        + equipamentSerialNumber;
     ResponseEntity<ItemEstoque> itemEstoqueAntesAcautelamentoResponse = restTemplate.getForEntity(getItemEstoqueUrl,
         ItemEstoque.class);
     ItemEstoque itemEstoqueAntesAcautelamento = itemEstoqueAntesAcautelamentoResponse.getBody();

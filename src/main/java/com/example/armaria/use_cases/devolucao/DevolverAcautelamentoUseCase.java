@@ -55,14 +55,14 @@ public class DevolverAcautelamentoUseCase {
     String registration = equipamentReturnDTO.municipalGuardRegistration();
     Optional<MunicipalGuard> gmOptional = getMunicipalGuardByRegistrationUseCase.execute(registration);
 
-    // verificar se acautelamento existe
+    // check if custody exists
     Long idAcautelamento = equipamentReturnDTO.idAcautelamento();
     Optional<Acautelamento> acautelamentoOptional = acautelamentoRepository.findById(idAcautelamento);
     if (!acautelamentoOptional.isPresent()) {
       throw new AcautelamentoNaoEncontradoException(idAcautelamento);
     }
 
-    // aumentar o estoque para cada item devolvido
+    // increase stock item quantity
     Acautelamento acautelamento = acautelamentoOptional.get();
     List<ItemDevolvido> itensDevolvidos = new ArrayList<>();
     for (ItemDevolvidoDTO item : equipamentReturnDTO.itensDevolvidos()) {
@@ -73,22 +73,7 @@ public class DevolverAcautelamentoUseCase {
         throw new QuantidadeEmEstoqueNaoAumentadaException(item.idItemEstoque());
       }
 
-      // List<ItemAcautelado> itensAcautelados = acautelamento.getItensAcautelados();
-      // Optional<ItemAcautelado> itemAcauteladoOptional = itensAcautelados.stream()
-      // .filter(itemAcautelado ->
-      // itemAcautelado.getItemEstoque().getId().equals(item.idItemEstoque()))
-      // .findFirst();
-
-      // // int diferencaQuantidadeAcauteladaEDevolvida =
-      // itemAcauteladoOptional.get().getQuantidadeAcautelada()
-      // // - item.quantidadeDevolvida();
-
-      // if (!itemAcauteladoOptional.isPresent() ||
-      // diferencaQuantidadeAcauteladaEDevolvida > 0) {
-      // // TODO: registrar perda/dano
-      // }
-
-      // salvar devolucao
+      // save equipament return
       ItemEstoque itemEstoque = new ItemEstoque();
       itemEstoque.setId(item.idItemEstoque());
 
