@@ -1,6 +1,6 @@
 package com.example.armaria.core.domain;
 
-import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
+import com.example.armaria.presenter.rest.api.municipal_guard.MunicipalGuardCreateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
