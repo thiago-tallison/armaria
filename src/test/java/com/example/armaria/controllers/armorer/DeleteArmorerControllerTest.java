@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.armory_keeper;
+package com.example.armaria.controllers.armorer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,10 +12,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
+import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeleteArmoryKeeperControllerTest {
+public class DeleteArmorerControllerTest {
   @LocalServerPort
   private int port;
 
@@ -24,28 +24,28 @@ public class DeleteArmoryKeeperControllerTest {
 
   @Test
   void testHandle() {
-    getArmoryKeeper();
+    getArmorer();
 
     String registration = "any-registration";
-    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers/" + registration;
+    String baseUrl = "http://localhost:" + port + "/api/v1/armorers/" + registration;
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Void.class);
     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
   }
 
   @Test
-  void when_ArmoryKeeperNotFound_ThrowsException() {
+  void when_ArmorerNotFound_ThrowsException() {
     String registration = "inexistent-registration";
-    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers/" + registration;
+    String baseUrl = "http://localhost:" + port + "/api/v1/armorers/" + registration;
 
     ResponseEntity<Object> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, Object.class);
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertNotNull(response.getBody());
   }
 
-  private void getArmoryKeeper() {
-    String url = "http://localhost:" + port + "/api/v1/armory_keepers";
+  private void getArmorer() {
+    String url = "http://localhost:" + port + "/api/v1/armorers";
 
-    ArmoryKeeperCreateDTO armoryKeeperCreateDTO = new ArmoryKeeperCreateDTO(
+    ArmorerCreateDTO armorerCreateDTO = new ArmorerCreateDTO(
         "any-registration",
         "João da Silva",
         "joao@example.com",
@@ -53,6 +53,6 @@ public class DeleteArmoryKeeperControllerTest {
         "login",
         "senha123");
 
-    restTemplate.postForEntity(url, armoryKeeperCreateDTO, String.class);
+    restTemplate.postForEntity(url, armorerCreateDTO, String.class);
   }
 }

@@ -39,8 +39,8 @@ public class Devolucao {
   private final MunicipalGuard gm;
 
   @ManyToOne
-  @JoinColumn(name = "armory_keeper_registration")
-  private final ArmoryKepper armoryKeeper;
+  @JoinColumn(name = "armorer_registration")
+  private final Armorer armorer;
 
   @OneToMany(mappedBy = "devolucao", cascade = CascadeType.ALL)
   @Getter(AccessLevel.NONE)

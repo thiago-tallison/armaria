@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 public class CheckoutTest {
   private MunicipalGuard gm;
-  private ArmoryKepper armoryKeeper;
+  private Armorer armorer;
   private Equipament equipament;
   private CheckedoutItem checkedoutItem;
   private Checkout checkout;
@@ -19,12 +19,12 @@ public class CheckoutTest {
 
   @BeforeEach
   public void setUp() {
-    armoryKeeper = new ArmoryKepper("matricula", "nome", "email", "telefone", "login", "senha");
+    armorer = new Armorer("matricula", "nome", "email", "telefone", "login", "senha");
     gm = new MunicipalGuard("matricula", "nome", "email", "telefone");
 
     equipament = new Equipament("nome", "num-serie", true);
 
-    checkout = new Checkout(LocalDateTime.now(), gm, armoryKeeper);
+    checkout = new Checkout(LocalDateTime.now(), gm, armorer);
 
     checkedoutItem = new CheckedoutItem(equipament, checkedoutQuantity);
   }

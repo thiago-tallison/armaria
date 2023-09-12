@@ -24,14 +24,14 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.context.annotation.Description;
 
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
-import com.example.armaria.entities.ArmoryKepper;
+import com.example.armaria.entities.Armorer;
 import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Equipament;
 import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.entities.StockItem;
-import com.example.armaria.errors.ArmoryKeeperNotFoundException;
+import com.example.armaria.errors.ArmorerNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
-import com.example.armaria.repositories.ArmoryKeeperRepository;
+import com.example.armaria.repositories.ArmorerRepository;
 import com.example.armaria.repositories.CheckoutRepository;
 import com.example.armaria.repositories.MunicipalGuardRepository;
 import com.example.armaria.repositories.StockItemRepository;
@@ -47,7 +47,7 @@ public class CreatecheckoutUseCaseTest {
   private StockItemRepository stockItemRepository;
 
   @Mock
-  private ArmoryKeeperRepository armoryKeeperRepository;
+  private ArmorerRepository armorerRepository;
 
   @Mock
   private MunicipalGuardRepository gmRepository;
@@ -62,12 +62,12 @@ public class CreatecheckoutUseCaseTest {
     // Configurar objetos mock
     LocalDateTime checkoutDate = LocalDateTime.now();
     String registration = "municipal-guard-registration";
-    String armoryKeeperRegistration = "armory-keeper-registration";
+    String armorerRegistration = "armorer-registration";
     List<CheckedOutItemDTO> itensAcauteladosRequest = new ArrayList<>();
     itensAcauteladosRequest.add(new CheckedOutItemDTO(1L, 1L, 2));
 
-    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
-    armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
+    Armorer armorerMock = new Armorer();
+    armorerMock.setRegistrationNumber(armorerRegistration);
 
     MunicipalGuard gmMock = new MunicipalGuard();
     gmMock.setRegistrationNumber(registration);
@@ -78,13 +78,13 @@ public class CreatecheckoutUseCaseTest {
     itemEstoqueMock.setEquipament(equipamentMock);
     itemEstoqueMock.setQuantityInStock(5);
 
-    when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
-        .thenReturn(Optional.of(armoryKeeperMock));
+    when(armorerRepository.findByRegistrationNumber(armorerRegistration))
+        .thenReturn(Optional.of(armorerMock));
     when(gmRepository.findByRegistrationNumber(registration)).thenReturn(Optional.of(gmMock));
     when(stockItemRepository.increaseStockItemQuantity(eq(1L), eq(2))).thenReturn(1);
 
     // Execute usecase
-    CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, registration, armoryKeeperRegistration,
+    CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, registration, armorerRegistration,
         itensAcauteladosRequest);
     assertDoesNotThrow(() -> sut.execute(request));
 
@@ -96,21 +96,21 @@ public class CreatecheckoutUseCaseTest {
     assertNotNull(savedCheckout);
     assertEquals(checkoutDate, savedCheckout.getCheckoutDate());
     assertEquals(gmMock, savedCheckout.getGuard());
-    assertEquals(armoryKeeperMock, savedCheckout.getArmoryKeeper());
+    assertEquals(armorerMock, savedCheckout.getArmorer());
     assertEquals(1, savedCheckout.getItemsSize());
   }
 
   @Test
-  void testCreateCheckoutWithArmoryKeeperNotFound() {
+  void testCreateCheckoutWithArmorerNotFound() {
     // Configurar objetos mock
     LocalDateTime checkoutDate = LocalDateTime.now();
     String registration = "municipal-guard-registration";
-    String armoryKeeperRegistration = "armory-keeper-registration";
+    String armorerRegistration = "armorer-registration";
     List<CheckedOutItemDTO> itensAcauteladosRequest = new ArrayList<>();
     itensAcauteladosRequest.add(new CheckedOutItemDTO(1L, 1L, 2));
 
-    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
-    armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
+    Armorer armorerMock = new Armorer();
+    armorerMock.setRegistrationNumber(armorerRegistration);
 
     MunicipalGuard gmMock = new MunicipalGuard();
     gmMock.setRegistrationNumber(registration);
@@ -121,12 +121,12 @@ public class CreatecheckoutUseCaseTest {
     itemEstoqueMock.setEquipament(equipamentMock);
     itemEstoqueMock.setQuantityInStock(5);
 
-    when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration)).thenReturn(Optional.empty());
+    when(armorerRepository.findByRegistrationNumber(armorerRegistration)).thenReturn(Optional.empty());
 
     // Executar o caso de uso
-    CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, registration, armoryKeeperRegistration,
+    CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, registration, armorerRegistration,
         itensAcauteladosRequest);
-    assertThrows(ArmoryKeeperNotFoundException.class, () -> sut.execute(request));
+    assertThrows(ArmorerNotFoundException.class, () -> sut.execute(request));
 
     verify(checkoutRepository, never()).save(any());
   }
@@ -136,17 +136,17 @@ public class CreatecheckoutUseCaseTest {
     // Configurar objetos mock
     LocalDateTime checkoutDate = LocalDateTime.now();
     String municipalGuardRegistration = "municipal-guard-registration";
-    String armoryKeeperRegistration = "armory-keeper-registration";
+    String armorerRegistration = "armorer-registration";
     List<CheckedOutItemDTO> itensAcauteladosRequest = new ArrayList<>();
     itensAcauteladosRequest.add(new CheckedOutItemDTO(1L, 1L, 2));
 
-    when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
-        .thenReturn(Optional.of(new ArmoryKepper()));
+    when(armorerRepository.findByRegistrationNumber(armorerRegistration))
+        .thenReturn(Optional.of(new Armorer()));
     when(gmRepository.findByRegistrationNumber(municipalGuardRegistration)).thenReturn(Optional.empty());
 
     // Executar o caso de uso
     CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, municipalGuardRegistration,
-        armoryKeeperRegistration,
+        armorerRegistration,
         itensAcauteladosRequest);
 
     // check if MunicipalGuardNotFoundException is thrown
@@ -161,12 +161,12 @@ public class CreatecheckoutUseCaseTest {
   void testCreateCheckoutWithInsuficientStockItemQuantity() {
     LocalDateTime checkoutDate = LocalDateTime.now();
     String municipalGuardRegistration = "municipal-guard-registration";
-    String armoryKeeperRegistration = "armory-keeper-registration";
+    String armorerRegistration = "armorer-registration";
     List<CheckedOutItemDTO> itensAcauteladosRequest = new ArrayList<>();
     itensAcauteladosRequest.add(new CheckedOutItemDTO(1L, 1L, 10)); // Quantidade alta para forçar erro
 
-    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
-    armoryKeeperMock.setRegistrationNumber(armoryKeeperRegistration);
+    Armorer armorerMock = new Armorer();
+    armorerMock.setRegistrationNumber(armorerRegistration);
 
     MunicipalGuard gmMock = new MunicipalGuard();
     gmMock.setRegistrationNumber(municipalGuardRegistration);
@@ -177,15 +177,15 @@ public class CreatecheckoutUseCaseTest {
     itemEstoqueMock.setEquipament(equipamentMock);
     itemEstoqueMock.setQuantityInStock(5); // low quantity to force error
 
-    when(armoryKeeperRepository.findByRegistrationNumber(armoryKeeperRegistration))
-        .thenReturn(Optional.of(armoryKeeperMock));
+    when(armorerRepository.findByRegistrationNumber(armorerRegistration))
+        .thenReturn(Optional.of(armorerMock));
     when(gmRepository.findByRegistrationNumber(municipalGuardRegistration)).thenReturn(Optional.of(gmMock));
     when(stockItemRepository.increaseStockItemQuantity(eq(1L), eq(10))).thenReturn(0); // Retornar 0 para simular
                                                                                        // erro
 
     // Executar o caso de uso
     CheckoutCreateTDO request = new CheckoutCreateTDO(checkoutDate, municipalGuardRegistration,
-        armoryKeeperRegistration,
+        armorerRegistration,
         itensAcauteladosRequest);
 
     // check if RuntimeException is thrown

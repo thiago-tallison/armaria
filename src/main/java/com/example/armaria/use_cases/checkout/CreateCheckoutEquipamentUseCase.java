@@ -7,14 +7,14 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
-import com.example.armaria.entities.ArmoryKepper;
+import com.example.armaria.entities.Armorer;
 import com.example.armaria.entities.CheckedoutItem;
 import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Equipament;
 import com.example.armaria.entities.MunicipalGuard;
-import com.example.armaria.errors.ArmoryKeeperNotFoundException;
+import com.example.armaria.errors.ArmorerNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
-import com.example.armaria.repositories.ArmoryKeeperRepository;
+import com.example.armaria.repositories.ArmorerRepository;
 import com.example.armaria.repositories.CheckoutRepository;
 import com.example.armaria.repositories.MunicipalGuardRepository;
 import com.example.armaria.repositories.StockItemRepository;
@@ -25,28 +25,28 @@ import jakarta.transaction.Transactional;
 public class CreateCheckoutEquipamentUseCase {
   private final CheckoutRepository checkoutRepository;
   private final StockItemRepository stockItemRepository;
-  private final ArmoryKeeperRepository armoryKeeperRepository;
+  private final ArmorerRepository armorerRepository;
   private final MunicipalGuardRepository gmRepository;
 
   public CreateCheckoutEquipamentUseCase(
       CheckoutRepository checkoutRepository,
       StockItemRepository stockItemRepository,
-      ArmoryKeeperRepository armoryKeeperRepository,
+      ArmorerRepository armorerRepository,
       MunicipalGuardRepository gmRepository) {
     this.checkoutRepository = checkoutRepository;
     this.stockItemRepository = stockItemRepository;
-    this.armoryKeeperRepository = armoryKeeperRepository;
+    this.armorerRepository = armorerRepository;
     this.gmRepository = gmRepository;
   }
 
   @Transactional
   public void execute(CheckoutCreateTDO data) {
-    // check if armory keeper exists
-    String armoryKeeperRegistration = data.armoryKeeperRegistration();
-    Optional<ArmoryKepper> optionalArmoryKeeper = armoryKeeperRepository
-        .findByRegistrationNumber(armoryKeeperRegistration);
-    if (!optionalArmoryKeeper.isPresent()) {
-      throw new ArmoryKeeperNotFoundException(armoryKeeperRegistration);
+    // check if armorer keeper exists
+    String armorerRegistration = data.armorerRegistration();
+    Optional<Armorer> optionalArmorer = armorerRepository
+        .findByRegistrationNumber(armorerRegistration);
+    if (!optionalArmorer.isPresent()) {
+      throw new ArmorerNotFoundException(armorerRegistration);
     }
 
     // check if municipal guard exists
@@ -82,7 +82,7 @@ public class CreateCheckoutEquipamentUseCase {
     }
 
     Checkout checkout = new Checkout(null, data.checkoutDate(), gmOptional.get(),
-        optionalArmoryKeeper.get());
+        optionalArmorer.get());
     itensAcautelados.forEach(checkout::addItem);
 
     checkoutRepository.save(checkout);

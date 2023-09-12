@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.armory_keeper;
+package com.example.armaria.controllers.armorer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,10 +11,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
+import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CreateArmoryKeeperControllerTest {
+public class CreateArmorerControllerTest {
 
   @LocalServerPort
   private int port;
@@ -24,9 +24,9 @@ public class CreateArmoryKeeperControllerTest {
 
   @Test
   void testHandle() {
-    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers";
+    String baseUrl = "http://localhost:" + port + "/api/v1/armorers";
 
-    ArmoryKeeperCreateDTO armoryKeeperCreateDTO = new ArmoryKeeperCreateDTO(
+    ArmorerCreateDTO armorerCreateDTO = new ArmorerCreateDTO(
         "123456",
         "João da Silva",
         "joao@example.com",
@@ -34,16 +34,16 @@ public class CreateArmoryKeeperControllerTest {
         "login",
         "senha123");
 
-    ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, armoryKeeperCreateDTO, String.class);
+    ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, armorerCreateDTO, String.class);
     assertTrue(response.getStatusCode().equals(HttpStatus.CREATED));
 
   }
 
   @Test
   void testHandle_deve_retornar_400_se_corpo_requisicao_invalido() {
-    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers";
+    String baseUrl = "http://localhost:" + port + "/api/v1/armorers";
 
-    ArmoryKeeperCreateDTO invalidArmoryKeeperCreateDTO = new ArmoryKeeperCreateDTO(
+    ArmorerCreateDTO invalidArmorerCreateDTO = new ArmorerCreateDTO(
         "123456",
         "João da Silva",
         "joao@example.com",
@@ -51,7 +51,7 @@ public class CreateArmoryKeeperControllerTest {
         "login",
         null);
 
-    ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, invalidArmoryKeeperCreateDTO, String.class);
+    ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, invalidArmorerCreateDTO, String.class);
     assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
   }
 }

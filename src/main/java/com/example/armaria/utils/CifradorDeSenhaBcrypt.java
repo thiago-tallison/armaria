@@ -4,7 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CifradorDeSenhaBcrypt implements CifradorDeSenha {
+public class CifradorDeSenhaBcrypt implements PasswordEncryptor {
 
   @Override
   public String cifrar(String s) {

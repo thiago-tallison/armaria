@@ -19,7 +19,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
 import com.example.armaria.entities.StockItem;
-import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
+import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
 import com.example.armaria.use_cases.checkout.CheckedOutItemDTO;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
@@ -37,7 +37,7 @@ public class CreateCheckoutControllerTest {
     String createCheckoutUrl = "http://localhost:" + port + "/api/v1/checkout_equipaments";
     LocalDateTime checkoutDate = LocalDateTime.now();
     String registration = "municipal-guard-registration";
-    String armoryKeeperRegistration = "armory-keeper-registration";
+    String armorerRegistration = "armorer-registration";
     int quantity = 10;
     int checkoutQuantity = 5;
     String equipamentSerialNumber = "serial-number-existente";
@@ -45,12 +45,12 @@ public class CreateCheckoutControllerTest {
     List<CheckedOutItemDTO> itensAcauteladosDto = new ArrayList<>();
     itensAcauteladosDto.add(new CheckedOutItemDTO(1L, 1L, checkoutQuantity));
 
-    getArmoryKeeper(armoryKeeperRegistration);
+    getArmorer(armorerRegistration);
     getMunicipalGuard(registration);
     createEquipament(quantity, equipamentSerialNumber);
 
     CheckoutCreateTDO dto = new CheckoutCreateTDO(checkoutDate,
-        registration, armoryKeeperRegistration, itensAcauteladosDto);
+        registration, armorerRegistration, itensAcauteladosDto);
 
     // Verificar se um item estoque foi criado com a quantidade
     // "quantidadeASerCriada"
@@ -79,10 +79,10 @@ public class CreateCheckoutControllerTest {
 
   }
 
-  public void getArmoryKeeper(String registration) {
-    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers";
+  public void getArmorer(String registration) {
+    String baseUrl = "http://localhost:" + port + "/api/v1/armorers";
 
-    ArmoryKeeperCreateDTO armoryKeeperCreateDTO = new ArmoryKeeperCreateDTO(
+    ArmorerCreateDTO armorerCreateDTO = new ArmorerCreateDTO(
         registration, // Matrícula
         "João da Silva",
         "joao@example.com",
@@ -90,7 +90,7 @@ public class CreateCheckoutControllerTest {
         "login",
         "senha123");
 
-    restTemplate.postForEntity(baseUrl, armoryKeeperCreateDTO, String.class);
+    restTemplate.postForEntity(baseUrl, armorerCreateDTO, String.class);
   }
 
   public void getMunicipalGuard(String registration) {
