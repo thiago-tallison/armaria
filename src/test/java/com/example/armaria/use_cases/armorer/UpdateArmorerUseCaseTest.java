@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.example.armaria.core.domain.Armorer;
+import com.example.armaria.core.usecases.armorer.ArmorerUpdateDTO;
+import com.example.armaria.core.usecases.armorer.UpdateArmorerUseCase;
 import com.example.armaria.repositories.ArmorerRepository;
 
 public class UpdateArmorerUseCaseTest {

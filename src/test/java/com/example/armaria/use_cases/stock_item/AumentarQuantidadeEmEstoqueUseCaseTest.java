@@ -13,8 +13,9 @@ import org.mockito.MockitoAnnotations;
 
 import com.example.armaria.core.domain.Equipament;
 import com.example.armaria.core.domain.StockItem;
+import com.example.armaria.core.usecases.equipament.EquipamentCreateDTO;
+import com.example.armaria.core.usecases.stock_item.IncreaseStockItemQuantityUseCase;
 import com.example.armaria.repositories.StockItemRepository;
-import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 public class AumentarQuantidadeEmEstoqueUseCaseTest {
 

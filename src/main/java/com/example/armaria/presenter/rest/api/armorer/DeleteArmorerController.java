@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.armorer.DeleteArmorerUseCase;
+import com.example.armaria.core.usecases.armorer.DeleteArmorerUseCase;
 
 @RestController
 @RequestMapping("/api/v1/armorers")

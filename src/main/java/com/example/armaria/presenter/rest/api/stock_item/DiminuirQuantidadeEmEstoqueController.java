@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.stock_item.DiminuirQuantidadeEmEstoqueUseCase;
+import com.example.armaria.core.usecases.stock_item.DiminuirQuantidadeEmEstoqueUseCase;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

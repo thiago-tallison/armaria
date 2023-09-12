@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.armaria.core.domain.StockItem;
-import com.example.armaria.use_cases.stock_item.FindStockItemByEquipamentUseCase;
+import com.example.armaria.core.usecases.stock_item.FindStockItemByEquipamentUseCase;
 
 @RestController
 @RequestMapping("/api/v1/stock_items")

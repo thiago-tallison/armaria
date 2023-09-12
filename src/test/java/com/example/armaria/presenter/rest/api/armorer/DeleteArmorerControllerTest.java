@@ -12,7 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
+import com.example.armaria.core.usecases.armorer.ArmorerCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DeleteArmorerControllerTest {

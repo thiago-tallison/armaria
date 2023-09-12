@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.equipament.EquipamentsListDTO;
-import com.example.armaria.use_cases.equipament.EquipamentsListViewModel;
-import com.example.armaria.use_cases.equipament.ListEquipamentsUseCase;
+import com.example.armaria.core.usecases.equipament.EquipamentsListDTO;
+import com.example.armaria.core.usecases.equipament.EquipamentsListViewModel;
+import com.example.armaria.core.usecases.equipament.ListEquipamentsUseCase;
 
 @RestController
 @RequestMapping("/api/v1/equipaments")

@@ -28,6 +28,8 @@ import com.example.armaria.core.domain.Checkout;
 import com.example.armaria.core.domain.Equipament;
 import com.example.armaria.core.domain.MunicipalGuard;
 import com.example.armaria.core.domain.StockItem;
+import com.example.armaria.core.usecases.checkout.CheckedOutItemDTO;
+import com.example.armaria.core.usecases.checkout.CreateCheckoutEquipamentUseCase;
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
 import com.example.armaria.errors.ArmorerNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;

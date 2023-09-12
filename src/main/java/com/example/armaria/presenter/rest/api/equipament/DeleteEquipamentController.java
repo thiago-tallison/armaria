@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.equipament.DeleteEquipamentUseCase;
+import com.example.armaria.core.usecases.equipament.DeleteEquipamentUseCase;
 
 @RestController
 @RequestMapping("/api/v1/equipaments")

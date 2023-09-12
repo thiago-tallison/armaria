@@ -1,7 +1,7 @@
 package com.example.armaria.core.domain;
 
-import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
-import com.example.armaria.use_cases.armorer.ArmorerUpdateDTO;
+import com.example.armaria.core.usecases.armorer.ArmorerCreateDTO;
+import com.example.armaria.core.usecases.armorer.ArmorerUpdateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

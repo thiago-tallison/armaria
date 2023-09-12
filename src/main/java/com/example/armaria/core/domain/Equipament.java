@@ -1,6 +1,6 @@
 package com.example.armaria.core.domain;
 
-import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
+import com.example.armaria.core.usecases.equipament.EquipamentCreateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

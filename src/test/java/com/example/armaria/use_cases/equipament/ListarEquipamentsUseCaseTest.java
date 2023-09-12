@@ -16,6 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.example.armaria.core.domain.Equipament;
+import com.example.armaria.core.usecases.equipament.EquipamentsListDTO;
+import com.example.armaria.core.usecases.equipament.EquipamentsListViewModel;
+import com.example.armaria.core.usecases.equipament.ListEquipamentsUseCase;
 import com.example.armaria.errors.PageSizeOutOfBoundException;
 import com.example.armaria.errors.TamanhoDaPaginaNegativoException;
 import com.example.armaria.repositories.EquipamentRepository;

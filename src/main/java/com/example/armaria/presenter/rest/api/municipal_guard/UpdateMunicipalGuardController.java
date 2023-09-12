@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.municipal_guard.UpdateMunicipalGuardUseCase;
+import com.example.armaria.core.usecases.municipal_guard.UpdateMunicipalGuardUseCase;
 
 @RestController
 @RequestMapping("/api/v1/municipal_guards")

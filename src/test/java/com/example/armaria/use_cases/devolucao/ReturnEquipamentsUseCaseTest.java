@@ -27,6 +27,10 @@ import com.example.armaria.core.domain.Checkout;
 import com.example.armaria.core.domain.Devolucao;
 import com.example.armaria.core.domain.MunicipalGuard;
 import com.example.armaria.core.domain.StockItem;
+import com.example.armaria.core.usecases.armorer.GetArmorerByRegistrationUseCase;
+import com.example.armaria.core.usecases.devolucao.ReturnEquipamentRepository;
+import com.example.armaria.core.usecases.devolucao.ReturnEquipamentsUseCase;
+import com.example.armaria.core.usecases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 import com.example.armaria.dtos.devolucao.EquipamentReturnDTO;
 import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
 import com.example.armaria.errors.ArmorerNotFoundException;
@@ -34,8 +38,6 @@ import com.example.armaria.errors.CheckoutNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.CheckoutRepository;
 import com.example.armaria.repositories.StockItemRepository;
-import com.example.armaria.use_cases.armorer.GetArmorerByRegistrationUseCase;
-import com.example.armaria.use_cases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 
 public class ReturnEquipamentsUseCaseTest {
   @InjectMocks

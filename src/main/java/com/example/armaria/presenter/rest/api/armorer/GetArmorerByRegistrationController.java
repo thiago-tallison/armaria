@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.armaria.core.domain.Armorer;
-import com.example.armaria.use_cases.armorer.GetArmorerByRegistrationUseCase;
+import com.example.armaria.core.usecases.armorer.GetArmorerByRegistrationUseCase;
 
 @RestController
 @RequestMapping("/api/v1/armorers")

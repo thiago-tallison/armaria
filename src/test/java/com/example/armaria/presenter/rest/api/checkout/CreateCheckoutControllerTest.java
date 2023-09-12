@@ -17,11 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.example.armaria.core.domain.StockItem;
+import com.example.armaria.core.usecases.armorer.ArmorerCreateDTO;
+import com.example.armaria.core.usecases.checkout.CheckedOutItemDTO;
+import com.example.armaria.core.usecases.equipament.EquipamentCreateDTO;
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
 import com.example.armaria.presenter.rest.api.municipal_guard.MunicipalGuardCreateDTO;
-import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
-import com.example.armaria.use_cases.checkout.CheckedOutItemDTO;
-import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)

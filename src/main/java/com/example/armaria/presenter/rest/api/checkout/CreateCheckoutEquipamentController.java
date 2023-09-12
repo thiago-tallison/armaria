@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.armaria.core.usecases.checkout.CreateCheckoutEquipamentUseCase;
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
-import com.example.armaria.use_cases.checkout.CreateCheckoutEquipamentUseCase;
 
 import jakarta.validation.Valid;
 

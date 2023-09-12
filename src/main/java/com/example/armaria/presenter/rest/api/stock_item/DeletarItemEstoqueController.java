@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.stock_item.DeletarItemEstoqueUseCase;
+import com.example.armaria.core.usecases.stock_item.DeletarItemEstoqueUseCase;
 
 @RestController
 @RequestMapping("/api/v1/stock_items")

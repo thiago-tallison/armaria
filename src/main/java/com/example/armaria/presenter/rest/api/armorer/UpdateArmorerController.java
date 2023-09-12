@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.armorer.ArmorerUpdateDTO;
-import com.example.armaria.use_cases.armorer.UpdateArmorerUseCase;
+import com.example.armaria.core.usecases.armorer.ArmorerUpdateDTO;
+import com.example.armaria.core.usecases.armorer.UpdateArmorerUseCase;
 
 @RestController
 @RequestMapping("/api/v1/armorers")

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.equipament.CreateEquipamentUseCase;
-import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
+import com.example.armaria.core.usecases.equipament.CreateEquipamentUseCase;
+import com.example.armaria.core.usecases.equipament.EquipamentCreateDTO;
 
 import jakarta.validation.Valid;
 

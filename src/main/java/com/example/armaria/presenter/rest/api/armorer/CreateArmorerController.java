@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
-import com.example.armaria.use_cases.armorer.CreateArmorerUseCase;
+import com.example.armaria.core.usecases.armorer.ArmorerCreateDTO;
+import com.example.armaria.core.usecases.armorer.CreateArmorerUseCase;
 
 import jakarta.validation.Valid;
 

@@ -16,8 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
-import com.example.armaria.use_cases.armorer.ArmorerUpdateDTO;
+import com.example.armaria.core.usecases.armorer.ArmorerCreateDTO;
+import com.example.armaria.core.usecases.armorer.ArmorerUpdateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
