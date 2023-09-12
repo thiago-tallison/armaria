@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class DevolucaoTest {
   private MunicipalGuard mg;
-  private ArmoryKepper armoryKeeper;
+  private Armorer armorer;
   private Equipament equipament;
   private CheckedoutItem checkedoutItem;
   private ItemDevolvido itemDevolvido;
@@ -21,11 +21,11 @@ public class DevolucaoTest {
     mg = new MunicipalGuard("registration", "name", "email", "phone");
     equipament = new Equipament("nome", "num-serie", true);
 
-    checkout = new Checkout(LocalDateTime.now(), mg, armoryKeeper);
+    checkout = new Checkout(LocalDateTime.now(), mg, armorer);
 
     checkedoutItem = new CheckedoutItem(equipament, 1);
 
-    devolucao = new Devolucao(checkout, LocalDateTime.now(), mg, armoryKeeper);
+    devolucao = new Devolucao(checkout, LocalDateTime.now(), mg, armorer);
 
     itemDevolvido = new ItemDevolvido(equipament, 1);
   }

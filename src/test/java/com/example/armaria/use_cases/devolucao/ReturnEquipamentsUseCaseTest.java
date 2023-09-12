@@ -24,17 +24,17 @@ import org.mockito.MockitoAnnotations;
 
 import com.example.armaria.dtos.devolucao.EquipamentReturnDTO;
 import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
-import com.example.armaria.entities.ArmoryKepper;
+import com.example.armaria.entities.Armorer;
 import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Devolucao;
 import com.example.armaria.entities.MunicipalGuard;
 import com.example.armaria.entities.StockItem;
-import com.example.armaria.errors.ArmoryKeeperNotFoundException;
+import com.example.armaria.errors.ArmorerNotFoundException;
 import com.example.armaria.errors.CheckoutNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.CheckoutRepository;
 import com.example.armaria.repositories.StockItemRepository;
-import com.example.armaria.use_cases.armory_keeper.GetArmoryKeeperByRegistrationUseCase;
+import com.example.armaria.use_cases.armorer.GetArmorerByRegistrationUseCase;
 import com.example.armaria.use_cases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 
 public class ReturnEquipamentsUseCaseTest {
@@ -51,7 +51,7 @@ public class ReturnEquipamentsUseCaseTest {
   private StockItemRepository stockItemRepository;
 
   @Mock
-  private GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase;
+  private GetArmorerByRegistrationUseCase getArmorerByRegistrationUseCase;
 
   @Mock
   private GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase;
@@ -65,8 +65,8 @@ public class ReturnEquipamentsUseCaseTest {
   public void deveCriarDevolucao() {
     EquipamentReturnDTO equipamentReturnDTO = createValidDTO();
 
-    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
-    armoryKeeperMock.setRegistrationNumber(equipamentReturnDTO.armoryKeeperRegistration());
+    Armorer armorerMock = new Armorer();
+    armorerMock.setRegistrationNumber(equipamentReturnDTO.armorerRegistration());
 
     MunicipalGuard gmMock = new MunicipalGuard();
     gmMock.setRegistrationNumber(equipamentReturnDTO.municipalGuardRegistration());
@@ -78,10 +78,10 @@ public class ReturnEquipamentsUseCaseTest {
     itemEstoqueMock.setId(equipamentReturnDTO.itensDevolvidos().get(0).idItemEstoque());
 
     Devolucao devolucaoMock = new Devolucao(acatuelamentoMock, equipamentReturnDTO.dataDevolucao(), gmMock,
-        armoryKeeperMock);
+        armorerMock);
 
-    when(getArmoryKeeperByRegistrationUseCase.execute(armoryKeeperMock.getRegistrationNumber()))
-        .thenReturn(Optional.of(armoryKeeperMock));
+    when(getArmorerByRegistrationUseCase.execute(armorerMock.getRegistrationNumber()))
+        .thenReturn(Optional.of(armorerMock));
     when(getMunicipalGuardByRegistrationUseCase.execute(gmMock.getRegistrationNumber()))
         .thenReturn(Optional.of(gmMock));
     when(chcekoutRepository.findById(acatuelamentoMock.getId())).thenReturn(Optional.of(acatuelamentoMock));
@@ -101,18 +101,18 @@ public class ReturnEquipamentsUseCaseTest {
   @Test
   public void whenRegistrationIsInvalid_ItShouldNotBeAbleToCreateDevolucao() {
     EquipamentReturnDTO dtoMatriculaInvalida = createValidDTO()
-        .withArmoryKeeperRegistration("inexistent-registration");
+        .withArmorerRegistration("inexistent-registration");
 
     Checkout checkout = createCheckout();
 
-    when(getArmoryKeeperByRegistrationUseCase.execute(eq("inexistent-registration")))
-        .thenThrow(ArmoryKeeperNotFoundException.class);
+    when(getArmorerByRegistrationUseCase.execute(eq("inexistent-registration")))
+        .thenThrow(ArmorerNotFoundException.class);
 
     when(chcekoutRepository.findById(anyLong())).thenReturn(Optional.of(checkout));
 
-    assertThrows(ArmoryKeeperNotFoundException.class, () -> sut.execute(dtoMatriculaInvalida));
+    assertThrows(ArmorerNotFoundException.class, () -> sut.execute(dtoMatriculaInvalida));
 
-    verify(getArmoryKeeperByRegistrationUseCase).execute(eq("inexistent-registration"));
+    verify(getArmorerByRegistrationUseCase).execute(eq("inexistent-registration"));
     verify(stockItemRepository, never()).decreaseStockItemQuantity(anyLong(), anyInt());
     verify(chcekoutRepository, never()).findById(anyLong());
   }
@@ -139,8 +139,8 @@ public class ReturnEquipamentsUseCaseTest {
   public void itShouldNotBeAbleToReturnWhenCheckoutIsNotFound() {
     EquipamentReturnDTO equipamentReturnDTO = createValidDTO();
 
-    ArmoryKepper armoryKeeperMock = new ArmoryKepper();
-    armoryKeeperMock.setRegistrationNumber(equipamentReturnDTO.armoryKeeperRegistration());
+    Armorer armorerMock = new Armorer();
+    armorerMock.setRegistrationNumber(equipamentReturnDTO.armorerRegistration());
 
     MunicipalGuard gmMock = new MunicipalGuard();
     gmMock.setRegistrationNumber(equipamentReturnDTO.municipalGuardRegistration());
@@ -152,8 +152,8 @@ public class ReturnEquipamentsUseCaseTest {
     StockItem itemEstoqueMock = new StockItem();
     itemEstoqueMock.setId(equipamentReturnDTO.itensDevolvidos().get(0).idItemEstoque());
 
-    when(getArmoryKeeperByRegistrationUseCase.execute(armoryKeeperMock.getRegistrationNumber()))
-        .thenReturn(Optional.of(armoryKeeperMock));
+    when(getArmorerByRegistrationUseCase.execute(armorerMock.getRegistrationNumber()))
+        .thenReturn(Optional.of(armorerMock));
     when(getMunicipalGuardByRegistrationUseCase.execute(gmMock.getRegistrationNumber()))
         .thenReturn(Optional.of(gmMock));
     when(chcekoutRepository.findById(idNaoExistente)).thenThrow(CheckoutNotFoundException.class);
@@ -176,7 +176,7 @@ public class ReturnEquipamentsUseCaseTest {
     LocalDateTime checkoutDate = LocalDateTime.now();
     Long checkoutId = 1L;
     String municipalguardRegistration = "municipal-guard-registration";
-    String armoryKeeperRegistration = "armory-keeper-registration";
+    String armorerRegistration = "armorer-registration";
     List<ItemDevolvidoDTO> itensDevolvidos = new ArrayList<>();
     ItemDevolvidoDTO itemDto = new ItemDevolvidoDTO(1L, 2);
     itensDevolvidos.add(itemDto);
@@ -185,7 +185,7 @@ public class ReturnEquipamentsUseCaseTest {
         checkoutDate,
         municipalguardRegistration,
         checkoutId,
-        armoryKeeperRegistration,
+        armorerRegistration,
         itensDevolvidos);
 
     return dto;

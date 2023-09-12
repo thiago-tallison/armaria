@@ -1,4 +1,4 @@
-package com.example.armaria.controllers.armory_keeper;
+package com.example.armaria.controllers.armorer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,12 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperCreateDTO;
-import com.example.armaria.use_cases.armory_keeper.ArmoryKeeperUpdateDTO;
+import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
+import com.example.armaria.use_cases.armorer.ArmorerUpdateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
-public class UpdateArmoryKeeperControllerTest {
+public class UpdateArmorerControllerTest {
   @LocalServerPort
   private int port;
 
@@ -35,15 +35,15 @@ public class UpdateArmoryKeeperControllerTest {
 
   @Test
   void testHandle() {
-    createArmoryKeeper();
+    createArmorer();
 
     String registration = "any-registration";
-    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers/" + registration;
+    String baseUrl = "http://localhost:" + port + "/api/v1/armorers/" + registration;
 
-    ArmoryKeeperUpdateDTO armoryKeeperUpdateDTO = new ArmoryKeeperUpdateDTO("nome", "email",
+    ArmorerUpdateDTO armorerUpdateDTO = new ArmorerUpdateDTO("nome", "email",
         "telefone");
 
-    HttpEntity<ArmoryKeeperUpdateDTO> requestEntity = getRequestBody(armoryKeeperUpdateDTO);
+    HttpEntity<ArmorerUpdateDTO> requestEntity = getRequestBody(armorerUpdateDTO);
 
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, Void.class);
 
@@ -53,22 +53,22 @@ public class UpdateArmoryKeeperControllerTest {
   @Test
   void test_handle_deve_retornar_not_found_para_matricula_nao_encontrada() {
     String registration = "matricula-nao-existente";
-    String baseUrl = "http://localhost:" + port + "/api/v1/armory_keepers/" + registration;
+    String baseUrl = "http://localhost:" + port + "/api/v1/armorers/" + registration;
 
-    ArmoryKeeperUpdateDTO armoryKeeperUpdateDTO = new ArmoryKeeperUpdateDTO("nome", "email",
+    ArmorerUpdateDTO armorerUpdateDTO = new ArmorerUpdateDTO("nome", "email",
         "telefone");
 
-    HttpEntity<ArmoryKeeperUpdateDTO> requestEntity = getRequestBody(armoryKeeperUpdateDTO);
+    HttpEntity<ArmorerUpdateDTO> requestEntity = getRequestBody(armorerUpdateDTO);
 
     ResponseEntity<Void> response = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, Void.class);
 
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 
-  private void createArmoryKeeper() {
-    String createArmoryKeeperUrl = "http://localhost:" + port + "/api/v1/armory_keepers";
+  private void createArmorer() {
+    String createArmorerUrl = "http://localhost:" + port + "/api/v1/armorers";
 
-    ArmoryKeeperCreateDTO armoryKeeperCreateDTO = new ArmoryKeeperCreateDTO(
+    ArmorerCreateDTO armorerCreateDTO = new ArmorerCreateDTO(
         "any-registration",
         "João da Silva",
         "joao@example.com",
@@ -76,16 +76,16 @@ public class UpdateArmoryKeeperControllerTest {
         "login",
         "senha123");
 
-    restTemplate.postForEntity(createArmoryKeeperUrl, armoryKeeperCreateDTO, String.class);
+    restTemplate.postForEntity(createArmorerUrl, armorerCreateDTO, String.class);
   }
 
-  public HttpEntity<ArmoryKeeperUpdateDTO> getRequestBody(ArmoryKeeperUpdateDTO armoryKeeperUpdateDTO) {
+  public HttpEntity<ArmorerUpdateDTO> getRequestBody(ArmorerUpdateDTO armorerUpdateDTO) {
     restTemplate.getRestTemplate().getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<ArmoryKeeperUpdateDTO> requestEntity = new HttpEntity<>(armoryKeeperUpdateDTO, headers);
+    HttpEntity<ArmorerUpdateDTO> requestEntity = new HttpEntity<>(armorerUpdateDTO, headers);
     return requestEntity;
   }
 }

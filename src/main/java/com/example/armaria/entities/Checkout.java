@@ -42,9 +42,9 @@ public class Checkout {
   private MunicipalGuard guard;
 
   @ManyToOne
-  @JoinColumn(name = "armory_keeper_registration_number")
+  @JoinColumn(name = "armorer_registration")
   @NonNull
-  private ArmoryKepper armoryKeeper;
+  private Armorer armorer;
 
   @OneToMany(mappedBy = "checkout", cascade = CascadeType.ALL)
   @Setter(AccessLevel.NONE)
@@ -53,10 +53,10 @@ public class Checkout {
   public Checkout(
       LocalDateTime checkoutDate,
       MunicipalGuard guard,
-      ArmoryKepper armoryKeeper) {
+      Armorer armorer) {
     this.checkoutDate = checkoutDate;
     this.guard = guard;
-    this.armoryKeeper = armoryKeeper;
+    this.armorer = armorer;
   }
 
   public void addItem(CheckedoutItem item) {

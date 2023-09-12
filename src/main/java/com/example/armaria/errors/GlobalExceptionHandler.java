@@ -20,9 +20,9 @@ record MensagemDeErroGeral(
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(ArmoryKeeperNotFoundException.class)
-  public ResponseEntity<MensagemDeErroGeral> handleArmoryKeeperNotFoundExceptionException(
-      ArmoryKeeperNotFoundException e) {
+  @ExceptionHandler(ArmorerNotFoundException.class)
+  public ResponseEntity<MensagemDeErroGeral> handleArmorerNotFoundExceptionException(
+      ArmorerNotFoundException e) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new MensagemDeErroGeral(e.getMessage()));
   }

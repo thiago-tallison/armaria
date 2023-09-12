@@ -19,12 +19,12 @@ public class DeleteMunicipalGuardUseCase {
   }
 
   public void execute(String registration) {
-    Optional<MunicipalGuard> optionalArmoryKeeper = municipalGuardRepository.findByRegistrationNumber(registration);
+    Optional<MunicipalGuard> optionalArmorer = municipalGuardRepository.findByRegistrationNumber(registration);
 
-    if (!optionalArmoryKeeper.isPresent()) {
+    if (!optionalArmorer.isPresent()) {
       throw new MunicipalGuardNotFoundException(registration);
     }
 
-    municipalGuardRepository.delete(optionalArmoryKeeper.get());
+    municipalGuardRepository.delete(optionalArmorer.get());
   }
 }

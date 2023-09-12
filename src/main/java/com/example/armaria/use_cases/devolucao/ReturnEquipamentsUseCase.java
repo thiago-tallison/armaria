@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.armaria.dtos.devolucao.EquipamentReturnDTO;
 import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
-import com.example.armaria.entities.ArmoryKepper;
+import com.example.armaria.entities.Armorer;
 import com.example.armaria.entities.Checkout;
 import com.example.armaria.entities.Devolucao;
 import com.example.armaria.entities.ItemDevolvido;
@@ -18,7 +18,7 @@ import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.CheckoutNotFoundException;
 import com.example.armaria.repositories.CheckoutRepository;
 import com.example.armaria.repositories.StockItemRepository;
-import com.example.armaria.use_cases.armory_keeper.GetArmoryKeeperByRegistrationUseCase;
+import com.example.armaria.use_cases.armorer.GetArmorerByRegistrationUseCase;
 import com.example.armaria.use_cases.municipal_guard.GetMunicipalGuardByRegistrationUseCase;
 
 import jakarta.transaction.Transactional;
@@ -28,28 +28,28 @@ public class ReturnEquipamentsUseCase {
   private final CheckoutRepository checkoutRepository;
   private final ReturnEquipamentRepository returnEquipamentRepository;
   private final StockItemRepository stockItemRepository;
-  private final GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase;
+  private final GetArmorerByRegistrationUseCase getArmorerByRegistrationUseCase;
   private final GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase;
 
   public ReturnEquipamentsUseCase(
       CheckoutRepository checkoutRepository,
       ReturnEquipamentRepository returnEquipamentRepository,
       StockItemRepository stockItemRepository,
-      GetArmoryKeeperByRegistrationUseCase getArmoryKeeperByRegistrationUseCase,
+      GetArmorerByRegistrationUseCase getArmorerByRegistrationUseCase,
       GetMunicipalGuardByRegistrationUseCase getMunicipalGuardByRegistrationUseCase) {
     this.checkoutRepository = checkoutRepository;
     this.stockItemRepository = stockItemRepository;
     this.returnEquipamentRepository = returnEquipamentRepository;
-    this.getArmoryKeeperByRegistrationUseCase = getArmoryKeeperByRegistrationUseCase;
+    this.getArmorerByRegistrationUseCase = getArmorerByRegistrationUseCase;
     this.getMunicipalGuardByRegistrationUseCase = getMunicipalGuardByRegistrationUseCase;
   }
 
   @Transactional
   public void execute(EquipamentReturnDTO equipamentReturnDTO) {
     // verificar se gm existe
-    String armoryKeeperRegistrationNumber = equipamentReturnDTO.armoryKeeperRegistration();
-    Optional<ArmoryKepper> armoryKeeper = getArmoryKeeperByRegistrationUseCase
-        .execute(armoryKeeperRegistrationNumber);
+    String armorerRegistration = equipamentReturnDTO.armorerRegistration();
+    Optional<Armorer> optionalArmorer = getArmorerByRegistrationUseCase
+        .execute(armorerRegistration);
 
     // check if municipal guard exists
     String registration = equipamentReturnDTO.municipalGuardRegistration();
@@ -85,7 +85,7 @@ public class ReturnEquipamentsUseCase {
       itensDevolvidos.add(itemDevolvido);
     }
 
-    Devolucao devolucao = new Devolucao(checkout, LocalDateTime.now(), gmOptional.get(), armoryKeeper.get());
+    Devolucao devolucao = new Devolucao(checkout, LocalDateTime.now(), gmOptional.get(), optionalArmorer.get());
     itensDevolvidos.forEach(devolucao::addItemDevolvido);
     returnEquipamentRepository.save(devolucao);
   }
