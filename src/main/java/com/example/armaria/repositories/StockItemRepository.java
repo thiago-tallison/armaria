@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.StockItem;
+import com.example.armaria.core.domain.Equipament;
+import com.example.armaria.core.domain.StockItem;
 
 public interface StockItemRepository extends JpaRepository<StockItem, Long> {
     Optional<StockItem> findByEquipament(Equipament equipament);

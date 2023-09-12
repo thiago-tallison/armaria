@@ -1,4 +1,4 @@
-package com.example.armaria.entities;
+package com.example.armaria.core.domain;
 
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 

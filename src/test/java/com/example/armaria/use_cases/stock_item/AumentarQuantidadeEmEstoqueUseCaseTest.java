@@ -11,8 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.StockItem;
+import com.example.armaria.core.domain.Equipament;
+import com.example.armaria.core.domain.StockItem;
 import com.example.armaria.repositories.StockItemRepository;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 

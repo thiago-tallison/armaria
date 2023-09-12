@@ -1,4 +1,4 @@
-package com.example.armaria.entities;
+package com.example.armaria.core.domain;
 
 import java.util.ArrayList;
 import java.util.List;

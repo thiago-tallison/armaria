@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.armaria.entities.Equipament;
+import com.example.armaria.core.domain.Equipament;
 import com.example.armaria.errors.PageSizeOutOfBoundException;
 import com.example.armaria.errors.PaginaNaoExistenteException;
 import com.example.armaria.errors.TamanhoDaPaginaNegativoException;

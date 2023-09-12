@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.armaria.entities.Equipament;
+import com.example.armaria.core.domain.Equipament;
 import com.example.armaria.use_cases.equipament.FindEquipamentBySerialNumberUseCase;
 
 @RestController

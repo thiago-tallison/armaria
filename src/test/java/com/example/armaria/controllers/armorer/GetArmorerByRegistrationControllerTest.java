@@ -11,7 +11,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 
-import com.example.armaria.entities.Armorer;
+import com.example.armaria.core.domain.Armorer;
 import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

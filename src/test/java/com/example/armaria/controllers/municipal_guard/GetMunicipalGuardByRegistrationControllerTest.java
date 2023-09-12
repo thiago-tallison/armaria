@@ -9,7 +9,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 
-import com.example.armaria.entities.MunicipalGuard;
+import com.example.armaria.core.domain.MunicipalGuard;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GetMunicipalGuardByRegistrationControllerTest {

@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.armaria.entities.Armorer;
+import com.example.armaria.core.domain.Armorer;
 import com.example.armaria.errors.ArmorerNotFoundException;
 import com.example.armaria.repositories.ArmorerRepository;
 

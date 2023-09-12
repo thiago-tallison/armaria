@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.armaria.entities.StockItem;
+import com.example.armaria.core.domain.StockItem;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

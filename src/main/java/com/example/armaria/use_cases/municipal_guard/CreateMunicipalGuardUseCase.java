@@ -3,7 +3,7 @@ package com.example.armaria.use_cases.municipal_guard;
 import org.springframework.stereotype.Service;
 
 import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
-import com.example.armaria.entities.MunicipalGuard;
+import com.example.armaria.core.domain.MunicipalGuard;
 import com.example.armaria.repositories.MunicipalGuardRepository;
 
 @Service

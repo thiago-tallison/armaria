@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.example.armaria.entities.Armorer;
+import com.example.armaria.core.domain.Armorer;
 import com.example.armaria.repositories.ArmorerRepository;
 
 public class UpdateArmorerUseCaseTest {

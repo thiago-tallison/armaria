@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.armaria.entities.Equipament;
+import com.example.armaria.core.domain.Equipament;
 
 public interface EquipamentRepository
     extends JpaRepository<Equipament, Long> {

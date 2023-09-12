@@ -1,4 +1,4 @@
-package com.example.armaria.entities;
+package com.example.armaria.core.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

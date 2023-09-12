@@ -22,13 +22,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.example.armaria.core.domain.Armorer;
+import com.example.armaria.core.domain.Checkout;
+import com.example.armaria.core.domain.Devolucao;
+import com.example.armaria.core.domain.MunicipalGuard;
+import com.example.armaria.core.domain.StockItem;
 import com.example.armaria.dtos.devolucao.EquipamentReturnDTO;
 import com.example.armaria.dtos.devolucao.ItemDevolvidoDTO;
-import com.example.armaria.entities.Armorer;
-import com.example.armaria.entities.Checkout;
-import com.example.armaria.entities.Devolucao;
-import com.example.armaria.entities.MunicipalGuard;
-import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.ArmorerNotFoundException;
 import com.example.armaria.errors.CheckoutNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;

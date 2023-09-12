@@ -1,7 +1,6 @@
-package com.example.armaria.entities;
+package com.example.armaria.core.domain;
 
-import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
-import com.example.armaria.use_cases.armorer.ArmorerUpdateDTO;
+import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,10 +15,10 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "armorers")
-public class Armorer {
-  @Id
+@Table(name = "municipal_guards")
+public class MunicipalGuard {
   @NonNull
+  @Id
   @Column(name = "registration_number")
   private String registrationNumber;
 
@@ -32,24 +31,11 @@ public class Armorer {
   @NonNull
   private String phone;
 
-  @NonNull
-  private String login;
-
-  @NonNull
-  private String password;
-
-  public Armorer(ArmorerCreateDTO dto) {
+  public MunicipalGuard(MunicipalGuardCreateDTO dto) {
     this.registrationNumber = dto.registrationNumber();
     this.name = dto.name();
     this.email = dto.email();
     this.phone = dto.phone();
-    this.login = dto.login();
-    this.password = dto.password();
   }
 
-  public Armorer(ArmorerUpdateDTO dto) {
-    this.name = dto.name();
-    this.email = dto.email();
-    this.phone = dto.phone();
-  }
 }

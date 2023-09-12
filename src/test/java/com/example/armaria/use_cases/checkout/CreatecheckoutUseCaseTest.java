@@ -23,12 +23,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.context.annotation.Description;
 
+import com.example.armaria.core.domain.Armorer;
+import com.example.armaria.core.domain.Checkout;
+import com.example.armaria.core.domain.Equipament;
+import com.example.armaria.core.domain.MunicipalGuard;
+import com.example.armaria.core.domain.StockItem;
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
-import com.example.armaria.entities.Armorer;
-import com.example.armaria.entities.Checkout;
-import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.MunicipalGuard;
-import com.example.armaria.entities.StockItem;
 import com.example.armaria.errors.ArmorerNotFoundException;
 import com.example.armaria.errors.MunicipalGuardNotFoundException;
 import com.example.armaria.repositories.ArmorerRepository;

@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.armaria.entities.Equipament;
-import com.example.armaria.entities.StockItem;
+import com.example.armaria.core.domain.Equipament;
+import com.example.armaria.core.domain.StockItem;
 import com.example.armaria.repositories.EquipamentRepository;
 import com.example.armaria.repositories.StockItemRepository;
 

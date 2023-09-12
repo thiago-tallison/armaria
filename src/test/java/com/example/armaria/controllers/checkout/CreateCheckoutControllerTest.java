@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.example.armaria.controllers.municipal_guard.MunicipalGuardCreateDTO;
+import com.example.armaria.core.domain.StockItem;
 import com.example.armaria.dtos.checkout.CheckoutCreateTDO;
-import com.example.armaria.entities.StockItem;
 import com.example.armaria.use_cases.armorer.ArmorerCreateDTO;
 import com.example.armaria.use_cases.checkout.CheckedOutItemDTO;
 import com.example.armaria.use_cases.equipament.EquipamentCreateDTO;
